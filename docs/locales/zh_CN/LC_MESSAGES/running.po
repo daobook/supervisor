@@ -19,7 +19,7 @@ msgstr ""
 
 #: ../../running.rst:4
 msgid "Running Supervisor"
-msgstr ""
+msgstr "运行 Supervisor"
 
 #: ../../running.rst:6
 msgid ""
@@ -32,10 +32,15 @@ msgid ""
 "on different platforms use a different :envvar:`BINDIR`.  Look at the "
 "output of ``setup.py install`` if you can't figure out where yours is."
 msgstr ""
+"本节在解释如何运行 :command:`supervisord` 和 :command:`supervisorctl` 命令时，参考了 :envvar:`BINDIR`。"
+"这是您的 Python 安装已经配置的 \"bindir\" 目录。"
+"例如，对于通过 ``./configure --prefix=/usr/local/py; make; make install`` :envvar:`BINDIR` "
+"应该是 :file:`/usr/local/py/bin`。不同平台上的 Python 解释器使用不同的 :envvar:`BINDIR`。"
+"如果你不知道你的安装在哪里，看看 ``setup.py install`` 的输出。"
 
 #: ../../running.rst:17
 msgid "Adding a Program"
-msgstr ""
+msgstr "关于程序"
 
 #: ../../running.rst:19
 msgid ""
@@ -45,6 +50,9 @@ msgid ""
 "you invoke the :command:`supervisord` command.  To add a program, you'll "
 "need to edit the :file:`supervisord.conf` file."
 msgstr ""
+"在 :program:`supervisord` 将为你做任何有用的事情之前，你需要在它的配置中添加至少一个 ``program`` section。"
+"``program`` 部分将定义一个程序，当你调用 :command:`supervisord` 命令时，该程序将被运行和管理。"
+"要添加一个程序，你需要编辑  :file:`supervisord.conf` 文件。"
 
 #: ../../running.rst:25
 msgid ""
@@ -52,6 +60,8 @@ msgid ""
 "program.  A ``program`` section that will run ``cat`` when the "
 ":program:`supervisord` process starts up is shown below."
 msgstr ""
+"UNIX :program:`cat` 程序是可能运行的最简单的程序之一。"
+"当 :program:`supervisord`  进程启动时，``program`` 部分将运行 ``cat``，如下图所示。"
 
 #: ../../running.rst:34
 msgid ""
@@ -61,10 +71,13 @@ msgid ""
 "configuration options which aren't shown here.  See "
 ":ref:`programx_section` for more information."
 msgstr ""
+"这一节可以剪切并粘贴到 :file:`supervisord.conf` 文件中。
+"这是最简单的程序配置，因为它只命名一个命令。"
+"程序配置部分有许多其他配置选项，这里没有显示。更多信息请参见 :ref:`programx_section`。"
 
 #: ../../running.rst:41
 msgid "Running :program:`supervisord`"
-msgstr ""
+msgstr "运行 :program:`supervisord`"
 
 #: ../../running.rst:43
 msgid ""
@@ -72,6 +85,9 @@ msgid ""
 "resulting process will daemonize itself and detach from the terminal. It "
 "keeps an operations log at :file:`$CWD/supervisor.log` by default."
 msgstr ""
+""运行 :file:`$BINDIR/supervisord` 命令启动 :program:`supervisord`。"
+"生成的进程将自动守护自己，并与终端分离。"
+"默认情况下，它会将操作日志保存在 :file:`$CWD/supervisor.log`。"
 
 #: ../../running.rst:47
 msgid ""
@@ -79,6 +95,7 @@ msgid ""
 "passing the ``-n`` flag on its command line.  This is useful to debug "
 "startup problems."
 msgstr ""
+"你可以在前台通过在命令行中传递 ``-n`` 标志来启动 :command:`supervisord` 可执行文件。这对调试启动问题很有用。"
 
 #: ../../running.rst:53
 msgid ""
@@ -91,6 +108,10 @@ msgid ""
 " that contains a rogue ``supervisord.conf`` file.  A warning is emitted "
 "when supervisor is started as root without this ``-c`` argument."
 msgstr ""
+""当 :program:`supervisord` 启动时，它会在默认位置 *包括当前工作目录* 中搜索配置文件。"
+"如果你有安全意识，你可能会想在 :program:`supervisord` 命令后指定一个 \"-c\" 参数，"
+"指定配置文件的绝对路径，以确保别人不会骗你在包含流氓 ``supervisord.conf`` 文件的目录下运行 supervisor。"
+"当没有 ``-c`` 参数的 supervisor 以 root 用户身份启动时，会发出警告。"
 
 #: ../../running.rst:62
 msgid ""
@@ -99,6 +120,9 @@ msgid ""
 "the :program:`supervisord` process.  This file has several example "
 "program definitions."
 msgstr ""
+"要改变 :program:`supervisord` 控制的程序集合，"
+"编辑 :file:`supervisord.conf` 文件和 ``kill -HUP``，或者重启 :program:`supervisord` 进程。"
+"这个文件有几个示例程序定义。"
 
 #: ../../running.rst:67
 msgid ""
@@ -106,48 +130,53 @@ msgid ""
 "options.  Each of these command line options overrides any equivalent "
 "value in the configuration file."
 msgstr ""
+":command:`supervisord` 命令接受很多命令行选项。每个命令行选项都将覆盖配置文件中的任何等价的值。"
 
 #: ../../running.rst:72
 msgid ":command:`supervisord` Command-Line Options"
-msgstr ""
+msgstr ":command:`supervisord` 命令行选项"
 
 #: ../../running.rst:76
 msgid "The path to a :program:`supervisord` configuration file."
-msgstr ""
+msgstr ":program:`supervisord` 配置文件的路径。"
 
 #: ../../running.rst:80
 msgid "Run :program:`supervisord` in the foreground."
-msgstr ""
+msgstr "在前台运行 :program:`supervisord`。"
 
 #: ../../running.rst:84
 msgid "No output directed to stdout."
-msgstr ""
+msgstr "没有指向标准输出的输出。"
 
 #: ../../running.rst:88
 msgid "Show :command:`supervisord` command help."
-msgstr ""
+msgstr "显示 :command:`supervisord` 命令帮助。"
 
 #: ../../running.rst:92
 msgid ""
 "UNIX username or numeric user id.  If :program:`supervisord` is started "
 "as the root user, setuid to this user as soon as possible during startup."
 msgstr ""
+"UNIX 用户名或数字用户 id。"
+"如果 :program:`supervisord` 是以 root 用户身份启动的，在启动过程中尽快给这个用户 setuid。"
 
 #: ../../running.rst:98
 msgid ""
 "Octal number (e.g. 022) representing the :term:`umask` that should be "
 "used by :program:`supervisord` after it starts."
 msgstr ""
+"表示 :term:`umask` 的八进制数(例如 022)，它应该在 :program:`supervisord` 启动后被使用。"
 
 #: ../../running.rst:103
 msgid ""
 "When supervisord is run as a daemon, cd to this directory before "
 "daemonizing."
 msgstr ""
+"当 supervise 作为守护进程运行时，请在守护之前先 cd 到这个目录。"
 
 #: ../../running.rst:108
 msgid "Filename path to use as the supervisord activity log."
-msgstr ""
+msgstr "作为 supervisord 活动日志使用的文件名路径。"
 
 #: ../../running.rst:112
 msgid ""
@@ -155,12 +184,16 @@ msgid ""
 "The value is suffix-multiplied, e.g \"1\" is one byte, \"1MB\" is 1 "
 "megabyte, \"1GB\" is 1 gigabyte."
 msgstr ""
+"在发生旋转之前，supervisord 活动日志文件的最大大小。"
+"值是后缀乘，例如 \"1\" 是一个字节，\"1MB\" 是 1MB，\"1GB\"  是 1GB。"
 
 #: ../../running.rst:118
 msgid ""
 "Number of backup copies of the supervisord activity log to keep around.  "
 "Each logfile will be of size ``logfile_maxbytes``."
 msgstr ""
+"要保存的 supervisord 活动日志备份副本的数量。"
+"每个日志文件的大小为 ``logfile_maxbytes``。"
 
 #: ../../running.rst:123
 msgid ""
@@ -168,42 +201,48 @@ msgid ""
 "Valid levels are ``trace``, ``debug``, ``info``, ``warn``, ``error``, and"
 " ``critical``."
 msgstr ""
+"supervisor 写入活动日志的日志级别。"
+"有效的级别 ``trace``, ``debug``, ``info``, ``warn``, ``error`` 和 ``critical``。"
 
 #: ../../running.rst:129
 msgid "The filename to which supervisord should write its pid file."
-msgstr ""
+msgstr "supervisor 应该写入其 pid 文件的文件名。"
 
 #: ../../running.rst:133
 msgid ""
 "Arbitrary string identifier exposed by various client UIs for this "
 "instance of supervisor."
 msgstr ""
+""由不同的客户端 UI 为这个 supervisor 实例公开的任意字符串标识符"
 
 #: ../../running.rst:138
 msgid ""
 "A path to a directory (it must already exist) where supervisor will write"
 " its ``AUTO`` -mode child process logs."
 msgstr ""
+"目录的路径(必须已经存在)，其中 supervisor 将写入它的 `AUTO`` 模式的子进程日志。"
 
 #: ../../running.rst:143
 msgid ""
 "Prevent :program:`supervisord` from performing cleanup (removal of old "
 "``AUTO`` process log files) at startup."
 msgstr ""
+"防止 :program:`supervisord` 在启动时执行清理（删除旧的 ``AUTO`` 进程日志文件）。"
 
 #: ../../running.rst:148
 msgid ""
 "The minimum number of file descriptors that must be available to the "
 "supervisord process before it will start successfully."
 msgstr ""
+"supervisord 进程在成功启动之前必须可用的文件描述符的最小数量。"
 
 #: ../../running.rst:153
 msgid "Strip ANSI escape sequences from all child log process."
-msgstr ""
+msgstr "从所有子日志进程中去除 ANSI 转义序列。"
 
 #: ../../running.rst:157
 msgid "Print the supervisord version number out to stdout and exit."
-msgstr ""
+msgstr "将 supervisor 版本号打印到 stdout 并退出。"
 
 #: ../../running.rst:161
 msgid ""
@@ -212,16 +251,21 @@ msgid ""
 "on the options, which is a comma-separated list of the following: "
 "``cumulative``, ``calls``, ``callers``. E.g. ``cumulative,callers``."
 msgstr ""
+"用于分析的逗号分隔选项列表。"
+"原因 :program:`supervisord` 在 profiler 下运行，并基于选项输出结果，"
+"这是一个逗号分隔的列表，包含以下内容： ``cumulative``、 ``calls``、 ``callers`` 。"
+"如 ``cumulative,callers`` 。"
 
 #: ../../running.rst:169
 msgid ""
 "The minimum number of OS process slots that must be available to the "
 "supervisord process before it will start successfully."
 msgstr ""
+"在supervisor进程成功启动之前，操作系统进程可用的最小槽数。"
 
 #: ../../running.rst:174
 msgid "Running :program:`supervisorctl`"
-msgstr ""
+msgstr "运行 :program:`supervisorctl`"
 
 #: ../../running.rst:176
 msgid ""
@@ -230,6 +274,9 @@ msgid ""
 " are currently managed by :program:`supervisord`.  Type \"help\" at the "
 "prompt to get information about the supported commands."
 msgstr ""
+"启动 :program:`supervisorctl`，执行 ``$BINDIR/supervisorctl``。"
+"shell 将允许你控制当前由 :program:`supervisord` 管理的进程。"
+"在提示符处输入 \"help\"，以获取有关所支持命令的信息。"
 
 #: ../../running.rst:181
 msgid ""
@@ -242,6 +289,10 @@ msgid ""
 "``supervisorctl status all`` would return non-zero if any single process "
 "was not running."
 msgstr ""
+"当使用命令行参数调用时，:command:`supervisorctl` 可执行文件可能被 \"one time\" 命令调用。"
+"例如：``supervisorctl stop all``。如果命令行中存在参数，它将阻止交互式 shell 被调用。"
+"相反，命令将被执行，``supervisorctl`` 将退出，成功或运行的代码为 0，错误的代码为非 0。"
+"例如：``supervisorctl status all`` 将返回非零，如果任何单个进程没有运行。"
 
 #: ../../running.rst:190
 msgid ""
@@ -249,40 +300,42 @@ msgid ""
 ":program:`supervisord` that requires authentication, you will be asked "
 "for authentication credentials."
 msgstr ""
+"如果 :command:`supervisorctl` 在交互模式下对需要验证的 :program:`supervisord` 被调用，你将被要求验证凭据。"
 
 #: ../../running.rst:195
 msgid ":command:`supervisorctl` Command-Line Options"
-msgstr ""
+msgstr ":command:`supervisorctl` 命令行选项"
 
 #: ../../running.rst:199
 msgid "Configuration file path (default /etc/supervisord.conf)"
-msgstr ""
+msgstr "配置文件路径（默认 /etc/supervisord.conf）"
 
 #: ../../running.rst:203
 msgid "Print usage message and exit"
-msgstr ""
+msgstr "打印使用信息并退出"
 
 #: ../../running.rst:207
 msgid "Start an interactive shell after executing commands"
-msgstr ""
+msgstr "在执行命令后启动交互式 shell"
 
 #: ../../running.rst:211
 msgid ""
 "URL on which supervisord server is listening (default "
 "\"http://localhost:9001\")."
 msgstr ""
+"supervisord 服务器正在监听的 URL（默认 \"http://localhost:9001\"）。"
 
 #: ../../running.rst:215
 msgid "Username to use for authentication with server"
-msgstr ""
+msgstr "与服务器进行身份验证使用的用户名"
 
 #: ../../running.rst:219
 msgid "Password to use for authentication with server"
-msgstr ""
+msgstr "用于服务器身份验证的密码"
 
 #: ../../running.rst:223
 msgid "Keep a readline history (if readline is available)"
-msgstr ""
+msgstr "保留 readline 历史记录(如果 readline 可用)"
 
 #: ../../running.rst:225
 msgid "`action [arguments]`"
@@ -295,10 +348,13 @@ msgid ""
 "actions typed interactively is started.  Use the action \"help\" to find "
 "out about available actions."
 msgstr ""
+""操作是像 \"tail\" 或 \"stop\" 这样的命令。"
+"如果在命令行上指定了 -i 或未指定操作，则会启动一个 \"shell\" 解释交互式键入的操作。"
+"使用操作 \"help\" 以了解可用的操作。"
 
 #: ../../running.rst:234
 msgid ":command:`supervisorctl` Actions"
-msgstr ""
+msgstr ":command:`supervisorctl` 操作"
 
 #: ../../running.rst:236
 msgid "help"
@@ -306,7 +362,7 @@ msgstr ""
 
 #: ../../running.rst:238
 msgid "Print a list of available actions"
-msgstr ""
+msgstr "打印可用操作的列表"
 
 #: ../../running.rst:240
 msgid "help <action>"
@@ -314,7 +370,7 @@ msgstr ""
 
 #: ../../running.rst:242
 msgid "Print help for <action>"
-msgstr ""
+msgstr "打印 <action> 帮助"
 
 #: ../../running.rst:244
 msgid "add <name> [...]"
@@ -322,7 +378,7 @@ msgstr ""
 
 #: ../../running.rst:246
 msgid "Activates any updates in config for process/group"
-msgstr ""
+msgstr "激活进程/组配置中的任何更新"
 
 #: ../../running.rst:248
 msgid "remove <name> [...]"
@@ -330,7 +386,7 @@ msgstr ""
 
 #: ../../running.rst:250
 msgid "Removes process/group from active config"
-msgstr ""
+msgstr "从活动配置中移除进程/组"
 
 #: ../../running.rst:252
 msgid "update"
@@ -341,6 +397,7 @@ msgid ""
 "Reload config and add/remove as necessary, and will restart affected "
 "programs"
 msgstr ""
+"重新加载配置并根据需要添加/删除，并将重新启动受影响的程序"
 
 #: ../../running.rst:256
 msgid "update all"
@@ -352,7 +409,7 @@ msgstr ""
 
 #: ../../running.rst:262
 msgid "Update specific groups, and will restart affected programs"
-msgstr ""
+msgstr "更新特定组，并将重新启动受影响的程序"
 
 #: ../../running.rst:264
 msgid "clear <name>"
@@ -360,7 +417,7 @@ msgstr ""
 
 #: ../../running.rst:266
 msgid "Clear a process' log files."
-msgstr ""
+msgstr "清除进程的日志文件。"
 
 #: ../../running.rst:268
 msgid "clear <name> <name>"
@@ -368,7 +425,7 @@ msgstr ""
 
 #: ../../running.rst:270
 msgid "Clear multiple process' log files"
-msgstr ""
+msgstr "清除多个进程的日志文件"
 
 #: ../../running.rst:272
 msgid "clear all"
@@ -376,7 +433,7 @@ msgstr ""
 
 #: ../../running.rst:274
 msgid "Clear all process' log files"
-msgstr ""
+msgstr "清除所有进程的日志文件"
 
 #: ../../running.rst:276
 msgid "fg <process>"
@@ -384,7 +441,7 @@ msgstr ""
 
 #: ../../running.rst:278
 msgid "Connect to a process in foreground mode Press Ctrl+C to exit foreground"
-msgstr ""
+msgstr "连接前台模式的进程按 “Ctrl+C” 退出前台"
 
 #: ../../running.rst:281
 msgid "pid"
@@ -392,7 +449,7 @@ msgstr ""
 
 #: ../../running.rst:283
 msgid "Get the PID of supervisord."
-msgstr ""
+msgstr "获取 supervisor 的 PID。"
 
 #: ../../running.rst:285
 msgid "pid <name>"
@@ -400,7 +457,7 @@ msgstr ""
 
 #: ../../running.rst:287
 msgid "Get the PID of a single child process by name."
-msgstr ""
+msgstr "通过名称获取单个子进程的 PID。"
 
 #: ../../running.rst:289
 msgid "pid all"
@@ -408,7 +465,7 @@ msgstr ""
 
 #: ../../running.rst:291
 msgid "Get the PID of every child process, one per line."
-msgstr ""
+msgstr "获取每个子进程的 PID，每行一个。"
 
 #: ../../running.rst:293
 msgid "reload"
@@ -416,7 +473,7 @@ msgstr ""
 
 #: ../../running.rst:295
 msgid "Restarts the remote supervisord"
-msgstr ""
+msgstr "重启远程 supervisord"
 
 #: ../../running.rst:297
 msgid "reread"
@@ -424,7 +481,7 @@ msgstr ""
 
 #: ../../running.rst:299
 msgid "Reload the daemon's configuration files, without add/remove (no restarts)"
-msgstr ""
+msgstr "重新加载守护进程的配置文件，不添加/删除(不重启)"
 
 #: ../../running.rst:301
 msgid "restart <name>"
@@ -435,6 +492,7 @@ msgid ""
 "Restart a process Note: restart does not reread config files. For that, "
 "see reread and update."
 msgstr ""
+"重启进程，注意：重启不会重新读取配置文件。关于这一点，请参阅 reread and update。"
 
 #: ../../running.rst:306
 msgid "restart <gname>:*"
@@ -445,6 +503,7 @@ msgid ""
 "Restart all processes in a group Note: restart does not reread config "
 "files. For that, see reread and update."
 msgstr ""
+"重启组内全部进程，注意：重启不会重新读取配置文件。关于这一点，请参阅 reread and update。"
 
 #: ../../running.rst:311
 msgid "restart <name> <name>"
@@ -455,6 +514,7 @@ msgid ""
 "Restart multiple processes or groups Note: restart does not reread config"
 " files. For that, see reread and update."
 msgstr ""
+"重启多个进程。注意：Restart不会重新读取配置文件。关于这一点，请参阅reread and update。"
 
 #: ../../running.rst:316
 msgid "restart all"
@@ -465,6 +525,7 @@ msgid ""
 "Restart all processes Note: restart does not reread config files. For "
 "that, see reread and update."
 msgstr ""
+"重启全部进程，注意：重启不会重新读取配置文件。关于这一点，请参阅 reread and update。"
 
 #: ../../running.rst:321
 msgid "signal"
@@ -472,7 +533,7 @@ msgstr ""
 
 #: ../../running.rst:323
 msgid "No help on signal"
-msgstr ""
+msgstr "没有信号帮助"
 
 #: ../../running.rst:325
 msgid "start <name>"
@@ -480,7 +541,7 @@ msgstr ""
 
 #: ../../running.rst:327
 msgid "Start a process"
-msgstr ""
+msgstr "启动进程"
 
 #: ../../running.rst:329
 msgid "start <gname>:*"
@@ -488,7 +549,7 @@ msgstr ""
 
 #: ../../running.rst:331
 msgid "Start all processes in a group"
-msgstr ""
+msgstr "启动组内全部进程"
 
 #: ../../running.rst:333
 msgid "start <name> <name>"
@@ -496,7 +557,7 @@ msgstr ""
 
 #: ../../running.rst:335
 msgid "Start multiple processes or groups"
-msgstr ""
+msgstr "启动多进程或者组"
 
 #: ../../running.rst:337
 msgid "start all"
@@ -504,7 +565,7 @@ msgstr ""
 
 #: ../../running.rst:339
 msgid "Start all processes"
-msgstr ""
+msgstr "启动全部进程"
 
 #: ../../running.rst:341
 msgid "status"
@@ -512,7 +573,7 @@ msgstr ""
 
 #: ../../running.rst:343
 msgid "Get all process status info."
-msgstr ""
+msgstr "获取所有进程状态信息。"
 
 #: ../../running.rst:345
 msgid "status <name>"
@@ -520,7 +581,7 @@ msgstr ""
 
 #: ../../running.rst:347
 msgid "Get status on a single process by name."
-msgstr ""
+msgstr "按名称获取单个进程的状态。"
 
 #: ../../running.rst:349
 msgid "status <name> <name>"
@@ -528,7 +589,7 @@ msgstr ""
 
 #: ../../running.rst:351
 msgid "Get status on multiple named processes."
-msgstr ""
+msgstr "获取多个命名进程的状态。"
 
 #: ../../running.rst:353
 msgid "stop <name>"
@@ -536,7 +597,7 @@ msgstr ""
 
 #: ../../running.rst:355
 msgid "Stop a process"
-msgstr ""
+msgstr "停止进程"
 
 #: ../../running.rst:357
 msgid "stop <gname>:*"
@@ -544,7 +605,7 @@ msgstr ""
 
 #: ../../running.rst:359
 msgid "Stop all processes in a group"
-msgstr ""
+msgstr "停止组内全部进程"
 
 #: ../../running.rst:361
 msgid "stop <name> <name>"
@@ -552,7 +613,7 @@ msgstr ""
 
 #: ../../running.rst:363
 msgid "Stop multiple processes or groups"
-msgstr ""
+msgstr "停止多进程或者组"
 
 #: ../../running.rst:365
 msgid "stop all"
@@ -560,7 +621,7 @@ msgstr ""
 
 #: ../../running.rst:367
 msgid "Stop all processes"
-msgstr ""
+msgstr "停止全部进程"
 
 #: ../../running.rst:369
 msgid "tail [-f] <name> [stdout|stderr] (default stdout)"
@@ -576,13 +637,14 @@ msgstr ""
 
 #: ../../running.rst:379
 msgid "Signals"
-msgstr ""
+msgstr "信号"
 
 #: ../../running.rst:381
 msgid ""
 "The :program:`supervisord` program may be sent signals which cause it to "
 "perform certain actions while it's running."
 msgstr ""
+":program:`supervisord` 程序可能会被发送信号，导致它在运行时执行某些操作。"
 
 #: ../../running.rst:384
 msgid ""
@@ -591,10 +653,13 @@ msgid ""
 "``pidfile`` parameter in the ``[supervisord]`` section of the "
 "configuration file (by default it's :file:`$CWD/supervisord.pid`)."
 msgstr ""
+"你可以将这些信号发送给 :program:`supervisord` 进程 id。"
+"这个进程 id 可以在配置文件的 ``[supervisord]`` 部分的 ``pidfile`` 参数中找到"
+"（默认是 :file:`$CWD/supervisord.pid`）。"
 
 #: ../../running.rst:390
 msgid "Signal Handlers"
-msgstr ""
+msgstr "信号句柄"
 
 #: ../../running.rst:392
 msgid "``SIGTERM``"
@@ -605,6 +670,7 @@ msgid ""
 ":program:`supervisord` and all its subprocesses will shut down. This may "
 "take several seconds."
 msgstr ""
+":program:`supervisord` 和它的所有子进程都将关闭。这可能需要几秒钟。"
 
 #: ../../running.rst:397
 msgid "``SIGINT``"
@@ -623,6 +689,7 @@ msgid ""
 ":program:`supervisord` will stop all processes, reload the configuration "
 "from the first config file it finds, and start all processes."
 msgstr ""
+":program:`supervisord` 将停止所有进程，重新加载它找到的第一个配置文件中的配置，然后启动所有进程。"
 
 #: ../../running.rst:413
 msgid "``SIGUSR2``"
@@ -633,10 +700,11 @@ msgid ""
 ":program:`supervisord` will close and reopen the main activity log and "
 "all child log files."
 msgstr ""
+":program:`supervisord` 将关闭并重新打开主活动日志和所有子日志文件。"
 
 #: ../../running.rst:419
 msgid "Runtime Security"
-msgstr ""
+msgstr "运行时安全"
 
 #: ../../running.rst:421
 msgid ""
@@ -654,10 +722,16 @@ msgid ""
 " ensure that your ``PYTHONPATH`` is sane and that all Python standard "
 "library files have adequate file permission protections."
 msgstr ""
+"开发人员已经尽最大努力确保 :program:`supervisord` 进程作为根用户运行不会导致意外的权限升级。"
+"但 **caveat emptor**。Supervisor 并不像 DJ Bernstein 的 :term:`daemontools` 那样偏执，"
+"因为:program:“Supervisor”允许在配置文件中写入任意路径。允许任意路径选择可能会导致符号链接攻击的漏洞。"
+"在配置中指定路径时要小心。"
+"确保 :program:`supervisord` 配置文件不能被非特权用户读取或写入，并且由 supervisor 包安装的所有文件都有“健全的”文件权限保护设置。"
+"此外，确保你的 ``PYTHONPATH`` 是正常的，并且所有 Python 标准库文件都有足够的文件权限保护。"
 
 #: ../../running.rst:437
 msgid "Running :program:`supervisord` automatically on startup"
-msgstr ""
+msgstr "运行 :program:`supervisord` 自动启动"
 
 #: ../../running.rst:439
 msgid ""
@@ -665,16 +739,19 @@ msgid ""
 " already be integrated into the service management infrastructure of your"
 " distribution."
 msgstr ""
+"如果您使用的是Supervisor的发行版打包版本，那么它应该已经集成到您发行版的服务管理基础设施中了。"
 
 #: ../../running.rst:443
 msgid ""
 "There are user-contributed scripts for various operating systems at: "
 "https://github.com/Supervisor/initscripts"
 msgstr ""
+"有针对各种操作系统的用户贡献的脚本，请参阅："
+"https://github.com/Supervisor/initscripts"
 
 #: ../../running.rst:446
 msgid ""
 "There are some answers at Serverfault in case you get stuck: `How to "
 "automatically start supervisord on Linux (Ubuntu)`__"
 msgstr ""
-
+"如果你卡住了，服务器故障有一些答案：`如何在 Linux (Ubuntu) 上自动启动监督`__"

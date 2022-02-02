@@ -19,7 +19,7 @@ msgstr ""
 
 #: ../../configuration.rst:2
 msgid "Configuration File"
-msgstr ""
+msgstr "配置文件"
 
 #: ../../configuration.rst:4
 msgid ""
@@ -31,14 +31,18 @@ msgid ""
 "named :file:`supervisord.conf` within the following locations, in the "
 "specified order.  It will use the first file it finds."
 msgstr ""
+"Supervisor 配置文件通常被命名为 :file:`supervisord.conf`。"
+"它被 :program:`supervisord`  和 :program:`supervisorctl` 使用。"
+"如果任何应用程序启动时没有 ``-c`` 选项(该选项用于显式地告诉应用程序配置文件名)，"
+"应用程序将在以下位置中按照指定的顺序查找名为 :file:`supervisord.conf` 的文件。它将使用它找到的第一个文件。"
 
 #: ../../configuration.rst:13
 msgid ":file:`../etc/supervisord.conf` (Relative to the executable)"
-msgstr ""
+msgstr ":file:`../etc/supervisord.conf` (相对于可执行文件)"
 
 #: ../../configuration.rst:15
 msgid ":file:`../supervisord.conf` (Relative to the executable)"
-msgstr ""
+msgstr ":file:`../supervisord.conf`  (相对于可执行文件)"
 
 #: ../../configuration.rst:17
 msgid ":file:`$CWD/supervisord.conf`"
@@ -63,10 +67,12 @@ msgid ""
 "paths.  The first PyPI package of Supervisor to include it was Supervisor"
 " 3.3.0."
 msgstr ""
+"许多为Debian和Ubuntu打包的Supervisor版本都包含一个补丁，将 ``/etc/supervisor/supervisord.conf`` 添加到搜索路径中。"
+"包含Supervisor的第一个PyPI包是Supervisor 3.3.0。"
 
 #: ../../configuration.rst:32
 msgid "File Format"
-msgstr ""
+msgstr "文件格式"
 
 #: ../../configuration.rst:34
 msgid ""
@@ -75,10 +81,12 @@ msgid ""
 "pairs within the sections.  The sections and their allowable values are "
 "described below."
 msgstr ""
+":file:`supervisord.conf` 是一个 windows - ini 风格的(Python ConfigParser)文件。"
+"它有节(每个节由 ``[header]`` 表示)和在节内的键/值对。各部分及其允许值如下所示。"
 
 #: ../../configuration.rst:40
 msgid "Environment Variables"
-msgstr ""
+msgstr "环境变量"
 
 #: ../../configuration.rst:42
 #, python-format
@@ -87,6 +95,7 @@ msgid ""
 "that :program:`supervisord` is started can be used in the configuration "
 "file using the Python string expression syntax ``%(ENV_X)s``:"
 msgstr ""
+"在 :program:`supervisord` 启动时环境中存在的环境变量可以在配置文件中使用 Python 字符串表达式语法 ``%(ENV_X)s``："
 
 #: ../../configuration.rst:51
 #, python-format
@@ -94,6 +103,7 @@ msgid ""
 "In the example above, the expression ``%(ENV_LOGLEVEL)s`` would be "
 "expanded to the value of the environment variable ``LOGLEVEL``."
 msgstr ""
+"在上面的例子中，表达式 ``%(ENV_LOGLEVEL)s`` 将被扩展为环境变量 ``LOGLEVEL`` 的值。"
 
 #: ../../configuration.rst:56
 #, python-format
@@ -102,10 +112,12 @@ msgid ""
 "all options.  In prior versions, some options support them, but most do "
 "not.  See the documentation for each option below."
 msgstr ""
+""在Supervisor 3.2及以上版本中，所有选项都支持 ``%(ENV_X)s`` 表达式。"
+"在以前的版本中，一些选项支持它们，但大多数不支持。请参阅下面每个选项的文档。"
 
 #: ../../configuration.rst:62
 msgid "``[unix_http_server]`` Section Settings"
-msgstr ""
+msgstr "``[unix_http_server]`` 节设置"
 
 #: ../../configuration.rst:64
 msgid ""
