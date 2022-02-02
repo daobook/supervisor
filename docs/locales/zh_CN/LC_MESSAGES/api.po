@@ -1,0 +1,841 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2004-2022, Agendaless Consulting and Contributors
+# This file is distributed under the same license as the Supervisor package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Supervisor 4.3.0.dev0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-02 04:24+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../api.rst:4
+msgid "XML-RPC API Documentation"
+msgstr ""
+
+#: ../../api.rst:6
+msgid ""
+"To use the XML-RPC interface, first make sure you have configured the "
+"interface factory properly by setting the default factory. See "
+":ref:`rpcinterface_factories`."
+msgstr ""
+
+#: ../../api.rst:9
+msgid ""
+"Then you can connect to supervisor's HTTP port with any XML-RPC client "
+"library and run commands against it."
+msgstr ""
+
+#: ../../api.rst:12
+msgid ""
+"An example of doing this using Python 2's ``xmlrpclib`` client library is"
+" as follows."
+msgstr ""
+
+#: ../../api.rst:20
+msgid ""
+"An example of doing this using Python 3's ``xmlrpc.client`` library is as"
+" follows."
+msgstr ""
+
+#: ../../api.rst:28
+msgid ""
+"You may call methods against :program:`supervisord` and its subprocesses "
+"by using the ``supervisor`` namespace.  An example is provided below."
+msgstr ""
+
+#: ../../api.rst:36
+msgid ""
+"You can get a list of methods supported by the :program:`supervisord` "
+"XML-RPC interface by using the XML-RPC ``system.listMethods`` API:"
+msgstr ""
+
+#: ../../api.rst:44
+msgid ""
+"You can see help on a method by using the ``system.methodHelp`` API "
+"against the method:"
+msgstr ""
+
+#: ../../api.rst:51
+msgid ""
+"The :program:`supervisord` XML-RPC interface also supports the `XML-RPC "
+"multicall API "
+"<http://web.archive.org/web/20060824100531/http://www.xmlrpc.com/discuss/msgReader$1208>`_."
+msgstr ""
+
+#: ../../api.rst:55
+msgid ""
+"You can extend :program:`supervisord` functionality with new XML-RPC API "
+"methods by adding new top-level RPC interfaces as necessary. See "
+":ref:`rpcinterface_factories`."
+msgstr ""
+
+#: ../../api.rst:61
+msgid ""
+"Any XML-RPC method call may result in a fault response.  This includes "
+"errors caused by the client such as bad arguments, and any errors that "
+"make :program:`supervisord` unable to fulfill the request.  Many XML-RPC "
+"client programs will raise an exception when a fault response is "
+"encountered."
+msgstr ""
+
+#: ../../api.rst:69
+msgid "Status and Control"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getAPIVersion:1
+msgid "Return the version of the RPC API used by supervisord"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getAPIVersion:3
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getSupervisorVersion:3
+msgid "@return string version version id"
+msgstr ""
+
+#: ../../api.rst:75
+msgid ""
+"This API is versioned separately from Supervisor itself. The API version "
+"returned by ``getAPIVersion`` only changes when the API changes. Its "
+"purpose is to help the client identify with which version of the "
+"Supervisor API it is communicating."
+msgstr ""
+
+#: ../../api.rst:80
+msgid ""
+"When writing software that communicates with this API, it is highly "
+"recommended that you first test the API version for compatibility before "
+"making method calls."
+msgstr ""
+
+#: ../../api.rst:86
+msgid ""
+"The ``getAPIVersion`` method replaces ``getVersion`` found in Supervisor "
+"versions prior to 3.0a1. It is aliased for compatibility but getVersion()"
+" is deprecated and support will be dropped from Supervisor in a future "
+"version."
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getSupervisorVersion:1
+msgid "Return the version of the supervisor package in use by supervisord"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getIdentification:1
+msgid "Return identifying string of supervisord"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getIdentification:3
+msgid "@return string identifier identifying string"
+msgstr ""
+
+#: ../../api.rst:95
+msgid ""
+"This method allows the client to identify with which Supervisor instance "
+"it is communicating in the case of environments where multiple "
+"Supervisors may be running."
+msgstr ""
+
+#: ../../api.rst:99
+msgid ""
+"The identification is a string that must be set in Supervisor’s "
+"configuration file. This method simply returns that value back to the "
+"client."
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getState:1
+msgid "Return current state of supervisord as a struct"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getState:3
+msgid "@return struct A struct with keys int statecode, string statename"
+msgstr ""
+
+#: ../../api.rst:105
+msgid ""
+"This is an internal value maintained by Supervisor that determines what "
+"Supervisor believes to be its current operational state."
+msgstr ""
+
+#: ../../api.rst:108
+msgid ""
+"Some method calls can alter the current state of the Supervisor. For "
+"example, calling the method supervisor.shutdown() while the station is in"
+" the RUNNING state places the Supervisor in the SHUTDOWN state while it "
+"is shutting down."
+msgstr ""
+
+#: ../../api.rst:113
+msgid ""
+"The supervisor.getState() method provides a means for the client to check"
+" Supervisor's state, both for informational purposes and to ensure that "
+"the methods it intends to call will be permitted."
+msgstr ""
+
+#: ../../api.rst:117 ../../api.rst:232
+msgid "The return value is a struct:"
+msgstr ""
+
+#: ../../api.rst:124
+msgid "The possible return values are:"
+msgstr ""
+
+#: ../../api.rst:127
+msgid "statecode"
+msgstr ""
+
+#: ../../api.rst:127
+msgid "statename"
+msgstr ""
+
+#: ../../api.rst:127
+msgid "Description"
+msgstr ""
+
+#: ../../api.rst:129
+msgid "2"
+msgstr ""
+
+#: ../../api.rst:129
+msgid "FATAL"
+msgstr ""
+
+#: ../../api.rst:129
+msgid "Supervisor has experienced a serious error."
+msgstr ""
+
+#: ../../api.rst:131
+msgid "1"
+msgstr ""
+
+#: ../../api.rst:131
+msgid "RUNNING"
+msgstr ""
+
+#: ../../api.rst:131
+msgid "Supervisor is working normally."
+msgstr ""
+
+#: ../../api.rst:133
+msgid "0"
+msgstr ""
+
+#: ../../api.rst:133
+msgid "RESTARTING"
+msgstr ""
+
+#: ../../api.rst:133
+msgid "Supervisor is in the process of restarting."
+msgstr ""
+
+#: ../../api.rst:135
+msgid "-1"
+msgstr ""
+
+#: ../../api.rst:135
+msgid "SHUTDOWN"
+msgstr ""
+
+#: ../../api.rst:135
+msgid "Supervisor is in the process of shutting down."
+msgstr ""
+
+#: ../../api.rst:138
+msgid ""
+"The ``FATAL`` state reports unrecoverable errors, such as internal errors"
+" inside Supervisor or system runaway conditions. Once set to ``FATAL``, "
+"the Supervisor can never return to any other state without being "
+"restarted."
+msgstr ""
+
+#: ../../api.rst:143
+msgid ""
+"In the ``FATAL`` state, all future methods except supervisor.shutdown() "
+"and supervisor.restart() will automatically fail without being called and"
+" the fault ``FATAL_STATE`` will be raised."
+msgstr ""
+
+#: ../../api.rst:147
+msgid ""
+"In the ``SHUTDOWN`` or ``RESTARTING`` states, all method calls are "
+"ignored and their possible return values are undefined."
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getPID:1
+msgid "Return the PID of supervisord"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getPID:3
+msgid "@return int PID"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readLog:1
+msgid "Read length bytes from the main log starting at offset"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readLog:3
+msgid ""
+"@param int offset         offset to start reading from. @param int length"
+"         number of bytes to read from the log. @return string result     "
+"Bytes of log"
+msgstr ""
+
+#: ../../api.rst:154
+msgid ""
+"It can either return the entire log, a number of characters from the tail"
+" of the log, or a slice of the log specified by the offset and length "
+"parameters:"
+msgstr ""
+
+#: ../../api.rst:159
+msgid "Offset"
+msgstr ""
+
+#: ../../api.rst:159
+msgid "Length"
+msgstr ""
+
+#: ../../api.rst:159
+msgid "Behavior of ``readProcessLog``"
+msgstr ""
+
+#: ../../api.rst:161 ../../api.rst:164 ../../api.rst:170
+msgid "Negative"
+msgstr ""
+
+#: ../../api.rst:161
+msgid "Not Zero"
+msgstr ""
+
+#: ../../api.rst:161 ../../api.rst:170
+msgid "Bad arguments. This will raise the fault ``BAD_ARGUMENTS``."
+msgstr ""
+
+#: ../../api.rst:164 ../../api.rst:173
+msgid "Zero"
+msgstr ""
+
+#: ../../api.rst:164
+msgid ""
+"This will return the tail of the log, or offset number of characters from"
+" the end of the log. For example, if ``offset`` = -4 and ``length`` = 0, "
+"then the last four characters will be returned from the end of the log."
+msgstr ""
+
+#: ../../api.rst:170 ../../api.rst:173 ../../api.rst:176
+msgid "Zero or Positive"
+msgstr ""
+
+#: ../../api.rst:173
+msgid "All characters will be returned from the ``offset`` specified."
+msgstr ""
+
+#: ../../api.rst:176
+msgid "Positive"
+msgstr ""
+
+#: ../../api.rst:176
+msgid "A number of characters length will be returned from the ``offset``."
+msgstr ""
+
+#: ../../api.rst:180
+msgid ""
+"If the log is empty and the entire log is requested, an empty string is "
+"returned."
+msgstr ""
+
+#: ../../api.rst:183
+msgid ""
+"If either offset or length is out of range, the fault ``BAD_ARGUMENTS`` "
+"will be returned."
+msgstr ""
+
+#: ../../api.rst:186
+msgid ""
+"If the log cannot be read, this method will raise either the ``NO_FILE`` "
+"error if the file does not exist or the ``FAILED`` error if any other "
+"problem was encountered."
+msgstr ""
+
+#: ../../api.rst:192
+msgid ""
+"The readLog() method replaces readMainLog() found in Supervisor versions "
+"prior to 2.1. It is aliased for compatibility but readMainLog() is "
+"deprecated and support will be dropped from Supervisor in a future "
+"version."
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearLog:1
+msgid "Clear the main log."
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearLog:3
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.shutdown:3
+msgid "@return boolean result always returns True unless error"
+msgstr ""
+
+#: ../../api.rst:200
+msgid ""
+"If the log cannot be cleared because the log file does not exist, the "
+"fault ``NO_FILE`` will be raised. If the log cannot be cleared for any "
+"other reason, the fault ``FAILED`` will be raised."
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.shutdown:1
+msgid "Shut down the supervisor process"
+msgstr ""
+
+#: ../../api.rst:206
+msgid ""
+"This method shuts down the Supervisor daemon. If any processes are "
+"running, they are automatically killed without warning."
+msgstr ""
+
+#: ../../api.rst:209 ../../api.rst:220
+msgid ""
+"Unlike most other methods, if Supervisor is in the ``FATAL`` state, this "
+"method will still function."
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.restart:1
+msgid "Restart the supervisor process"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.restart:3
+msgid "@return boolean result  always return True unless error"
+msgstr ""
+
+#: ../../api.rst:214
+msgid ""
+"This method soft restarts the Supervisor daemon. If any processes are "
+"running, they are automatically killed without warning. Note that the "
+"actual UNIX process for Supervisor cannot restart; only Supervisor’s main"
+" program loop. This has the effect of resetting the internal states of "
+"Supervisor."
+msgstr ""
+
+#: ../../api.rst:225
+msgid "Process Control"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getProcessInfo:1
+msgid "Get info about a process named name"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getProcessInfo:3
+msgid ""
+"@param string name The name of the process (or 'group:name') @return "
+"struct result     A structure containing data about the process"
+msgstr ""
+
+#: ../../api.rst:253
+msgid "Name of the process"
+msgstr ""
+
+#: ../../api.rst:257
+msgid "Name of the process' group"
+msgstr ""
+
+#: ../../api.rst:261
+msgid ""
+"If process state is running description's value is process_id and uptime."
+" Example \"pid 18806, uptime 0:03:12 \". If process state is stopped "
+"description's value is stop time. Example:\"Jun 5 03:16 PM \"."
+msgstr ""
+
+#: ../../api.rst:268
+msgid "UNIX timestamp of when the process was started"
+msgstr ""
+
+#: ../../api.rst:272
+msgid ""
+"UNIX timestamp of when the process last ended, or 0 if the process has "
+"never been stopped."
+msgstr ""
+
+#: ../../api.rst:277
+msgid ""
+"UNIX timestamp of the current time, which can be used to calculate "
+"process up-time."
+msgstr ""
+
+#: ../../api.rst:282
+msgid "State code, see :ref:`process_states`."
+msgstr ""
+
+#: ../../api.rst:286
+msgid "String description of `state`, see :ref:`process_states`."
+msgstr ""
+
+#: ../../api.rst:290
+msgid ""
+"Deprecated alias for ``stdout_logfile``.  This is provided only for "
+"compatibility with clients written for Supervisor 2.x and may be removed "
+"in the future.  Use ``stdout_logfile`` instead."
+msgstr ""
+
+#: ../../api.rst:296 ../../api.rst:300
+msgid "Absolute path and filename to the STDOUT logfile"
+msgstr ""
+
+#: ../../api.rst:304
+msgid "Description of error that occurred during spawn, or empty string if none."
+msgstr ""
+
+#: ../../api.rst:309
+msgid "Exit status (errorlevel) of process, or 0 if the process is still running."
+msgstr ""
+
+#: ../../api.rst:314
+msgid "UNIX process ID (PID) of the process, or 0 if the process is not running."
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getAllProcessInfo:1
+msgid "Get info about all processes"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getAllProcessInfo:3
+msgid "@return array result  An array of process status results"
+msgstr ""
+
+#: ../../api.rst:320
+msgid ""
+"Each element contains a struct, and this struct contains the exact same "
+"elements as the struct returned by ``getProcessInfo``. If the process "
+"table is empty, an empty array is returned."
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startProcess:1
+msgid "Start a process"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startProcess:3
+msgid ""
+"@param string name Process name (or ``group:name``, or ``group:*``) "
+"@param boolean wait Wait for process to be fully started @return boolean "
+"result     Always true unless error"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startAllProcesses:1
+msgid "Start all processes listed in the configuration file"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startAllProcesses:3
+msgid ""
+"@param boolean wait    Wait for each process to be fully started @return "
+"array result   An array of process status info structs"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startProcessGroup:1
+msgid "Start all processes in the group named 'name'"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startProcessGroup:3
+msgid ""
+"@param string name     The group name @param boolean wait    Wait for "
+"each process to be fully started @return array result   An array of "
+"process status info structs"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopProcess:1
+msgid "Stop a process named by name"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopProcess:3
+msgid ""
+"@param string name  The name of the process to stop (or 'group:name') "
+"@param boolean wait        Wait for the process to be fully stopped "
+"@return boolean result     Always return True unless error"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopProcessGroup:1
+msgid "Stop all processes in the process group named 'name'"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopProcessGroup:3
+msgid ""
+"@param string name     The group name @param boolean wait    Wait for "
+"each process to be fully stopped @return array result   An array of "
+"process status info structs"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopAllProcesses:1
+msgid "Stop all processes in the process list"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopAllProcesses:3
+msgid ""
+"@param  boolean wait   Wait for each process to be fully stopped @return "
+"array result   An array of process status info structs"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalProcess:1
+msgid "Send an arbitrary UNIX signal to the process named by name"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalProcess:3
+msgid ""
+"@param string name    Name of the process to signal (or 'group:name') "
+"@param string signal  Signal to send, as name ('HUP') or number ('1') "
+"@return boolean"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalProcessGroup:1
+msgid "Send a signal to all processes in the group named 'name'"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalProcessGroup:3
+msgid ""
+"@param string name    The group name @param string signal  Signal to "
+"send, as name ('HUP') or number ('1') @return array"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalAllProcesses:1
+msgid "Send a signal to all processes in the process list"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalAllProcesses:3
+msgid ""
+"@param string signal  Signal to send, as name ('HUP') or number ('1') "
+"@return array         An array of process status info structs"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.sendProcessStdin:1
+msgid ""
+"Send a string of chars to the stdin of the process name. If non-7-bit "
+"data is sent (unicode), it is encoded to utf-8 before being sent to the "
+"process' stdin.  If chars is not a string or is not unicode, raise "
+"INCORRECT_PARAMETERS.  If the process is not running, raise NOT_RUNNING."
+"  If the process' stdin cannot accept input (e.g. it was closed by the "
+"child process), raise NO_FILE."
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.sendProcessStdin:9
+msgid ""
+"@param string name        The process name to send to (or 'group:name') "
+"@param string chars       The character data to send to the process "
+"@return boolean result    Always return True unless error"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.sendRemoteCommEvent:1
+msgid ""
+"Send an event that will be received by event listener subprocesses "
+"subscribing to the RemoteCommunicationEvent."
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.sendRemoteCommEvent:4
+msgid ""
+"@param  string  type  String for the \"type\" key in the event header "
+"@param  string  data  Data for the event body @return boolean       "
+"Always return True unless error"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.reloadConfig:1
+msgid "Reload the configuration."
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.reloadConfig:3
+msgid "The result contains three arrays containing names of process groups:"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.reloadConfig:6
+msgid "`added` gives the process groups that have been added"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.reloadConfig:7
+msgid "`changed` gives the process groups whose contents have changed"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.reloadConfig:9
+msgid "`removed` gives the process groups that are no longer in the configuration"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.reloadConfig:12
+msgid "@return array result  [[added, changed, removed]]"
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.addProcessGroup:1
+msgid "Update the config for a running process from config file."
+msgstr ""
+
+#: of supervisor.rpcinterface.SupervisorNamespaceRPCInterface.addProcessGroup:3
+msgid ""
+"@param string name         name of process group to add @return boolean "
+"result     true if successful"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.removeProcessGroup:1
+msgid "Remove a stopped process from the active configuration."
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.removeProcessGroup:3
+msgid ""
+"@param string name         name of process group to remove @return "
+"boolean result     Indicates whether the removal was successful"
+msgstr ""
+
+#: ../../api.rst:353
+msgid "Process Logging"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readProcessStdoutLog:1
+msgid "Read length bytes from name's stdout log starting at offset"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readProcessStderrLog:3
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readProcessStdoutLog:3
+msgid ""
+"@param string name        the name of the process (or 'group:name') "
+"@param int offset         offset to start reading from. @param int length"
+"         number of bytes to read from the log. @return string result     "
+"Bytes of log"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readProcessStderrLog:1
+msgid "Read length bytes from name's stderr log starting at offset"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.tailProcessStdoutLog:1
+msgid ""
+"Provides a more efficient way to tail the (stdout) log than "
+"readProcessStdoutLog().  Use readProcessStdoutLog() to read chunks and "
+"tailProcessStdoutLog() to tail."
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.tailProcessStderrLog:5
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.tailProcessStdoutLog:5
+msgid ""
+"Requests (length) bytes from the (name)'s log, starting at (offset).  If "
+"the total log size is greater than (offset + length), the overflow flag "
+"is set and the (offset) is automatically increased to position the buffer"
+" at the end of the log.  If less than (length) bytes are available, the "
+"maximum number of available bytes will be returned.  (offset) returned is"
+" always the last offset in the log +1."
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.tailProcessStderrLog:13
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.tailProcessStdoutLog:13
+msgid ""
+"@param string name         the name of the process (or 'group:name') "
+"@param int offset          offset to start reading from @param int length"
+"          maximum number of bytes to return @return array result       "
+"[string bytes, int offset, bool overflow]"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.tailProcessStderrLog:1
+msgid ""
+"Provides a more efficient way to tail the (stderr) log than "
+"readProcessStderrLog().  Use readProcessStderrLog() to read chunks and "
+"tailProcessStderrLog() to tail."
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearProcessLogs:1
+msgid "Clear the stdout and stderr logs for the named process and reopen them."
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearProcessLogs:4
+msgid ""
+"@param string name   The name of the process (or 'group:name') @return "
+"boolean result      Always True unless error"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearAllProcessLogs:1
+msgid "Clear all process log files"
+msgstr ""
+
+#: of
+#: supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearAllProcessLogs:3
+msgid "@return array result   An array of process status info structs"
+msgstr ""
+
+#: ../../api.rst:374
+msgid "System Methods"
+msgstr ""
+
+#: of supervisor.xmlrpc.SystemNamespaceRPCInterface.listMethods:1
+msgid "Return an array listing the available method names"
+msgstr ""
+
+#: of supervisor.xmlrpc.SystemNamespaceRPCInterface.listMethods:3
+msgid "@return array result  An array of method names available (strings)."
+msgstr ""
+
+#: of supervisor.xmlrpc.SystemNamespaceRPCInterface.methodHelp:1
+msgid "Return a string showing the method's documentation"
+msgstr ""
+
+#: of supervisor.xmlrpc.SystemNamespaceRPCInterface.methodHelp:3
+msgid ""
+"@param string name   The name of the method. @return string result The "
+"documentation for the method name."
+msgstr ""
+
+#: of supervisor.xmlrpc.SystemNamespaceRPCInterface.methodSignature:1
+msgid ""
+"Return an array describing the method signature in the form [rtype, "
+"ptype, ptype...] where rtype is the return data type of the method, and "
+"ptypes are the parameter data types that the method accepts in method "
+"argument order."
+msgstr ""
+
+#: of supervisor.xmlrpc.SystemNamespaceRPCInterface.methodSignature:6
+msgid ""
+"@param string name  The name of the method. @return array result  The "
+"result."
+msgstr ""
+
+#: of supervisor.xmlrpc.SystemNamespaceRPCInterface.multicall:1
+msgid ""
+"Process an array of calls, and return an array of results. Calls should "
+"be structs of the form {'methodName': string, 'params': array}. Each "
+"result will either be a single-item array containing the result value, or"
+" a struct of the form {'faultCode': int, 'faultString': string}. This is "
+"useful when you need to make lots of small calls without lots of round "
+"trips."
+msgstr ""
+
+#: of supervisor.xmlrpc.SystemNamespaceRPCInterface.multicall:9
+msgid ""
+"@param array calls  An array of call requests @return array result  An "
+"array of results"
+msgstr ""
+

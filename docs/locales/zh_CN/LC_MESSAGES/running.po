@@ -1,0 +1,680 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2004-2022, Agendaless Consulting and Contributors
+# This file is distributed under the same license as the Supervisor package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Supervisor 4.3.0.dev0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-02 04:24+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../running.rst:4
+msgid "Running Supervisor"
+msgstr ""
+
+#: ../../running.rst:6
+msgid ""
+"This section makes reference to a :envvar:`BINDIR` when explaining how to"
+" run the :command:`supervisord` and :command:`supervisorctl` commands.  "
+"This is the \"bindir\" directory that your Python installation has been "
+"configured with.  For example, for an installation of Python installed "
+"via ``./configure --prefix=/usr/local/py; make; make install``, "
+":envvar:`BINDIR` would be :file:`/usr/local/py/bin`. Python interpreters "
+"on different platforms use a different :envvar:`BINDIR`.  Look at the "
+"output of ``setup.py install`` if you can't figure out where yours is."
+msgstr ""
+
+#: ../../running.rst:17
+msgid "Adding a Program"
+msgstr ""
+
+#: ../../running.rst:19
+msgid ""
+"Before :program:`supervisord` will do anything useful for you, you'll "
+"need to add at least one ``program`` section to its configuration. The "
+"``program`` section will define a program that is run and managed when "
+"you invoke the :command:`supervisord` command.  To add a program, you'll "
+"need to edit the :file:`supervisord.conf` file."
+msgstr ""
+
+#: ../../running.rst:25
+msgid ""
+"One of the simplest possible programs to run is the UNIX :program:`cat` "
+"program.  A ``program`` section that will run ``cat`` when the "
+":program:`supervisord` process starts up is shown below."
+msgstr ""
+
+#: ../../running.rst:34
+msgid ""
+"This stanza may be cut and pasted into the :file:`supervisord.conf` file."
+"  This is the simplest possible program configuration, because it only "
+"names a command.  Program configuration sections have many other "
+"configuration options which aren't shown here.  See "
+":ref:`programx_section` for more information."
+msgstr ""
+
+#: ../../running.rst:41
+msgid "Running :program:`supervisord`"
+msgstr ""
+
+#: ../../running.rst:43
+msgid ""
+"To start :program:`supervisord`, run :file:`$BINDIR/supervisord`.  The "
+"resulting process will daemonize itself and detach from the terminal. It "
+"keeps an operations log at :file:`$CWD/supervisor.log` by default."
+msgstr ""
+
+#: ../../running.rst:47
+msgid ""
+"You may start the :command:`supervisord` executable in the foreground by "
+"passing the ``-n`` flag on its command line.  This is useful to debug "
+"startup problems."
+msgstr ""
+
+#: ../../running.rst:53
+msgid ""
+"When :program:`supervisord` starts up, it will search for its "
+"configuration file in default locations *including the current working "
+"directory*.  If you are security-conscious you will probably want to "
+"specify a \"-c\" argument after the :program:`supervisord` command "
+"specifying an absolute path to a configuration file to ensure that "
+"someone doesn't trick you into running supervisor from within a directory"
+" that contains a rogue ``supervisord.conf`` file.  A warning is emitted "
+"when supervisor is started as root without this ``-c`` argument."
+msgstr ""
+
+#: ../../running.rst:62
+msgid ""
+"To change the set of programs controlled by :program:`supervisord`, edit "
+"the :file:`supervisord.conf` file and ``kill -HUP`` or otherwise restart "
+"the :program:`supervisord` process.  This file has several example "
+"program definitions."
+msgstr ""
+
+#: ../../running.rst:67
+msgid ""
+"The :command:`supervisord` command accepts a number of command-line "
+"options.  Each of these command line options overrides any equivalent "
+"value in the configuration file."
+msgstr ""
+
+#: ../../running.rst:72
+msgid ":command:`supervisord` Command-Line Options"
+msgstr ""
+
+#: ../../running.rst:76
+msgid "The path to a :program:`supervisord` configuration file."
+msgstr ""
+
+#: ../../running.rst:80
+msgid "Run :program:`supervisord` in the foreground."
+msgstr ""
+
+#: ../../running.rst:84
+msgid "No output directed to stdout."
+msgstr ""
+
+#: ../../running.rst:88
+msgid "Show :command:`supervisord` command help."
+msgstr ""
+
+#: ../../running.rst:92
+msgid ""
+"UNIX username or numeric user id.  If :program:`supervisord` is started "
+"as the root user, setuid to this user as soon as possible during startup."
+msgstr ""
+
+#: ../../running.rst:98
+msgid ""
+"Octal number (e.g. 022) representing the :term:`umask` that should be "
+"used by :program:`supervisord` after it starts."
+msgstr ""
+
+#: ../../running.rst:103
+msgid ""
+"When supervisord is run as a daemon, cd to this directory before "
+"daemonizing."
+msgstr ""
+
+#: ../../running.rst:108
+msgid "Filename path to use as the supervisord activity log."
+msgstr ""
+
+#: ../../running.rst:112
+msgid ""
+"Max size of the supervisord activity log file before a rotation occurs.  "
+"The value is suffix-multiplied, e.g \"1\" is one byte, \"1MB\" is 1 "
+"megabyte, \"1GB\" is 1 gigabyte."
+msgstr ""
+
+#: ../../running.rst:118
+msgid ""
+"Number of backup copies of the supervisord activity log to keep around.  "
+"Each logfile will be of size ``logfile_maxbytes``."
+msgstr ""
+
+#: ../../running.rst:123
+msgid ""
+"The logging level at which supervisor should write to the activity log.  "
+"Valid levels are ``trace``, ``debug``, ``info``, ``warn``, ``error``, and"
+" ``critical``."
+msgstr ""
+
+#: ../../running.rst:129
+msgid "The filename to which supervisord should write its pid file."
+msgstr ""
+
+#: ../../running.rst:133
+msgid ""
+"Arbitrary string identifier exposed by various client UIs for this "
+"instance of supervisor."
+msgstr ""
+
+#: ../../running.rst:138
+msgid ""
+"A path to a directory (it must already exist) where supervisor will write"
+" its ``AUTO`` -mode child process logs."
+msgstr ""
+
+#: ../../running.rst:143
+msgid ""
+"Prevent :program:`supervisord` from performing cleanup (removal of old "
+"``AUTO`` process log files) at startup."
+msgstr ""
+
+#: ../../running.rst:148
+msgid ""
+"The minimum number of file descriptors that must be available to the "
+"supervisord process before it will start successfully."
+msgstr ""
+
+#: ../../running.rst:153
+msgid "Strip ANSI escape sequences from all child log process."
+msgstr ""
+
+#: ../../running.rst:157
+msgid "Print the supervisord version number out to stdout and exit."
+msgstr ""
+
+#: ../../running.rst:161
+msgid ""
+"Comma-separated options list for profiling.  Causes "
+":program:`supervisord` to run under a profiler, and output results based "
+"on the options, which is a comma-separated list of the following: "
+"``cumulative``, ``calls``, ``callers``. E.g. ``cumulative,callers``."
+msgstr ""
+
+#: ../../running.rst:169
+msgid ""
+"The minimum number of OS process slots that must be available to the "
+"supervisord process before it will start successfully."
+msgstr ""
+
+#: ../../running.rst:174
+msgid "Running :program:`supervisorctl`"
+msgstr ""
+
+#: ../../running.rst:176
+msgid ""
+"To start :program:`supervisorctl`, run ``$BINDIR/supervisorctl``.  A "
+"shell will be presented that will allow you to control the processes that"
+" are currently managed by :program:`supervisord`.  Type \"help\" at the "
+"prompt to get information about the supported commands."
+msgstr ""
+
+#: ../../running.rst:181
+msgid ""
+"The :command:`supervisorctl` executable may be invoked with \"one time\" "
+"commands when invoked with arguments from a command line.  An example: "
+"``supervisorctl stop all``.  If arguments are present on the command-"
+"line, it will prevent the interactive shell from being invoked.  Instead,"
+" the command will be executed and ``supervisorctl`` will exit with a code"
+" of 0 for success or running and non-zero for error. An example: "
+"``supervisorctl status all`` would return non-zero if any single process "
+"was not running."
+msgstr ""
+
+#: ../../running.rst:190
+msgid ""
+"If :command:`supervisorctl` is invoked in interactive mode against a "
+":program:`supervisord` that requires authentication, you will be asked "
+"for authentication credentials."
+msgstr ""
+
+#: ../../running.rst:195
+msgid ":command:`supervisorctl` Command-Line Options"
+msgstr ""
+
+#: ../../running.rst:199
+msgid "Configuration file path (default /etc/supervisord.conf)"
+msgstr ""
+
+#: ../../running.rst:203
+msgid "Print usage message and exit"
+msgstr ""
+
+#: ../../running.rst:207
+msgid "Start an interactive shell after executing commands"
+msgstr ""
+
+#: ../../running.rst:211
+msgid ""
+"URL on which supervisord server is listening (default "
+"\"http://localhost:9001\")."
+msgstr ""
+
+#: ../../running.rst:215
+msgid "Username to use for authentication with server"
+msgstr ""
+
+#: ../../running.rst:219
+msgid "Password to use for authentication with server"
+msgstr ""
+
+#: ../../running.rst:223
+msgid "Keep a readline history (if readline is available)"
+msgstr ""
+
+#: ../../running.rst:225
+msgid "`action [arguments]`"
+msgstr ""
+
+#: ../../running.rst:227
+msgid ""
+"Actions are commands like \"tail\" or \"stop\".  If -i is specified or no"
+" action is specified on the command line, a \"shell\" interpreting "
+"actions typed interactively is started.  Use the action \"help\" to find "
+"out about available actions."
+msgstr ""
+
+#: ../../running.rst:234
+msgid ":command:`supervisorctl` Actions"
+msgstr ""
+
+#: ../../running.rst:236
+msgid "help"
+msgstr ""
+
+#: ../../running.rst:238
+msgid "Print a list of available actions"
+msgstr ""
+
+#: ../../running.rst:240
+msgid "help <action>"
+msgstr ""
+
+#: ../../running.rst:242
+msgid "Print help for <action>"
+msgstr ""
+
+#: ../../running.rst:244
+msgid "add <name> [...]"
+msgstr ""
+
+#: ../../running.rst:246
+msgid "Activates any updates in config for process/group"
+msgstr ""
+
+#: ../../running.rst:248
+msgid "remove <name> [...]"
+msgstr ""
+
+#: ../../running.rst:250
+msgid "Removes process/group from active config"
+msgstr ""
+
+#: ../../running.rst:252
+msgid "update"
+msgstr ""
+
+#: ../../running.rst:254 ../../running.rst:258
+msgid ""
+"Reload config and add/remove as necessary, and will restart affected "
+"programs"
+msgstr ""
+
+#: ../../running.rst:256
+msgid "update all"
+msgstr ""
+
+#: ../../running.rst:260
+msgid "update <gname> [...]"
+msgstr ""
+
+#: ../../running.rst:262
+msgid "Update specific groups, and will restart affected programs"
+msgstr ""
+
+#: ../../running.rst:264
+msgid "clear <name>"
+msgstr ""
+
+#: ../../running.rst:266
+msgid "Clear a process' log files."
+msgstr ""
+
+#: ../../running.rst:268
+msgid "clear <name> <name>"
+msgstr ""
+
+#: ../../running.rst:270
+msgid "Clear multiple process' log files"
+msgstr ""
+
+#: ../../running.rst:272
+msgid "clear all"
+msgstr ""
+
+#: ../../running.rst:274
+msgid "Clear all process' log files"
+msgstr ""
+
+#: ../../running.rst:276
+msgid "fg <process>"
+msgstr ""
+
+#: ../../running.rst:278
+msgid "Connect to a process in foreground mode Press Ctrl+C to exit foreground"
+msgstr ""
+
+#: ../../running.rst:281
+msgid "pid"
+msgstr ""
+
+#: ../../running.rst:283
+msgid "Get the PID of supervisord."
+msgstr ""
+
+#: ../../running.rst:285
+msgid "pid <name>"
+msgstr ""
+
+#: ../../running.rst:287
+msgid "Get the PID of a single child process by name."
+msgstr ""
+
+#: ../../running.rst:289
+msgid "pid all"
+msgstr ""
+
+#: ../../running.rst:291
+msgid "Get the PID of every child process, one per line."
+msgstr ""
+
+#: ../../running.rst:293
+msgid "reload"
+msgstr ""
+
+#: ../../running.rst:295
+msgid "Restarts the remote supervisord"
+msgstr ""
+
+#: ../../running.rst:297
+msgid "reread"
+msgstr ""
+
+#: ../../running.rst:299
+msgid "Reload the daemon's configuration files, without add/remove (no restarts)"
+msgstr ""
+
+#: ../../running.rst:301
+msgid "restart <name>"
+msgstr ""
+
+#: ../../running.rst:303
+msgid ""
+"Restart a process Note: restart does not reread config files. For that, "
+"see reread and update."
+msgstr ""
+
+#: ../../running.rst:306
+msgid "restart <gname>:*"
+msgstr ""
+
+#: ../../running.rst:308
+msgid ""
+"Restart all processes in a group Note: restart does not reread config "
+"files. For that, see reread and update."
+msgstr ""
+
+#: ../../running.rst:311
+msgid "restart <name> <name>"
+msgstr ""
+
+#: ../../running.rst:313
+msgid ""
+"Restart multiple processes or groups Note: restart does not reread config"
+" files. For that, see reread and update."
+msgstr ""
+
+#: ../../running.rst:316
+msgid "restart all"
+msgstr ""
+
+#: ../../running.rst:318
+msgid ""
+"Restart all processes Note: restart does not reread config files. For "
+"that, see reread and update."
+msgstr ""
+
+#: ../../running.rst:321
+msgid "signal"
+msgstr ""
+
+#: ../../running.rst:323
+msgid "No help on signal"
+msgstr ""
+
+#: ../../running.rst:325
+msgid "start <name>"
+msgstr ""
+
+#: ../../running.rst:327
+msgid "Start a process"
+msgstr ""
+
+#: ../../running.rst:329
+msgid "start <gname>:*"
+msgstr ""
+
+#: ../../running.rst:331
+msgid "Start all processes in a group"
+msgstr ""
+
+#: ../../running.rst:333
+msgid "start <name> <name>"
+msgstr ""
+
+#: ../../running.rst:335
+msgid "Start multiple processes or groups"
+msgstr ""
+
+#: ../../running.rst:337
+msgid "start all"
+msgstr ""
+
+#: ../../running.rst:339
+msgid "Start all processes"
+msgstr ""
+
+#: ../../running.rst:341
+msgid "status"
+msgstr ""
+
+#: ../../running.rst:343
+msgid "Get all process status info."
+msgstr ""
+
+#: ../../running.rst:345
+msgid "status <name>"
+msgstr ""
+
+#: ../../running.rst:347
+msgid "Get status on a single process by name."
+msgstr ""
+
+#: ../../running.rst:349
+msgid "status <name> <name>"
+msgstr ""
+
+#: ../../running.rst:351
+msgid "Get status on multiple named processes."
+msgstr ""
+
+#: ../../running.rst:353
+msgid "stop <name>"
+msgstr ""
+
+#: ../../running.rst:355
+msgid "Stop a process"
+msgstr ""
+
+#: ../../running.rst:357
+msgid "stop <gname>:*"
+msgstr ""
+
+#: ../../running.rst:359
+msgid "Stop all processes in a group"
+msgstr ""
+
+#: ../../running.rst:361
+msgid "stop <name> <name>"
+msgstr ""
+
+#: ../../running.rst:363
+msgid "Stop multiple processes or groups"
+msgstr ""
+
+#: ../../running.rst:365
+msgid "stop all"
+msgstr ""
+
+#: ../../running.rst:367
+msgid "Stop all processes"
+msgstr ""
+
+#: ../../running.rst:369
+msgid "tail [-f] <name> [stdout|stderr] (default stdout)"
+msgstr ""
+
+#: ../../running.rst:371
+msgid ""
+"Output the last part of process logs Ex: tail -f <name>               "
+"Continuous tail of named process stdout Ctrl-C to exit. tail -100 <name>"
+"     last 100 *bytes* of process stdout tail <name> stderr   last 1600 "
+"*bytes* of process stderr"
+msgstr ""
+
+#: ../../running.rst:379
+msgid "Signals"
+msgstr ""
+
+#: ../../running.rst:381
+msgid ""
+"The :program:`supervisord` program may be sent signals which cause it to "
+"perform certain actions while it's running."
+msgstr ""
+
+#: ../../running.rst:384
+msgid ""
+"You can send any of these signals to the single :program:`supervisord` "
+"process id.  This process id can be found in the file represented by the "
+"``pidfile`` parameter in the ``[supervisord]`` section of the "
+"configuration file (by default it's :file:`$CWD/supervisord.pid`)."
+msgstr ""
+
+#: ../../running.rst:390
+msgid "Signal Handlers"
+msgstr ""
+
+#: ../../running.rst:392
+msgid "``SIGTERM``"
+msgstr ""
+
+#: ../../running.rst:394 ../../running.rst:399 ../../running.rst:404
+msgid ""
+":program:`supervisord` and all its subprocesses will shut down. This may "
+"take several seconds."
+msgstr ""
+
+#: ../../running.rst:397
+msgid "``SIGINT``"
+msgstr ""
+
+#: ../../running.rst:402
+msgid "``SIGQUIT``"
+msgstr ""
+
+#: ../../running.rst:407
+msgid "``SIGHUP``"
+msgstr ""
+
+#: ../../running.rst:409
+msgid ""
+":program:`supervisord` will stop all processes, reload the configuration "
+"from the first config file it finds, and start all processes."
+msgstr ""
+
+#: ../../running.rst:413
+msgid "``SIGUSR2``"
+msgstr ""
+
+#: ../../running.rst:415
+msgid ""
+":program:`supervisord` will close and reopen the main activity log and "
+"all child log files."
+msgstr ""
+
+#: ../../running.rst:419
+msgid "Runtime Security"
+msgstr ""
+
+#: ../../running.rst:421
+msgid ""
+"The developers have done their best to assure that use of a "
+":program:`supervisord` process running as root cannot lead to unintended "
+"privilege escalation.  But **caveat emptor**.  Supervisor is not as "
+"paranoid as something like DJ Bernstein's :term:`daemontools`, inasmuch "
+"as :program:`supervisord` allows for arbitrary path specifications in its"
+" configuration file to which data may be written.  Allowing arbitrary "
+"path selections can create vulnerabilities from symlink attacks.  Be "
+"careful when specifying paths in your configuration.  Ensure that the "
+":program:`supervisord` configuration file cannot be read from or written "
+"to by unprivileged users and that all files installed by the supervisor "
+"package have \"sane\" file permission protection settings.  Additionally,"
+" ensure that your ``PYTHONPATH`` is sane and that all Python standard "
+"library files have adequate file permission protections."
+msgstr ""
+
+#: ../../running.rst:437
+msgid "Running :program:`supervisord` automatically on startup"
+msgstr ""
+
+#: ../../running.rst:439
+msgid ""
+"If you are using a distribution-packaged version of Supervisor, it should"
+" already be integrated into the service management infrastructure of your"
+" distribution."
+msgstr ""
+
+#: ../../running.rst:443
+msgid ""
+"There are user-contributed scripts for various operating systems at: "
+"https://github.com/Supervisor/initscripts"
+msgstr ""
+
+#: ../../running.rst:446
+msgid ""
+"There are some answers at Serverfault in case you get stuck: `How to "
+"automatically start supervisord on Linux (Ubuntu)`__"
+msgstr ""
+

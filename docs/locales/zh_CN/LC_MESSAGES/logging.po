@@ -1,0 +1,338 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2004-2022, Agendaless Consulting and Contributors
+# This file is distributed under the same license as the Supervisor package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Supervisor 4.3.0.dev0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-02 04:24+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../logging.rst:2
+msgid "Logging"
+msgstr ""
+
+#: ../../logging.rst:4
+msgid ""
+"One of the main tasks that :program:`supervisord` performs is logging. "
+":program:`supervisord` logs an activity log detailing what it's doing as "
+"it runs.  It also logs child process stdout and stderr output to other "
+"files if configured to do so."
+msgstr ""
+
+#: ../../logging.rst:10
+msgid "Activity Log"
+msgstr ""
+
+#: ../../logging.rst:12
+msgid ""
+"The activity log is the place where :program:`supervisord` logs messages "
+"about its own health, its subprocess' state changes, any messages that "
+"result from events, and debug and informational messages.  The path to "
+"the activity log is configured via the ``logfile`` parameter in the "
+"``[supervisord]`` section of the configuration file, defaulting to "
+":file:`$CWD/supervisord.log`.  If the value of this option is the special"
+" string ``syslog``, the activity log will be routed to the syslog service"
+" instead of being written to a file.  Sample activity log traffic is "
+"shown in the example below.  Some lines have been broken to better fit "
+"the screen."
+msgstr ""
+
+#: ../../logging.rst:24
+msgid "Sample Activity Log Output"
+msgstr ""
+
+#: ../../logging.rst:46
+msgid ""
+"The activity log \"level\" is configured in the config file via the "
+"``loglevel`` parameter in the ``[supervisord]`` ini file section. When "
+"``loglevel`` is set, messages of the specified priority, plus those with "
+"any higher priority are logged to the activity log.  For example, if "
+"``loglevel`` is ``error``, messages of ``error`` and ``critical`` "
+"priority will be logged.  However, if loglevel is ``warn``, messages of "
+"``warn``, ``error``, and ``critical`` will be logged."
+msgstr ""
+
+#: ../../logging.rst:58
+msgid "Activity Log Levels"
+msgstr ""
+
+#: ../../logging.rst:60
+msgid ""
+"The below table describes the logging levels in more detail, ordered in "
+"highest priority to lowest.  The \"Config File Value\" is the string "
+"provided to the ``loglevel`` parameter in the ``[supervisord]`` section "
+"of configuration file and the \"Output Code\" is the code that shows up "
+"in activity log output lines."
+msgstr ""
+
+#: ../../logging.rst:67
+msgid "Config File Value"
+msgstr ""
+
+#: ../../logging.rst:67
+msgid "Output Code"
+msgstr ""
+
+#: ../../logging.rst:67
+msgid "Description"
+msgstr ""
+
+#: ../../logging.rst:69
+msgid "critical"
+msgstr ""
+
+#: ../../logging.rst:69
+msgid "CRIT"
+msgstr ""
+
+#: ../../logging.rst:69
+msgid ""
+"Messages that indicate a condition that requires immediate user "
+"attention, a supervisor state change, or an error in supervisor itself."
+msgstr ""
+
+#: ../../logging.rst:73
+msgid "error"
+msgstr ""
+
+#: ../../logging.rst:73
+msgid "ERRO"
+msgstr ""
+
+#: ../../logging.rst:73
+msgid ""
+"Messages that indicate a potentially ignorable error condition (e.g. "
+"unable to clear a log directory)."
+msgstr ""
+
+#: ../../logging.rst:76
+msgid "warn"
+msgstr ""
+
+#: ../../logging.rst:76
+msgid "WARN"
+msgstr ""
+
+#: ../../logging.rst:76
+msgid "Messages that indicate an anomalous condition which isn't an error."
+msgstr ""
+
+#: ../../logging.rst:78
+msgid "info"
+msgstr ""
+
+#: ../../logging.rst:78
+msgid "INFO"
+msgstr ""
+
+#: ../../logging.rst:78
+msgid ""
+"Normal informational output.  This is the default log level if none is "
+"explicitly configured."
+msgstr ""
+
+#: ../../logging.rst:81
+msgid "debug"
+msgstr ""
+
+#: ../../logging.rst:81
+msgid "DEBG"
+msgstr ""
+
+#: ../../logging.rst:81
+msgid ""
+"Messages useful for users trying to debug process configuration and "
+"communications behavior (process output, listener state changes, event "
+"notifications)."
+msgstr ""
+
+#: ../../logging.rst:85
+msgid "trace"
+msgstr ""
+
+#: ../../logging.rst:85
+msgid "TRAC"
+msgstr ""
+
+#: ../../logging.rst:85
+msgid ""
+"Messages useful for developers trying to debug supervisor plugins, and "
+"information about HTTP and RPC requests and responses."
+msgstr ""
+
+#: ../../logging.rst:88
+msgid "blather"
+msgstr ""
+
+#: ../../logging.rst:88
+msgid "BLAT"
+msgstr ""
+
+#: ../../logging.rst:88
+msgid "Messages useful for developers trying to debug supervisor itself."
+msgstr ""
+
+#: ../../logging.rst:93
+msgid "Activity Log Rotation"
+msgstr ""
+
+#: ../../logging.rst:95
+msgid ""
+"The activity log is \"rotated\" by :program:`supervisord` based on the "
+"combination of the ``logfile_maxbytes`` and the ``logfile_backups`` "
+"parameters in the ``[supervisord]`` section of the configuration file. "
+"When the activity log reaches ``logfile_maxbytes`` bytes, the current log"
+" file is moved to a backup file and a new activity log file is created.  "
+"When this happens, if the number of existing backup files is greater than"
+" or equal to ``logfile_backups``, the oldest backup file is removed and "
+"the backup files are renamed accordingly.  If the file being written to "
+"is named :file:`supervisord.log`, when it exceeds ``logfile_maxbytes``, "
+"it is closed and renamed to :file:`supervisord.log.1`, and if files "
+":file:`supervisord.log.1`, :file:`supervisord.log.2` etc. exist, then "
+"they are renamed to :file:`supervisord.log.2`, :file:`supervisord.log.3` "
+"etc. respectively.  If ``logfile_maxbytes`` is 0, the logfile is never "
+"rotated (and thus backups are never made).  If ``logfile_backups`` is 0, "
+"no backups will be kept."
+msgstr ""
+
+#: ../../logging.rst:113
+msgid "Child Process Logs"
+msgstr ""
+
+#: ../../logging.rst:115
+msgid ""
+"The stdout of child processes spawned by supervisor, by default, is "
+"captured for redisplay to users of :program:`supervisorctl` and other "
+"clients.  If no specific logfile-related configuration is performed in a "
+"``[program:x]``, ``[fcgi-program:x]``, or ``[eventlistener:x]`` section "
+"in the configuration file, the following is true:"
+msgstr ""
+
+#: ../../logging.rst:121
+msgid ""
+":program:`supervisord` will capture the child process' stdout and stderr "
+"output into temporary files.  Each stream is captured to a separate file."
+"  This is known as ``AUTO`` log mode."
+msgstr ""
+
+#: ../../logging.rst:125
+msgid ""
+"``AUTO`` log files are named automatically and placed in the directory "
+"configured as ``childlogdir`` of the ``[supervisord]`` section of the "
+"config file."
+msgstr ""
+
+#: ../../logging.rst:129
+msgid ""
+"The size of each ``AUTO`` log file is bounded by the "
+"``{streamname}_logfile_maxbytes`` value of the program section (where "
+"{streamname} is \"stdout\" or \"stderr\").  When it reaches that number, "
+"it is rotated (like the activity log), based on the "
+"``{streamname}_logfile_backups``."
+msgstr ""
+
+#: ../../logging.rst:135
+msgid ""
+"The configuration keys that influence child process logging in "
+"``[program:x]`` and ``[fcgi-program:x]`` sections are these:"
+msgstr ""
+
+#: ../../logging.rst:138
+msgid ""
+"``redirect_stderr``, ``stdout_logfile``, ``stdout_logfile_maxbytes``, "
+"``stdout_logfile_backups``, ``stdout_capture_maxbytes``, "
+"``stdout_syslog``, ``stderr_logfile``, ``stderr_logfile_maxbytes``, "
+"``stderr_logfile_backups``, ``stderr_capture_maxbytes``, and "
+"``stderr_syslog``."
+msgstr ""
+
+#: ../../logging.rst:144
+msgid ""
+"``[eventlistener:x]`` sections may not specify ``redirect_stderr``, "
+"``stdout_capture_maxbytes``, or ``stderr_capture_maxbytes``, but "
+"otherwise they accept the same values."
+msgstr ""
+
+#: ../../logging.rst:148
+msgid ""
+"The configuration keys that influence child process logging in the "
+"``[supervisord]`` config file section are these: ``childlogdir``, and "
+"``nocleanup``."
+msgstr ""
+
+#: ../../logging.rst:155
+msgid "Capture Mode"
+msgstr ""
+
+#: ../../logging.rst:157
+msgid ""
+"Capture mode is an advanced feature of Supervisor.  You needn't "
+"understand capture mode unless you want to take actions based on data "
+"parsed from subprocess output."
+msgstr ""
+
+#: ../../logging.rst:161
+msgid ""
+"If a ``[program:x]`` section in the configuration file defines a non-zero"
+" ``stdout_capture_maxbytes`` or ``stderr_capture_maxbytes`` parameter, "
+"each process represented by the program section may emit special tokens "
+"on its stdout or stderr stream (respectively) which will effectively "
+"cause supervisor to emit a ``PROCESS_COMMUNICATION`` event (see "
+":ref:`events` for a description of events)."
+msgstr ""
+
+#: ../../logging.rst:168
+msgid ""
+"The process communications protocol relies on two tags, one which "
+"commands supervisor to enter \"capture mode\" for the stream and one "
+"which commands it to exit.  When a process stream enters \"capture "
+"mode\", data sent to the stream will be sent to a separate buffer in "
+"memory, the \"capture buffer\", which is allowed to contain a maximum of "
+"``capture_maxbytes`` bytes.  During capture mode, when the buffer's "
+"length exceeds ``capture_maxbytes`` bytes, the earliest data in the "
+"buffer is discarded to make room for new data.  When a process stream "
+"exits capture mode, a ``PROCESS_COMMUNICATION`` event subtype is emitted "
+"by supervisor, which may be intercepted by event listeners."
+msgstr ""
+
+#: ../../logging.rst:179
+msgid ""
+"The tag to begin \"capture mode\" in a process stream is ``<!--"
+"XSUPERVISOR:BEGIN-->``.  The tag to exit capture mode is ``<!--"
+"XSUPERVISOR:END-->``.  The data between these tags may be arbitrary, and "
+"forms the payload of the ``PROCESS_COMMUNICATION`` event.  For example, "
+"if a program is set up with a ``stdout_capture_maxbytes`` of \"1MB\", and"
+" it emits the following on its stdout stream:"
+msgstr ""
+
+#: ../../logging.rst:191
+msgid ""
+"In this circumstance, :program:`supervisord` will emit a "
+"``PROCESS_COMMUNICATIONS_STDOUT`` event with data in the payload of "
+"\"Hello!\"."
+msgstr ""
+
+#: ../../logging.rst:195
+msgid ""
+"An example of a script (written in Python) which emits a process "
+"communication event is in the :file:`scripts` directory of the supervisor"
+" package, named :file:`sample_commevent.py`."
+msgstr ""
+
+#: ../../logging.rst:199
+msgid ""
+"The output of processes specified as \"event listeners\" "
+"(``[eventlistener:x]`` sections) is not processed this way. Output from "
+"these processes cannot enter capture mode."
+msgstr ""
+

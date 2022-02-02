@@ -1,0 +1,234 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2004-2022, Agendaless Consulting and Contributors
+# This file is distributed under the same license as the Supervisor package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Supervisor 4.3.0.dev0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-02 04:24+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../development.rst:2
+msgid "Resources and Development"
+msgstr ""
+
+#: ../../development.rst:5
+msgid "Bug Tracker"
+msgstr ""
+
+#: ../../development.rst:7
+msgid ""
+"Supervisor has a bugtracker where you may report any bugs or other errors"
+" you find.  Please report bugs to the `GitHub issues page "
+"<https://github.com/supervisor/supervisor/issues>`_."
+msgstr ""
+
+#: ../../development.rst:12
+msgid "Version Control Repository"
+msgstr ""
+
+#: ../../development.rst:14
+msgid ""
+"You can also view the `Supervisor version control repository "
+"<https://github.com/Supervisor/supervisor>`_."
+msgstr ""
+
+#: ../../development.rst:18
+msgid "Contributing"
+msgstr ""
+
+#: ../../development.rst:20
+msgid ""
+"We'll review contributions from the community in `pull requests "
+"<https://help.github.com/articles/using-pull-requests>`_ on GitHub."
+msgstr ""
+
+#: ../../development.rst:25
+msgid "Author Information"
+msgstr ""
+
+#: ../../development.rst:27
+msgid "The following people are responsible for creating Supervisor."
+msgstr ""
+
+#: ../../development.rst:30
+msgid "Original Author"
+msgstr ""
+
+#: ../../development.rst:32
+msgid ""
+"`Chris McDonough <https://github.com/mcdonc>`_ is the original author of "
+"Supervisor."
+msgstr ""
+
+#: ../../development.rst:36
+msgid "Contributors"
+msgstr ""
+
+#: ../../development.rst:38
+msgid ""
+"Contributors are tracked on the `GitHub contributions page "
+"<https://github.com/Supervisor/supervisor/graphs/contributors>`_.  The "
+"two lists below are included for historical reasons."
+msgstr ""
+
+#: ../../development.rst:42
+msgid ""
+"This first list recognizes significant contributions that were made "
+"before the repository moved to GitHub."
+msgstr ""
+
+#: ../../development.rst:45
+msgid ""
+"Anders Quist: Anders contributed the patch that was the basis for "
+"Supervisor’s ability to reload parts of its configuration without "
+"restarting."
+msgstr ""
+
+#: ../../development.rst:49
+msgid ""
+"Derek DeVries: Derek did the web design of Supervisor’s internal web "
+"interface and website logos."
+msgstr ""
+
+#: ../../development.rst:52
+msgid ""
+"Guido van Rossum: Guido authored ``zdrun`` and ``zdctl``, the programs "
+"from Zope that were the original basis for Supervisor.  He also created "
+"Python, the programming language that Supervisor is written in."
+msgstr ""
+
+#: ../../development.rst:57
+msgid ""
+"Jason Kirtland: Jason fixed Supervisor to run on Python 2.6 by "
+"contributing a patched version of Medusa (a Supervisor dependency) that "
+"we now bundle."
+msgstr ""
+
+#: ../../development.rst:61
+msgid ""
+"Roger Hoover: Roger added support for spawning FastCGI programs. He has "
+"also been one of the most active mailing list users, providing his "
+"testing and feedback."
+msgstr ""
+
+#: ../../development.rst:65
+msgid ""
+"Siddhant Goel: Siddhant worked on :program:`supervisorctl` as our Google "
+"Summer of Code student for 2008. He implemented the ``fg`` command and "
+"also added tab completion."
+msgstr ""
+
+#: ../../development.rst:69
+msgid ""
+"This second list records contributors who signed a legal agreement. The "
+"legal agreement was `introduced "
+"<https://github.com/Supervisor/supervisor/commit/7bdac36e67a91b513a2e53a6098751509a7a9e34>`_"
+" in January 2014 but later `withdrawn "
+"<https://github.com/Supervisor/supervisor/commit/79090d521c512634bed03a65147f16cd41456051>`_"
+" in March 2014.  This list is being preserved in case it is useful later "
+"(e.g. if at some point there was a desire to donate the project to a "
+"foundation that required such agreements)."
+msgstr ""
+
+#: ../../development.rst:78
+msgid "Chris McDonough, 2006-06-26"
+msgstr ""
+
+#: ../../development.rst:80
+msgid "Siddhant Goel, 2008-06-15"
+msgstr ""
+
+#: ../../development.rst:82
+msgid "Chris Rossi, 2010-02-02"
+msgstr ""
+
+#: ../../development.rst:84
+msgid "Roger Hoover, 2010-08-17"
+msgstr ""
+
+#: ../../development.rst:86
+msgid "Benoit Sigoure, 2011-06-21"
+msgstr ""
+
+#: ../../development.rst:88
+msgid "John Szakmeister, 2011-09-06"
+msgstr ""
+
+#: ../../development.rst:90
+msgid "Gunnlaugur Þór Briem, 2011-11-26"
+msgstr ""
+
+#: ../../development.rst:92
+msgid "Jens Rantil, 2011-11-27"
+msgstr ""
+
+#: ../../development.rst:94
+msgid "Michael Blume, 2012-01-09"
+msgstr ""
+
+#: ../../development.rst:96
+msgid "Philip Zeyliger, 2012-02-21"
+msgstr ""
+
+#: ../../development.rst:98
+msgid "Marcelo Vanzin, 2012-05-03"
+msgstr ""
+
+#: ../../development.rst:100
+msgid "Martijn Pieters, 2012-06-04"
+msgstr ""
+
+#: ../../development.rst:102
+msgid "Marcin Kuźmiński, 2012-06-21"
+msgstr ""
+
+#: ../../development.rst:104
+msgid "Jean Jordaan, 2012-06-28"
+msgstr ""
+
+#: ../../development.rst:106
+msgid "Perttu Ranta-aho, 2012-09-27"
+msgstr ""
+
+#: ../../development.rst:108
+msgid "Chris Streeter, 2013-03-23"
+msgstr ""
+
+#: ../../development.rst:110
+msgid "Caio Ariede, 2013-03-25"
+msgstr ""
+
+#: ../../development.rst:112
+msgid "David Birdsong, 2013-04-11"
+msgstr ""
+
+#: ../../development.rst:114
+msgid "Lukas Rist, 2013-04-18"
+msgstr ""
+
+#: ../../development.rst:116
+msgid "Honza Pokorny, 2013-07-23"
+msgstr ""
+
+#: ../../development.rst:118
+msgid "Thúlio Costa, 2013-10-31"
+msgstr ""
+
+#: ../../development.rst:120
+msgid "Gary M. Josack, 2013-11-12"
+msgstr ""
+
+#: ../../development.rst:122
+msgid "Márk Sági-Kazár, 2013-12-16"
+msgstr ""
+

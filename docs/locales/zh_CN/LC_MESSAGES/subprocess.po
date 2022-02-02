@@ -1,0 +1,432 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2004-2022, Agendaless Consulting and Contributors
+# This file is distributed under the same license as the Supervisor package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Supervisor 4.3.0.dev0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-02 04:24+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../subprocess.rst:2
+msgid "Subprocesses"
+msgstr ""
+
+#: ../../subprocess.rst:4
+msgid ""
+":program:`supervisord`'s primary purpose is to create and manage "
+"processes based on data in its configuration file.  It does this by "
+"creating subprocesses.  Each subprocess spawned by supervisor is managed "
+"for the entirety of its lifetime by supervisord (:program:`supervisord` "
+"is the parent process of each process it creates).  When a child dies, "
+"supervisor is notified of its death via the ``SIGCHLD`` signal, and it "
+"performs the appropriate operation."
+msgstr ""
+
+#: ../../subprocess.rst:15
+msgid "Nondaemonizing of Subprocesses"
+msgstr ""
+
+#: ../../subprocess.rst:17
+msgid ""
+"Programs meant to be run under supervisor should not daemonize "
+"themselves.  Instead, they should run in the foreground.  They should not"
+" detach from the terminal from which they are started."
+msgstr ""
+
+#: ../../subprocess.rst:21
+msgid ""
+"The easiest way to tell if a program will run in the foreground is to run"
+" the command that invokes the program from a shell prompt.  If it gives "
+"you control of the terminal back, but continues running, it's daemonizing"
+" itself and that will almost certainly be the wrong way to run it under "
+"supervisor.  You want to run a command that essentially requires you to "
+"press :kbd:`Ctrl-C` to get control of the terminal back.  If it gives you"
+" a shell prompt back after running it without needing to press "
+":kbd:`Ctrl-C`, it's not useful under supervisor.  All programs have "
+"options to be run in the foreground but there's no \"standard way\" to do"
+" it; you'll need to read the documentation for each program."
+msgstr ""
+
+#: ../../subprocess.rst:33
+msgid ""
+"Below are configuration file examples that are known to start common "
+"programs in \"foreground\" mode under Supervisor."
+msgstr ""
+
+#: ../../subprocess.rst:37
+msgid "Examples of Program Configurations"
+msgstr ""
+
+#: ../../subprocess.rst:39
+msgid "Here are some \"real world\" program configuration examples:"
+msgstr ""
+
+#: ../../subprocess.rst:42
+msgid "Apache 2.2.6"
+msgstr ""
+
+#: ../../subprocess.rst:51
+msgid "Two Zope 2.X instances and one ZEO server"
+msgstr ""
+
+#: ../../subprocess.rst:70
+msgid "Postgres 8.X"
+msgstr ""
+
+#: ../../subprocess.rst:81
+msgid "OpenLDAP :program:`slapd`"
+msgstr ""
+
+#: ../../subprocess.rst:90
+msgid "Other Examples"
+msgstr ""
+
+#: ../../subprocess.rst:92
+msgid ""
+"Other examples of shell scripts that could be used to start services "
+"under :program:`supervisord` can be found at "
+"`http://thedjbway.b0llix.net/services.html "
+"<http://thedjbway.b0llix.net/services.html>`_.  These examples are "
+"actually for :program:`daemontools` but the premise is the same for "
+"supervisor."
+msgstr ""
+
+#: ../../subprocess.rst:99
+msgid ""
+"Another collection of recipes for starting various programs in the "
+"foreground is available from `http://smarden.org/runit/runscripts.html "
+"<http://smarden.org/runit/runscripts.html>`_."
+msgstr ""
+
+#: ../../subprocess.rst:104
+msgid ":program:`pidproxy` Program"
+msgstr ""
+
+#: ../../subprocess.rst:106
+msgid ""
+"Some processes (like :program:`mysqld`) ignore signals sent to the actual"
+" process which is spawned by :program:`supervisord`.  Instead, a "
+"\"special\" thread/process is created by these kinds of programs which is"
+" responsible for handling signals.  This is problematic because "
+":program:`supervisord` can only kill a process which it creates itself.  "
+"If a process created by :program:`supervisord` creates its own child "
+"processes, :program:`supervisord` cannot kill them."
+msgstr ""
+
+#: ../../subprocess.rst:114
+msgid ""
+"Fortunately, these types of programs typically write a \"pidfile\" which "
+"contains the \"special\" process' PID, and is meant to be read and used "
+"in order to kill the process.  As a workaround for this case, a special "
+":program:`pidproxy` program can handle startup of these kinds of "
+"processes.  The :program:`pidproxy` program is a small shim that starts a"
+" process, and upon the receipt of a signal, sends the signal to the pid "
+"provided in a pidfile.  A sample configuration program entry for a "
+"pidproxy-enabled program is provided below."
+msgstr ""
+
+#: ../../subprocess.rst:128
+msgid ""
+"The :program:`pidproxy` program is put into your configuration's "
+"``$BINDIR`` when supervisor is installed (it is a \"console script\")."
+msgstr ""
+
+#: ../../subprocess.rst:134
+msgid "Subprocess Environment"
+msgstr ""
+
+#: ../../subprocess.rst:136
+msgid ""
+"Subprocesses will inherit the environment of the shell used to start the "
+":program:`supervisord` program.  Several environment variables will be "
+"set by :program:`supervisord` itself in the child's environment also, "
+"including :envvar:`SUPERVISOR_ENABLED` (a flag indicating the process is "
+"under supervisor control), :envvar:`SUPERVISOR_PROCESS_NAME` (the config-"
+"file-specified process name for this process) and "
+":envvar:`SUPERVISOR_GROUP_NAME` (the config-file-specified process group "
+"name for the child process)."
+msgstr ""
+
+#: ../../subprocess.rst:145
+msgid ""
+"These environment variables may be overridden within the "
+"``[supervisord]`` section config option named ``environment`` (applies to"
+" all subprocesses) or within the per- ``[program:x]`` section "
+"``environment`` config option (applies only to the subprocess specified "
+"within the ``[program:x]`` section).  These \"environment\" settings are "
+"additive.  In other words, each subprocess' environment will consist of:"
+msgstr ""
+
+#: ../../subprocess.rst:153
+msgid ""
+"The environment variables set within the shell used to start "
+"supervisord..."
+msgstr ""
+
+#: ../../subprocess.rst:156 ../../subprocess.rst:161 ../../subprocess.rst:168
+msgid "... added-to/overridden-by ..."
+msgstr ""
+
+#: ../../subprocess.rst:171
+msgid "... the environment variables set within the \"environment\" global"
+msgstr ""
+
+#: ../../subprocess.rst:159
+msgid "config option ..."
+msgstr ""
+
+#: ../../subprocess.rst:166
+msgid "... supervisor-specific environment variables"
+msgstr ""
+
+#: ../../subprocess.rst:164
+msgid ""
+"(:envvar:`SUPERVISOR_ENABLED`, :envvar:`SUPERVISOR_PROCESS_NAME`, "
+":envvar:`SUPERVISOR_GROUP_NAME`) .."
+msgstr ""
+
+#: ../../subprocess.rst:171
+msgid "... the environment variables set within the per-process"
+msgstr ""
+
+#: ../../subprocess.rst:171
+msgid "\"environment\" config option."
+msgstr ""
+
+#: ../../subprocess.rst:173
+msgid ""
+"No shell is executed by :program:`supervisord` when it runs a subprocess,"
+" so environment variables such as :envvar:`USER`, :envvar:`PATH`, "
+":envvar:`HOME`, :envvar:`SHELL`, :envvar:`LOGNAME`, etc. are not changed "
+"from their defaults or otherwise reassigned. This is particularly "
+"important to note when you are running a program from a "
+":program:`supervisord` run as root with a ``user=`` stanza in the "
+"configuration.  Unlike :program:`cron`, :program:`supervisord` does not "
+"attempt to divine and override \"fundamental\" environment variables like"
+" :envvar:`USER`, :envvar:`PATH`, :envvar:`HOME`, and :envvar:`LOGNAME` "
+"when it performs a setuid to the user defined within the ``user=`` "
+"program config option.  If you need to set environment variables for a "
+"particular program that might otherwise be set by a shell invocation for "
+"a particular user, you must do it explicitly within the ``environment=`` "
+"program config option.  An example of setting these environment variables"
+" is as below."
+msgstr ""
+
+#: ../../subprocess.rst:199
+msgid "Process States"
+msgstr ""
+
+#: ../../subprocess.rst:201
+msgid ""
+"A process controlled by supervisord will be in one of the below states at"
+" any given time.  You may see these state names in various user interface"
+" elements in clients."
+msgstr ""
+
+#: ../../subprocess.rst:205
+msgid "``STOPPED`` (0)"
+msgstr ""
+
+#: ../../subprocess.rst:207
+msgid ""
+"The process has been stopped due to a stop request or has never been "
+"started."
+msgstr ""
+
+#: ../../subprocess.rst:210
+msgid "``STARTING`` (10)"
+msgstr ""
+
+#: ../../subprocess.rst:212
+msgid "The process is starting due to a start request."
+msgstr ""
+
+#: ../../subprocess.rst:214
+msgid "``RUNNING`` (20)"
+msgstr ""
+
+#: ../../subprocess.rst:216
+msgid "The process is running."
+msgstr ""
+
+#: ../../subprocess.rst:218
+msgid "``BACKOFF`` (30)"
+msgstr ""
+
+#: ../../subprocess.rst:220
+msgid ""
+"The process entered the ``STARTING`` state but subsequently exited too "
+"quickly (before the time defined in ``startsecs``) to move to the "
+"``RUNNING`` state."
+msgstr ""
+
+#: ../../subprocess.rst:224
+msgid "``STOPPING`` (40)"
+msgstr ""
+
+#: ../../subprocess.rst:226
+msgid "The process is stopping due to a stop request."
+msgstr ""
+
+#: ../../subprocess.rst:228
+msgid "``EXITED`` (100)"
+msgstr ""
+
+#: ../../subprocess.rst:230
+msgid ""
+"The process exited from the ``RUNNING`` state (expectedly or "
+"unexpectedly)."
+msgstr ""
+
+#: ../../subprocess.rst:233
+msgid "``FATAL`` (200)"
+msgstr ""
+
+#: ../../subprocess.rst:235
+msgid "The process could not be started successfully."
+msgstr ""
+
+#: ../../subprocess.rst:237
+msgid "``UNKNOWN`` (1000)"
+msgstr ""
+
+#: ../../subprocess.rst:239
+msgid ""
+"The process is in an unknown state (:program:`supervisord` programming "
+"error)."
+msgstr ""
+
+#: ../../subprocess.rst:242
+msgid ""
+"Each process run under supervisor progresses through these states as per "
+"the following directed graph."
+msgstr ""
+
+#: ../../subprocess.rst:248
+msgid "Subprocess State Transition Graph"
+msgstr ""
+
+#: ../../subprocess.rst:250
+msgid ""
+"A process is in the ``STOPPED`` state if it has been stopped "
+"adminstratively or if it has never been started."
+msgstr ""
+
+#: ../../subprocess.rst:253
+msgid ""
+"When an autorestarting process is in the ``BACKOFF`` state, it will be "
+"automatically restarted by :program:`supervisord`.  It will switch "
+"between ``STARTING`` and ``BACKOFF`` states until it becomes evident that"
+" it cannot be started because the number of ``startretries`` has exceeded"
+" the maximum, at which point it will transition to the ``FATAL`` state."
+msgstr ""
+
+#: ../../subprocess.rst:261
+msgid ""
+"Retries will take increasingly more time depending on the number of "
+"subsequent attempts made, adding one second each time."
+msgstr ""
+
+#: ../../subprocess.rst:264
+msgid ""
+"So if you set ``startretries=3``, :program:`supervisord` will wait one, "
+"two and then three seconds between each restart attempt, for a total of 5"
+" seconds."
+msgstr ""
+
+#: ../../subprocess.rst:268
+msgid "When a process is in the ``EXITED`` state, it will automatically restart:"
+msgstr ""
+
+#: ../../subprocess.rst:271
+msgid "never if its ``autorestart`` parameter is set to ``false``."
+msgstr ""
+
+#: ../../subprocess.rst:273
+msgid "unconditionally if its ``autorestart`` parameter is set to ``true``."
+msgstr ""
+
+#: ../../subprocess.rst:275
+msgid ""
+"conditionally if its ``autorestart`` parameter is set to ``unexpected``."
+"  If it exited with an exit code that doesn't match one of the exit codes"
+" defined in the ``exitcodes`` configuration parameter for the process, it"
+" will be restarted."
+msgstr ""
+
+#: ../../subprocess.rst:280
+msgid ""
+"A process automatically transitions from ``EXITED`` to ``RUNNING`` as a "
+"result of being configured to autorestart conditionally or "
+"unconditionally.  The number of transitions between ``RUNNING`` and "
+"``EXITED`` is not limited in any way: it is possible to create a "
+"configuration that endlessly restarts an exited process.  This is a "
+"feature, not a bug."
+msgstr ""
+
+#: ../../subprocess.rst:287
+msgid ""
+"An autorestarted process will never be automatically restarted if it ends"
+" up in the ``FATAL`` state (it must be manually restarted from this "
+"state)."
+msgstr ""
+
+#: ../../subprocess.rst:291
+msgid ""
+"A process transitions into the ``STOPPING`` state via an administrative "
+"stop request, and will then end up in the ``STOPPED`` state."
+msgstr ""
+
+#: ../../subprocess.rst:295
+msgid ""
+"A process that cannot be stopped successfully will stay in the "
+"``STOPPING`` state forever.  This situation should never be reached "
+"during normal operations as it implies that the process did not respond "
+"to a final ``SIGKILL`` signal sent to it by supervisor, which is "
+"\"impossible\" under UNIX."
+msgstr ""
+
+#: ../../subprocess.rst:301
+msgid "State transitions which always require user action to invoke are these:"
+msgstr ""
+
+#: ../../subprocess.rst:304
+msgid "``FATAL``   -> ``STARTING``"
+msgstr ""
+
+#: ../../subprocess.rst:306
+msgid "``RUNNING`` -> ``STOPPING``"
+msgstr ""
+
+#: ../../subprocess.rst:308
+msgid ""
+"State transitions which typically, but not always, require user action to"
+" invoke are these, with exceptions noted:"
+msgstr ""
+
+#: ../../subprocess.rst:311
+msgid ""
+"``STOPPED`` -> ``STARTING`` (except at supervisord startup if process is "
+"configured to autostart)"
+msgstr ""
+
+#: ../../subprocess.rst:314
+msgid ""
+"``EXITED`` -> ``STARTING`` (except if process is configured to "
+"autorestart)"
+msgstr ""
+
+#: ../../subprocess.rst:317
+msgid "All other state transitions are managed by supervisord automatically."
+msgstr ""
+

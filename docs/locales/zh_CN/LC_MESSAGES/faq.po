@@ -1,0 +1,83 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2004-2022, Agendaless Consulting and Contributors
+# This file is distributed under the same license as the Supervisor package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Supervisor 4.3.0.dev0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-02 04:24+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../faq.rst:2
+msgid "Frequently Asked Questions"
+msgstr ""
+
+#: ../../faq.rst:5 ../../faq.rst:14 ../../faq.rst:26 ../../faq.rst:34
+msgid "Q"
+msgstr ""
+
+#: ../../faq.rst:5
+msgid "My program never starts and supervisor doesn't indicate any error?"
+msgstr ""
+
+#: ../../faq.rst:9 ../../faq.rst:21 ../../faq.rst:30 ../../faq.rst:38
+msgid "A"
+msgstr ""
+
+#: ../../faq.rst:8
+msgid ""
+"Make sure the ``x`` bit is set on the executable file you're using in the"
+" ``command=`` line of your program section."
+msgstr ""
+
+#: ../../faq.rst:12
+msgid ""
+"I am a software author and I want my program to behave differently when "
+"it's running under :program:`supervisord`.  How can I tell if my program "
+"is running under :program:`supervisord`?"
+msgstr ""
+
+#: ../../faq.rst:17
+msgid ""
+"Supervisor and its subprocesses share an environment variable "
+":envvar:`SUPERVISOR_ENABLED`.  When your program is run under "
+":program:`supervisord`, it can check for the presence of this environment"
+" variable to determine whether it is running as a :program:`supervisord` "
+"subprocess."
+msgstr ""
+
+#: ../../faq.rst:24
+msgid ""
+"My command works fine when I invoke it by hand from a shell prompt, but "
+"when I use the same command line in a supervisor program ``command=`` "
+"section, the program fails mysteriously.  Why?"
+msgstr ""
+
+#: ../../faq.rst:29
+msgid ""
+"This may be due to your process' dependence on environment variable "
+"settings.  See :ref:`subprocess_environment`."
+msgstr ""
+
+#: ../../faq.rst:33
+msgid ""
+"How can I make Supervisor restart a process that's using \"too much\" "
+"memory automatically?"
+msgstr ""
+
+#: ../../faq.rst:37
+msgid ""
+"The :term:`Superlance` package contains a console script that can be used"
+" as a Supervisor event listener named ``memmon`` which helps with this "
+"task.  It works on Linux and Mac OS X."
+msgstr ""
+

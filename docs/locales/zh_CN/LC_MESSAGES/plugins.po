@@ -1,0 +1,609 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2004-2022, Agendaless Consulting and Contributors
+# This file is distributed under the same license as the Supervisor package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Supervisor 4.3.0.dev0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-02 04:24+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../plugins.rst:2
+msgid "Third Party Applications and Libraries"
+msgstr ""
+
+#: ../../plugins.rst:4
+msgid ""
+"There are a number of third party applications that can be useful "
+"together with Supervisor. This list aims to summarize them and make them "
+"easier to find."
+msgstr ""
+
+#: ../../plugins.rst:8
+msgid "See README.rst for information on how to contribute to this list."
+msgstr ""
+
+#: ../../plugins.rst:11
+msgid "Dashboards and Tools for Multiple Supervisor Instances"
+msgstr ""
+
+#: ../../plugins.rst:13
+msgid ""
+"These are tools that can monitor or control a number of Supervisor "
+"instances running on different servers."
+msgstr ""
+
+#: ../../plugins.rst:17
+msgid "`cesi <https://github.com/Gamegos/cesi>`_"
+msgstr ""
+
+#: ../../plugins.rst:17
+msgid "Web-based dashboard written in Python."
+msgstr ""
+
+#: ../../plugins.rst:20
+msgid "`Django-Dashvisor <https://github.com/aleszoulek/django-dashvisor>`_"
+msgstr ""
+
+#: ../../plugins.rst:20
+msgid "Web-based dashboard written in Python.  Requires Django 1.3 or 1.4."
+msgstr ""
+
+#: ../../plugins.rst:23
+msgid "`Nodervisor <https://github.com/TAKEALOT/nodervisor>`_"
+msgstr ""
+
+#: ../../plugins.rst:23
+msgid "Web-based dashboard written in Node.js."
+msgstr ""
+
+#: ../../plugins.rst:26
+msgid "`Supervisord-Monitor <https://github.com/mlazarov/supervisord-monitor>`_"
+msgstr ""
+
+#: ../../plugins.rst:26
+msgid "Web-based dashboard written in PHP."
+msgstr ""
+
+#: ../../plugins.rst:29
+msgid "`SupervisorUI <https://github.com/luxbet/supervisorui>`_"
+msgstr ""
+
+#: ../../plugins.rst:29
+msgid "Another Web-based dashboard written in PHP."
+msgstr ""
+
+#: ../../plugins.rst:33
+msgid "`supervisorclusterctl <https://github.com/RobWin/supervisorclusterctl>`_"
+msgstr ""
+
+#: ../../plugins.rst:32
+msgid ""
+"Command line tool for controlling multiple Supervisor instances using "
+"Ansible."
+msgstr ""
+
+#: ../../plugins.rst:36
+msgid "`suponoff <https://github.com/GambitResearch/suponoff>`_"
+msgstr ""
+
+#: ../../plugins.rst:36
+msgid "Web-based dashboard written in Python 3.  Requires Django 1.7 or later."
+msgstr ""
+
+#: ../../plugins.rst:40
+msgid "`Supvisors <https://github.com/julien6387/supvisors>`_"
+msgstr ""
+
+#: ../../plugins.rst:39
+msgid ""
+"Designed for distributed applications, written in Python 3.6. Includes an"
+" extended XML-RPC API, a Web-based dashboard and special features such as"
+" staged start and stop."
+msgstr ""
+
+#: ../../plugins.rst:46
+msgid "`multivisor <https://github.com/tiagocoutinho/multivisor>`_"
+msgstr ""
+
+#: ../../plugins.rst:43
+msgid ""
+"Centralized supervisor web-based dashboard. The frontend is based on "
+"`VueJS <https://vuejs.org>`_. The backend runs a `flask "
+"<http://flask.pocoo.org>`_ web server. It communicates with each "
+"supervisor through a specialized supervisor event-listener based on "
+"`zerorpc <http://www.zerorpc.io>`_."
+msgstr ""
+
+#: ../../plugins.rst:50
+msgid "`Dart <https://github.com/plockaby/dart>`_"
+msgstr ""
+
+#: ../../plugins.rst:49
+msgid ""
+"Web-based dashboard and command line tool written in Python using "
+"PostgreSQL with a REST API, event monitoring, and configuration "
+"management."
+msgstr ""
+
+#: ../../plugins.rst:53
+msgid "Third Party Plugins and Libraries for Supervisor"
+msgstr ""
+
+#: ../../plugins.rst:55
+msgid ""
+"These are plugins and libraries that add new functionality to Supervisor."
+" These also includes various event listeners."
+msgstr ""
+
+#: ../../plugins.rst:59
+msgid "`superlance <https://pypi.org/pypi/superlance/>`_"
+msgstr ""
+
+#: ../../plugins.rst:59
+msgid ""
+"Provides set of common eventlisteners that can be used to monitor and, "
+"for example, restart when it uses too much memory etc."
+msgstr ""
+
+#: ../../plugins.rst:61
+msgid "`superhooks <https://pypi.org/project/superhooks/>`_"
+msgstr ""
+
+#: ../../plugins.rst:62
+msgid "Send Supervisor event notifications to HTTP1.1 webhooks."
+msgstr ""
+
+#: ../../plugins.rst:64
+msgid "`mr.rubber <https://github.com/collective/mr.rubber>`_"
+msgstr ""
+
+#: ../../plugins.rst:64
+msgid ""
+"An event listener that makes it possible to scale the number of processes"
+" to the number of cores on the supervisor host."
+msgstr ""
+
+#: ../../plugins.rst:68
+msgid ""
+"`supervisor-wildcards <https://github.com/aleszoulek/supervisor-"
+"wildcards>`_"
+msgstr ""
+
+#: ../../plugins.rst:67
+msgid ""
+"Implements start/stop/restart commands with wildcard support for "
+"Supervisor.  These commands run in parallel and can be much faster than "
+"the built-in start/stop/restart commands."
+msgstr ""
+
+#: ../../plugins.rst:73
+msgid "`mr.laforge <https://github.com/fschulze/mr.laforge>`_"
+msgstr ""
+
+#: ../../plugins.rst:71
+msgid ""
+"Lets you easily make sure that ``supervisord`` and specific processes "
+"controlled by it are running from within shell and Python scripts. Also "
+"adds a ``kill`` command to supervisor that makes it possible to send "
+"arbitrary signals to child processes."
+msgstr ""
+
+#: ../../plugins.rst:78
+msgid "`supervisor_cache <https://github.com/mnaberez/supervisor_cache>`_"
+msgstr ""
+
+#: ../../plugins.rst:76
+msgid ""
+"An extension for Supervisor that provides the ability to cache arbitrary "
+"data directly inside a Supervisor instance as key/value pairs. Also "
+"serves as a reference for how to write Supervisor extensions."
+msgstr ""
+
+#: ../../plugins.rst:82
+msgid "`supervisor_twiddler <https://github.com/mnaberez/supervisor_twiddler>`_"
+msgstr ""
+
+#: ../../plugins.rst:81
+msgid ""
+"An RPC extension for Supervisor that allows Supervisor's configuration "
+"and state to be manipulated in ways that are not normally possible at "
+"runtime."
+msgstr ""
+
+#: ../../plugins.rst:84
+msgid "`supervisor-stdout <https://github.com/coderanger/supervisor-stdout>`_"
+msgstr ""
+
+#: ../../plugins.rst:85
+msgid "An event listener that sends process output to supervisord's stdout."
+msgstr ""
+
+#: ../../plugins.rst:87
+msgid ""
+"`supervisor-serialrestart <https://github.com/native2k/supervisor-"
+"serialrestart>`_"
+msgstr ""
+
+#: ../../plugins.rst:87
+msgid ""
+"Adds a ``serialrestart`` command to ``supervisorctl`` that restarts "
+"processes one after another rather than all at once."
+msgstr ""
+
+#: ../../plugins.rst:93
+msgid "`supervisor-quick <http://lxyu.github.io/supervisor-quick/>`_"
+msgstr ""
+
+#: ../../plugins.rst:90
+msgid ""
+"Adds ``quickstart``, ``quickstop``, and ``quickrestart`` commands to "
+"``supervisorctl`` that can be faster than the built-in commands.  It "
+"works by using the non-blocking mode of the XML-RPC methods and then "
+"polling ``supervisord``.  The built-in commands use the blocking mode, "
+"which can be slower due to ``supervisord`` implementation details."
+msgstr ""
+
+#: ../../plugins.rst:96
+msgid "`supervisor-logging <https://github.com/infoxchange/supervisor-logging>`_"
+msgstr ""
+
+#: ../../plugins.rst:96
+msgid ""
+"An event listener that sends process log events to an external Syslog "
+"instance (e.g. Logstash)."
+msgstr ""
+
+#: ../../plugins.rst:98
+msgid ""
+"`supervisor-logstash-notifier <https://github.com/dohop/supervisor-"
+"logstash-notifier>`_"
+msgstr ""
+
+#: ../../plugins.rst:99
+msgid "An event listener plugin to stream state events to a Logstash instance."
+msgstr ""
+
+#: ../../plugins.rst:102
+msgid "`supervisor_cgroups <https://github.com/htch/supervisor_cgroups>`_"
+msgstr ""
+
+#: ../../plugins.rst:101
+msgid ""
+"An event listener that enables tying Supervisor processes to a cgroup "
+"hierarchy.  It is intended to be used as a replacement for `cgrules.conf "
+"<http://linux.die.net/man/5/cgrules.conf>`_."
+msgstr ""
+
+#: ../../plugins.rst:107
+msgid "`supervisor_checks <https://github.com/vovanec/supervisor_checks>`_"
+msgstr ""
+
+#: ../../plugins.rst:105
+msgid ""
+"Framework to build health checks for Supervisor-based services. Health "
+"check applications are supposed to run as event listeners in Supervisor "
+"environment. On check failure Supervisor will attempt to restart "
+"monitored process."
+msgstr ""
+
+#: ../../plugins.rst:113
+msgid "`Superfsmon <https://github.com/timakro/superfsmon>`_"
+msgstr ""
+
+#: ../../plugins.rst:110
+msgid ""
+"Watch a directory and restart programs when files change.  It can monitor"
+" a directory for changes, filter the file paths by glob patterns or "
+"regular expressions and restart Supervisor programs individually or by "
+"group."
+msgstr ""
+
+#: ../../plugins.rst:116
+msgid "Libraries that integrate Third Party Applications with Supervisor"
+msgstr ""
+
+#: ../../plugins.rst:118
+msgid ""
+"These are libraries and plugins that makes it easier to use Supervisor "
+"with third party applications:"
+msgstr ""
+
+#: ../../plugins.rst:121
+msgid ""
+"`collective.recipe.supervisor "
+"<https://pypi.org/pypi/collective.recipe.supervisor/>`_"
+msgstr ""
+
+#: ../../plugins.rst:122
+msgid "A buildout recipe to install supervisor."
+msgstr ""
+
+#: ../../plugins.rst:123
+msgid ""
+"`puppet-module-supervisor <https://github.com/plathrop/puppet-module-"
+"supervisor>`_"
+msgstr ""
+
+#: ../../plugins.rst:124
+msgid "Puppet module for configuring the supervisor daemon tool."
+msgstr ""
+
+#: ../../plugins.rst:125
+msgid "`puppet-supervisord <https://github.com/ajcrowe/puppet-supervisord>`_"
+msgstr ""
+
+#: ../../plugins.rst:126
+msgid "Puppet module to manage the supervisord process control system."
+msgstr ""
+
+#: ../../plugins.rst:128
+msgid "`ngx_supervisord <https://github.com/FRiCKLE/ngx_supervisord>`_"
+msgstr ""
+
+#: ../../plugins.rst:128
+msgid ""
+"An nginx module providing API to communicate with supervisord and manage "
+"(start/stop) backends on-demand."
+msgstr ""
+
+#: ../../plugins.rst:130
+msgid ""
+"`Supervisord-Nagios-Plugin <https://github.com/Level-Up/Supervisord-"
+"Nagios-Plugin>`_"
+msgstr ""
+
+#: ../../plugins.rst:131
+msgid ""
+"A Nagios/Icinga plugin written in Python to monitor individual "
+"supervisord processes."
+msgstr ""
+
+#: ../../plugins.rst:132
+msgid ""
+"`nagios-supervisord-processes <https://github.com/blablacar/nagios-"
+"supervisord-processes>`_"
+msgstr ""
+
+#: ../../plugins.rst:133
+msgid ""
+"A Nagios/Icinga plugin written in PHP to monitor individual supervisord "
+"processes."
+msgstr ""
+
+#: ../../plugins.rst:135
+msgid "`supervisord-nagios <https://github.com/3dna/supervisord-nagios>`_"
+msgstr ""
+
+#: ../../plugins.rst:135
+msgid ""
+"A plugin for supervisorctl to allow one to perform nagios-style checks "
+"against supervisord-managed processes."
+msgstr ""
+
+#: ../../plugins.rst:137
+msgid ""
+"`php-supervisor-event <https://github.com/mtdowling/php-supervisor-"
+"event>`_"
+msgstr ""
+
+#: ../../plugins.rst:138
+msgid "PHP classes for interacting with Supervisor event notifications."
+msgstr ""
+
+#: ../../plugins.rst:139
+msgid "`PHP5 Supervisor wrapper <https://github.com/yzalis/Supervisor>`_"
+msgstr ""
+
+#: ../../plugins.rst:140
+msgid "PHP 5 library to manage Supervisor instances as object."
+msgstr ""
+
+#: ../../plugins.rst:141
+msgid "`Symfony2 SupervisorBundle <https://github.com/yzalis/SupervisorBundle>`_"
+msgstr ""
+
+#: ../../plugins.rst:142
+msgid ""
+"Provide full integration of Supervisor multiple servers management into "
+"Symfony2 project."
+msgstr ""
+
+#: ../../plugins.rst:144
+msgid "`sd-supervisord <https://github.com/robcowie/sd-supervisord>`_"
+msgstr ""
+
+#: ../../plugins.rst:144
+msgid "`Server Density <http://www.serverdensity.com>`_ plugin for supervisor."
+msgstr ""
+
+#: ../../plugins.rst:146
+msgid "`node-supervisord <https://github.com/crcn/node-supervisord>`_"
+msgstr ""
+
+#: ../../plugins.rst:147
+msgid "Node.js client for Supervisor's XML-RPC interface."
+msgstr ""
+
+#: ../../plugins.rst:148
+msgid ""
+"`node-supervisord-eventlistener <https://github.com/sugendran/node-"
+"supervisord-eventlistener>`_"
+msgstr ""
+
+#: ../../plugins.rst:149
+msgid "Node.js implementation of an event listener for Supervisor."
+msgstr ""
+
+#: ../../plugins.rst:150
+msgid "`ruby-supervisor <https://github.com/schmurfy/ruby-supervisor>`_"
+msgstr ""
+
+#: ../../plugins.rst:151
+msgid "Ruby client library for Supervisor's XML-RPC interface."
+msgstr ""
+
+#: ../../plugins.rst:152
+msgid "`Sulphite <https://github.com/jib/sulphite>`_"
+msgstr ""
+
+#: ../../plugins.rst:153
+msgid ""
+"Sends supervisord events to `Graphite <https://github.com/graphite-"
+"project/graphite-web>`_."
+msgstr ""
+
+#: ../../plugins.rst:154
+msgid ""
+"`supervisord.tmbundle "
+"<https://github.com/countergram/supervisord.tmbundle>`_"
+msgstr ""
+
+#: ../../plugins.rst:155
+msgid "`TextMate <http://macromates.com/>`_ bundle for supervisord.conf."
+msgstr ""
+
+#: ../../plugins.rst:156
+msgid "`capistrano-supervisord <https://github.com/yyuu/capistrano-supervisord>`_"
+msgstr ""
+
+#: ../../plugins.rst:157
+msgid ""
+"`Capistrano <https://github.com/capistrano/capistrano>`_ recipe to deploy"
+" supervisord based services."
+msgstr ""
+
+#: ../../plugins.rst:158
+msgid "`capistrano-supervisor <https://github.com/glooby/capistrano-supervisor>`_"
+msgstr ""
+
+#: ../../plugins.rst:159
+msgid ""
+"Another package to control supervisord from `Capistrano "
+"<https://github.com/capistrano/capistrano>`_."
+msgstr ""
+
+#: ../../plugins.rst:160
+msgid "`chef-supervisor <https://github.com/opscode-cookbooks/supervisor>`_"
+msgstr ""
+
+#: ../../plugins.rst:161
+msgid ""
+"`Chef <http://www.opscode.com/chef/>`_ cookbook install and configure "
+"supervisord."
+msgstr ""
+
+#: ../../plugins.rst:162
+msgid "`SupervisorPHP <http://supervisorphp.com>`_"
+msgstr ""
+
+#: ../../plugins.rst:163
+msgid ""
+"Complete Supervisor suite in PHP: Client using XML-RPC interface, event "
+"listener and configuration builder implementation, console application "
+"and monitor UI."
+msgstr ""
+
+#: ../../plugins.rst:164
+msgid ""
+"`Supervisord-Client <http://search.cpan.org/~skaufman/Supervisord-"
+"Client>`_"
+msgstr ""
+
+#: ../../plugins.rst:165
+msgid "Perl client for the supervisord XML-RPC interface."
+msgstr ""
+
+#: ../../plugins.rst:166
+msgid "`supervisord4j <https://github.com/satifanie/supervisord4j>`_"
+msgstr ""
+
+#: ../../plugins.rst:167
+msgid "Java client for Supervisor's XML-RPC interface."
+msgstr ""
+
+#: ../../plugins.rst:169
+msgid "`Supermann <https://github.com/borntyping/supermann>`_"
+msgstr ""
+
+#: ../../plugins.rst:169
+msgid ""
+"Supermann monitors processes running under Supervisor and sends metrics "
+"to `Riemann <http://riemann.io/>`_."
+msgstr ""
+
+#: ../../plugins.rst:171
+msgid "`gulp-supervisor <https://github.com/leny/gulp-supervisor>`_"
+msgstr ""
+
+#: ../../plugins.rst:172
+msgid "Run Supervisor as a `Gulp <http://gulpjs.com/>`_ task."
+msgstr ""
+
+#: ../../plugins.rst:173
+msgid "`Yeebase.Supervisor <https://github.com/yeebase/Yeebase.Supervisor>`_"
+msgstr ""
+
+#: ../../plugins.rst:174
+msgid "Control and monitor Supervisor from a TYPO3 Flow application."
+msgstr ""
+
+#: ../../plugins.rst:176
+msgid "`dokku-supervisord <https://github.com/statianzo/dokku-supervisord>`_"
+msgstr ""
+
+#: ../../plugins.rst:176
+msgid ""
+"`Dokku <https://github.com/progrium/dokku>`_ plugin that injects "
+"``supervisord`` to run applications."
+msgstr ""
+
+#: ../../plugins.rst:180
+msgid ""
+"`dokku-logging-supervisord <https://github.com/sehrope/dokku-logging-"
+"supervisord>`_"
+msgstr ""
+
+#: ../../plugins.rst:179
+msgid ""
+"`Dokku <https://github.com/progrium/dokku>`_ plugin that injects "
+"``supervisord`` to run applications.  It also redirects ``stdout`` and "
+"``stderr`` from processes to log files (rather than the Docker default "
+"per-container JSON files)."
+msgstr ""
+
+#: ../../plugins.rst:182
+msgid "`superslacker <https://github.com/MTSolutions/superslacker>`_"
+msgstr ""
+
+#: ../../plugins.rst:183
+msgid "Send Supervisor event notifications to `Slack <https://slack.com>`_."
+msgstr ""
+
+#: ../../plugins.rst:185
+msgid "`supervisor-alert <https://github.com/rahiel/supervisor-alert>`_"
+msgstr ""
+
+#: ../../plugins.rst:185
+msgid ""
+"Send event notifications over `Telegram <https://telegram.org>`_ or to an"
+" arbitrary command."
+msgstr ""
+
+#: ../../plugins.rst:187
+msgid "`supervisor-discord <https://github.com/chaos-a/supervisor-discord>`_"
+msgstr ""
+
+#: ../../plugins.rst:188
+msgid "Send event notifications to `Discord <https://discord.com>`_ via webhooks."
+msgstr ""
+

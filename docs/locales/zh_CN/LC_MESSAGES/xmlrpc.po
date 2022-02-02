@@ -1,0 +1,77 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2004-2022, Agendaless Consulting and Contributors
+# This file is distributed under the same license as the Supervisor package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Supervisor 4.3.0.dev0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-02 04:24+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../xmlrpc.rst:2
+msgid "Extending Supervisor's XML-RPC API"
+msgstr ""
+
+#: ../../xmlrpc.rst:4
+msgid ""
+"Supervisor can be extended with new XML-RPC APIs.  Several third-party "
+"plugins already exist that can be wired into your Supervisor "
+"configuration.  You may additionally write your own.  Extensible XML-RPC "
+"interfaces is an advanced feature, introduced in version 3.0. You needn't"
+" understand it unless you wish to use an existing third-party RPC "
+"interface plugin or if you wish to write your own RPC interface plugin."
+msgstr ""
+
+#: ../../xmlrpc.rst:15
+msgid "Configuring XML-RPC Interface Factories"
+msgstr ""
+
+#: ../../xmlrpc.rst:17
+msgid ""
+"An additional RPC interface is configured into a supervisor installation "
+"by adding a ``[rpcinterface:x]`` section in the Supervisor configuration "
+"file."
+msgstr ""
+
+#: ../../xmlrpc.rst:21
+msgid ""
+"In the sample config file, there is a section which is named "
+"``[rpcinterface:supervisor]``.  By default it looks like this:"
+msgstr ""
+
+#: ../../xmlrpc.rst:29
+msgid ""
+"This section *must* remain in the configuration for the standard setup of"
+" supervisor to work properly.  If you don't want supervisor to do "
+"anything it doesn't already do out of the box, this is all you need to "
+"know about this type of section."
+msgstr ""
+
+#: ../../xmlrpc.rst:34
+msgid ""
+"However, if you wish to add additional XML-RPC interface namespaces to a "
+"configuration of supervisor, you may add additional "
+"``[rpcinterface:foo]`` sections, where \"foo\" represents the namespace "
+"of the interface (from the web root), and the value named by "
+"``supervisor.rpcinterface_factory`` is a factory callable written in "
+"Python which should have a function signature that accepts a single "
+"positional argument ``supervisord`` and as many keyword arguments as "
+"required to perform configuration.  Any key/value pairs defined within "
+"the ``rpcinterface:foo`` section will be passed as keyword arguments to "
+"the factory.  Here's an example of a factory function, created in the "
+"package ``my.package``."
+msgstr ""
+
+#: ../../xmlrpc.rst:53
+msgid "And a section in the config file meant to configure it."
+msgstr ""
+

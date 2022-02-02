@@ -1,0 +1,200 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2004-2022, Agendaless Consulting and Contributors
+# This file is distributed under the same license as the Supervisor package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Supervisor 4.3.0.dev0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-02 04:24+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../installing.rst:2
+msgid "Installing"
+msgstr ""
+
+#: ../../installing.rst:4
+msgid ""
+"Installation instructions depend whether the system on which you're "
+"attempting to install Supervisor has internet access."
+msgstr ""
+
+#: ../../installing.rst:8
+msgid "Installing to A System With Internet Access"
+msgstr ""
+
+#: ../../installing.rst:11
+msgid "Internet-Installing With Pip"
+msgstr ""
+
+#: ../../installing.rst:13
+msgid "Supervisor can be installed with ``pip install``:"
+msgstr ""
+
+#: ../../installing.rst:19
+msgid ""
+"Depending on the permissions of your system's Python, you might need to "
+"be the root user to install Supervisor successfully using ``pip``."
+msgstr ""
+
+#: ../../installing.rst:23
+msgid "You can also install supervisor in a virtualenv via ``pip``."
+msgstr ""
+
+#: ../../installing.rst:26
+msgid "Internet-Installing Without Pip"
+msgstr ""
+
+#: ../../installing.rst:28
+msgid ""
+"If your system does not have ``pip`` installed, you will need to download"
+" the Supervisor distribution and install it by hand.  Current and "
+"previous Supervisor releases may be downloaded from `PyPi "
+"<https://pypi.org/pypi/supervisor/>`_.  After unpacking the software "
+"archive, run ``python setup.py install``.  This requires internet access."
+"  It will download and install all distributions depended upon by "
+"Supervisor and finally install Supervisor itself."
+msgstr ""
+
+#: ../../installing.rst:38
+msgid ""
+"Depending on the permissions of your system's Python, you might need to "
+"be the root user to successfully invoke ``python setup.py install``."
+msgstr ""
+
+#: ../../installing.rst:43
+msgid "Installing To A System Without Internet Access"
+msgstr ""
+
+#: ../../installing.rst:45
+msgid ""
+"If the system that you want to install Supervisor to does not have "
+"Internet access, you'll need to perform installation slightly "
+"differently.  Since both ``pip`` and ``python setup.py install`` depend "
+"on internet access to perform downloads of dependent software, neither "
+"will work on machines without internet access until dependencies are "
+"installed.  To install to a machine which is not internet-connected, "
+"obtain the following dependencies on a machine which is internet-"
+"connected:"
+msgstr ""
+
+#: ../../installing.rst:54
+msgid ""
+"setuptools (latest) from `https://pypi.org/pypi/setuptools/ "
+"<https://pypi.org/pypi/setuptools/>`_."
+msgstr ""
+
+#: ../../installing.rst:57
+msgid ""
+"Copy these files to removable media and put them on the target machine.  "
+"Install each onto the target machine as per its instructions.  This "
+"typically just means unpacking each file and invoking ``python setup.py "
+"install`` in the unpacked directory. Finally, run supervisor's ``python "
+"setup.py install``."
+msgstr ""
+
+#: ../../installing.rst:65
+msgid ""
+"Depending on the permissions of your system's Python, you might need to "
+"be the root user to invoke ``python setup.py install`` successfully for "
+"each package."
+msgstr ""
+
+#: ../../installing.rst:70
+msgid "Installing a Distribution Package"
+msgstr ""
+
+#: ../../installing.rst:72
+msgid ""
+"Some Linux distributions offer a version of Supervisor that is "
+"installable through the system package manager.  These packages are made "
+"by third parties, not the Supervisor developers, and often include "
+"distribution-specific changes to Supervisor."
+msgstr ""
+
+#: ../../installing.rst:77
+msgid ""
+"Use the package management tools of your distribution to check "
+"availability; e.g. on Ubuntu you can run ``apt-cache show supervisor``, "
+"and on CentOS you can run ``yum info supervisor``."
+msgstr ""
+
+#: ../../installing.rst:81
+msgid ""
+"A feature of distribution packages of Supervisor is that they will "
+"usually include integration into the service management infrastructure of"
+" the distribution, e.g. allowing ``supervisord`` to automatically start "
+"when the system boots."
+msgstr ""
+
+#: ../../installing.rst:88
+msgid ""
+"Distribution packages of Supervisor can lag considerably behind the "
+"official Supervisor packages released to PyPI.  For example, Ubuntu 12.04"
+" (released April 2012) offered a package based on Supervisor 3.0a8 "
+"(released January 2010).  Lag is often caused by the software release "
+"policy set by a given distribution."
+msgstr ""
+
+#: ../../installing.rst:96
+msgid ""
+"Users reported that the distribution package of Supervisor for Ubuntu "
+"16.04 had different behavior than previous versions.  On Ubuntu 10.04, "
+"12.04, and 14.04, installing the package will configure the system to "
+"start ``supervisord`` when the system boots.  On Ubuntu 16.04, this was "
+"not done by the initial release of the package.  The package was fixed "
+"later.  See `Ubuntu Bug #1594740 "
+"<https://bugs.launchpad.net/ubuntu/+source/supervisor/+bug/1594740>`_ for"
+" more information."
+msgstr ""
+
+#: ../../installing.rst:107
+msgid "Creating a Configuration File"
+msgstr ""
+
+#: ../../installing.rst:109
+msgid ""
+"Once the Supervisor installation has completed, run "
+"``echo_supervisord_conf``.  This will print a \"sample\" Supervisor "
+"configuration file to your terminal's stdout."
+msgstr ""
+
+#: ../../installing.rst:113
+msgid ""
+"Once you see the file echoed to your terminal, reinvoke the command as "
+"``echo_supervisord_conf > /etc/supervisord.conf``. This won't work if you"
+" do not have root access."
+msgstr ""
+
+#: ../../installing.rst:117
+msgid ""
+"If you don't have root access, or you'd rather not put the "
+":file:`supervisord.conf` file in :file:`/etc/supervisord.conf`, you can "
+"place it in the current directory (``echo_supervisord_conf > "
+"supervisord.conf``) and start :program:`supervisord` with the ``-c`` flag"
+" in order to specify the configuration file location."
+msgstr ""
+
+#: ../../installing.rst:124
+msgid ""
+"For example, ``supervisord -c supervisord.conf``.  Using the ``-c`` flag "
+"actually is redundant in this case, because :program:`supervisord` "
+"searches the current directory for a :file:`supervisord.conf` before it "
+"searches any other locations for the file, but it will work.  See "
+":ref:`running` for more information about the ``-c`` flag."
+msgstr ""
+
+#: ../../installing.rst:131
+msgid ""
+"Once you have a configuration file on your filesystem, you can begin "
+"modifying it to your liking."
+msgstr ""
+

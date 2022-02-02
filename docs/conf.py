@@ -54,6 +54,9 @@ copyright = '2004-%d, Agendaless Consulting and Contributors' % year
 version = supervisor_version
 # The full version, including alpha/beta/rc tags.
 release = version
+locale_dirs = ['locales/']
+gettext_compact = False
+language = 'zh_CN'
 
 # There are two options for replacing |today|: either, you set today to
 # some non-false value, then it is used:
