@@ -16,7 +16,7 @@
     <script src="_static/translations.js"></script>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
-    <link rel="next" title="Installing" href="installing.html" />
+    <link rel="next" title="安装" href="installing.html" />
     <link rel="prev" title="Supervisor：过程控制系统" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -92,44 +92,23 @@
 </div></blockquote>
 <p><strong class="program">supervisorctl</strong></p>
 <blockquote>
-<div><p>The command-line client piece of the supervisor is named
-<strong class="program">supervisorctl</strong>.  It provides a shell-like interface to the
-features provided by <strong class="program">supervisord</strong>.  From
-<strong class="program">supervisorctl</strong>, a user can connect to different
-<strong class="program">supervisord</strong> processes (one at a time), get status on the
-subprocesses controlled by, stop and start subprocesses of, and get lists of
-running processes of a <strong class="program">supervisord</strong>.</p>
-<p>The command-line client talks to the server across a UNIX domain
-socket or an internet (TCP) socket.  The server can assert that the
-user of a client should present authentication credentials before it
-allows him to perform commands.  The client process typically uses
-the same configuration file as the server but any configuration file
-with a <code class="docutils literal notranslate"><span class="pre">[supervisorctl]</span></code> section in it will work.</p>
+<div><p>supervisor 的客户端命令行名为 <strong class="program">supervisorctl</strong>。它为 <strong class="program">supervisord</strong> 提供了类似 shell 的接口。从 <strong class="program">supervisorctl</strong> 中，用户可以连接到不同的 <strong class="program">supervisord</strong> 进程(一次一个)，获取被 <strong class="program">supervisord</strong> 进程控制的子进程的状态，停止和启动子进程，获取 <strong class="program">supervisord</strong> 进程的运行列表。</p>
+<p>命令行客户端通过 UNIX 域套接字或 internet (TCP)套接字与服务器进行对话。服务器可以断言客户端的用户在执行命令之前应该提供身份验证凭据。客户端进程通常使用与服务器相同的配置文件，但任何包含 <code class="docutils literal notranslate"><span class="pre">[supervisorctl]</span></code> 部分的配置文件都可以工作。</p>
 </div></blockquote>
-<p>Web Server</p>
+<p>Web 服务器</p>
 <blockquote>
-<div><p>A (sparse) web user interface with functionality comparable to
-<strong class="program">supervisorctl</strong> may be accessed via a browser if you start
-<strong class="program">supervisord</strong> against an internet socket.  Visit the server
-URL (e.g. <code class="docutils literal notranslate"><span class="pre">http://localhost:9001/</span></code>) to view and control process
-status through the web interface after activating the configuration
-file’s <code class="docutils literal notranslate"><span class="pre">[inet_http_server]</span></code> section.</p>
+<div><p>(稀疏的)web 用户界面的功能类似 <strong class="program">supervisorctl</strong> 可以通过浏览器访问，如果你针对一个互联网插座启动 <strong class="program">supervisord</strong>。访问服务器 URL(例如:在激活配置文件的 <code class="docutils literal notranslate"><span class="pre">[inet_http_server]</span></code> 部分后，通过 web 界面查看和控制进程状态。</p>
 </div></blockquote>
-<p>XML-RPC Interface</p>
+<p>XML-RPC 接口</p>
 <blockquote>
-<div><p>The same HTTP server which serves the web UI serves up an XML-RPC
-interface that can be used to interrogate and control supervisor and
-the programs it runs.  See <a class="reference internal" href="api.html#xml-rpc"><span class="std std-ref">XML-RPC API Documentation</span></a>.</p>
+<div><p>服务于 web UI 的 HTTP 服务器也提供了 XML-RPC 接口，可以用来询问和控制管理器及其运行的程序。参考 <a class="reference internal" href="api.html#xml-rpc"><span class="std std-ref">XML-RPC API Documentation</span></a>。</p>
 </div></blockquote>
 </section>
 <section id="platform-requirements">
-<h2>Platform Requirements<a class="headerlink" href="#platform-requirements" title="永久链接至标题">¶</a></h2>
-<p>Supervisor has been tested and is known to run on Linux (Ubuntu 18.04),
-Mac OS X (10.4/10.5/10.6), and Solaris (10 for Intel) and FreeBSD 6.1.
-It will likely work fine on most UNIX systems.</p>
-<p>Supervisor will <em>not</em> run at all under any version of Windows.</p>
-<p>Supervisor is intended to work on Python 3 version 3.4 or later
-and on Python 2 version 2.7.</p>
+<h2>平台需求<a class="headerlink" href="#platform-requirements" title="永久链接至标题">¶</a></h2>
+<p>Supervisor 已经经过测试，已知运行在 Linux (Ubuntu 18.04)， Mac OS X (10.4/10.5/10.6)， Solaris (10 for Intel)和FreeBSD 6.1。它可能在大多数 UNIX 系统上运行良好。</p>
+<p>在任何版本的 Windows 下，Supervisor 都不会运行。</p>
+<p>Supervisor 将用于 Python 3 3.4 或更高版本以及 Python 2 2.7 版本。</p>
 </section>
 </section>
 
@@ -158,12 +137,12 @@ and on Python 2 version 2.7.</p>
 <li class="toctree-l2"><a class="reference internal" href="#overview">概述</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#features">特性</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#supervisor-components">Supervisor 组件</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#platform-requirements">Platform Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#platform-requirements">平台需求</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="running.html">Running Supervisor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">运行 Supervisor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">配置文件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="subprocess.html">Subprocesses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="events.html">Events</a></li>
@@ -185,7 +164,7 @@ and on Python 2 version 2.7.</p>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="index.html" title="上一章">Supervisor：过程控制系统</a></li>
-      <li>Next: <a href="installing.html" title="下一章">Installing</a></li>
+      <li>Next: <a href="installing.html" title="下一章">安装</a></li>
   </ul></li>
 </ul>
 </div>

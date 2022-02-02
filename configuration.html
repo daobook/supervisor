@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Configuration File &#8212; Supervisor 4.3.0.dev0 文档</title>
+    <title>配置文件 &#8212; Supervisor 4.3.0.dev0 文档</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/repoze.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -17,7 +17,7 @@
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
     <link rel="next" title="Subprocesses" href="subprocess.html" />
-    <link rel="prev" title="Running Supervisor" href="running.html" />
+    <link rel="prev" title="运行 Supervisor" href="running.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -35,18 +35,11 @@
           <div class="body" role="main">
             
   <section id="configuration-file">
-<h1>Configuration File<a class="headerlink" href="#configuration-file" title="永久链接至标题">¶</a></h1>
-<p>The Supervisor configuration file is conventionally named
-<code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code>.  It is used by both <strong class="program">supervisord</strong>
-and <strong class="program">supervisorctl</strong>.  If either application is started
-without the <code class="docutils literal notranslate"><span class="pre">-c</span></code> option (the option which is used to tell the
-application the configuration filename explicitly), the application
-will look for a file named <code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> within the
-following locations, in the specified order.  It will use the first
-file it finds.</p>
+<h1>配置文件<a class="headerlink" href="#configuration-file" title="永久链接至标题">¶</a></h1>
+<p>Supervisor 配置文件通常被命名为 <code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code>。它被 <strong class="program">supervisord</strong>  和 <strong class="program">supervisorctl</strong> 使用。如果任何应用程序启动时没有 <code class="docutils literal notranslate"><span class="pre">-c</span></code> 选项(该选项用于显式地告诉应用程序配置文件名)，应用程序将在以下位置中按照指定的顺序查找名为 <code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> 的文件。它将使用它找到的第一个文件。</p>
 <ol class="arabic simple">
-<li><p><code class="file docutils literal notranslate"><span class="pre">../etc/supervisord.conf</span></code> (Relative to the executable)</p></li>
-<li><p><code class="file docutils literal notranslate"><span class="pre">../supervisord.conf</span></code> (Relative to the executable)</p></li>
+<li><p><code class="file docutils literal notranslate"><span class="pre">../etc/supervisord.conf</span></code> (相对于可执行文件)</p></li>
+<li><p><code class="file docutils literal notranslate"><span class="pre">../supervisord.conf</span></code>  (相对于可执行文件)</p></li>
 <li><p><code class="file docutils literal notranslate"><span class="pre">$CWD/supervisord.conf</span></code></p></li>
 <li><p><code class="file docutils literal notranslate"><span class="pre">$CWD/etc/supervisord.conf</span></code></p></li>
 <li><p><code class="file docutils literal notranslate"><span class="pre">/etc/supervisord.conf</span></code></p></li>
@@ -54,37 +47,27 @@ file it finds.</p>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">备注</p>
-<p>Many versions of Supervisor packaged for Debian and Ubuntu included a patch
-that added <code class="docutils literal notranslate"><span class="pre">/etc/supervisor/supervisord.conf</span></code> to the search paths.  The
-first PyPI package of Supervisor to include it was Supervisor 3.3.0.</p>
+<p>许多为Debian和Ubuntu打包的Supervisor版本都包含一个补丁，将 <code class="docutils literal notranslate"><span class="pre">/etc/supervisor/supervisord.conf</span></code> 添加到搜索路径中。包含Supervisor的第一个PyPI包是Supervisor 3.3.0。</p>
 </div>
 <section id="file-format">
-<h2>File Format<a class="headerlink" href="#file-format" title="永久链接至标题">¶</a></h2>
-<p><code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> is a Windows-INI-style (Python ConfigParser)
-file.  It has sections (each denoted by a <code class="docutils literal notranslate"><span class="pre">[header]</span></code>) and key / value
-pairs within the sections.  The sections and their allowable values
-are described below.</p>
+<h2>文件格式<a class="headerlink" href="#file-format" title="永久链接至标题">¶</a></h2>
+<p><code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> 是一个 windows - ini 风格的(Python ConfigParser)文件。它有节(每个节由 <code class="docutils literal notranslate"><span class="pre">[header]</span></code> 表示)和在节内的键/值对。各部分及其允许值如下所示。</p>
 <section id="environment-variables">
-<h3>Environment Variables<a class="headerlink" href="#environment-variables" title="永久链接至标题">¶</a></h3>
-<p>Environment variables that are present in the environment at the time that
-<strong class="program">supervisord</strong> is started can be used in the configuration file
-using the Python string expression syntax <code class="docutils literal notranslate"><span class="pre">%(ENV_X)s</span></code>:</p>
+<h3>环境变量<a class="headerlink" href="#environment-variables" title="永久链接至标题">¶</a></h3>
+<p>在 <strong class="program">supervisord</strong> 启动时环境中存在的环境变量可以在配置文件中使用 Python 字符串表达式语法 <code class="docutils literal notranslate"><span class="pre">%(ENV_X)s</span></code>：</p>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[program:example]</span><span class="w"></span>
 <span class="na">command</span><span class="o">=</span><span class="s">/usr/bin/example --loglevel=%(ENV_LOGLEVEL)s</span><span class="w"></span>
 </pre></div>
 </div>
-<p>In the example above, the expression <code class="docutils literal notranslate"><span class="pre">%(ENV_LOGLEVEL)s</span></code> would be expanded
-to the value of the environment variable <code class="docutils literal notranslate"><span class="pre">LOGLEVEL</span></code>.</p>
+<p>在上面的例子中，表达式 <code class="docutils literal notranslate"><span class="pre">%(ENV_LOGLEVEL)s</span></code> 将被扩展为环境变量 <code class="docutils literal notranslate"><span class="pre">LOGLEVEL</span></code> 的值。</p>
 <div class="admonition note">
 <p class="admonition-title">备注</p>
-<p>In Supervisor 3.2 and later, <code class="docutils literal notranslate"><span class="pre">%(ENV_X)s</span></code> expressions are supported in
-all options.  In prior versions, some options support them, but most
-do not.  See the documentation for each option below.</p>
+<p>“在Supervisor 3.2及以上版本中，所有选项都支持 <code class="docutils literal notranslate"><span class="pre">%(ENV_X)s</span></code> 表达式。在以前的版本中，一些选项支持它们，但大多数不支持。请参阅下面每个选项的文档。</p>
 </div>
 </section>
 </section>
 <section id="unix-http-server-section-settings">
-<h2><code class="docutils literal notranslate"><span class="pre">[unix_http_server]</span></code> Section Settings<a class="headerlink" href="#unix-http-server-section-settings" title="永久链接至标题">¶</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">[unix_http_server]</span></code> 节设置<a class="headerlink" href="#unix-http-server-section-settings" title="永久链接至标题">¶</a></h2>
 <p>The <code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> file contains a section named
 <code class="docutils literal notranslate"><span class="pre">[unix_http_server]</span></code> under which configuration parameters for an
 HTTP server that listens on a UNIX domain socket should be inserted.
@@ -1306,7 +1289,7 @@ above constraints and additions.</p>
 <p>Adding <code class="docutils literal notranslate"><span class="pre">rpcinterface:x</span></code> settings in the configuration file is only
 useful for people who wish to extend supervisor with additional custom
 behavior.</p>
-<p>In the sample config file (see <a class="reference internal" href="installing.html#create-config"><span class="std std-ref">Creating a Configuration File</span></a>), there is a section
+<p>In the sample config file (see <a class="reference internal" href="installing.html#create-config"><span class="std std-ref">创建配置文件</span></a>), there is a section
 which is named <code class="docutils literal notranslate"><span class="pre">[rpcinterface:supervisor]</span></code>.  By default it looks like the
 following.</p>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[rpcinterface:supervisor]</span><span class="w"></span>
@@ -1387,11 +1370,11 @@ factory function.</p>
 <h3>导航</h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">介绍</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="running.html">Running Supervisor</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration File</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#file-format">File Format</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#unix-http-server-section-settings"><code class="docutils literal notranslate"><span class="pre">[unix_http_server]</span></code> Section Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">运行 Supervisor</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">配置文件</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#file-format">文件格式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#unix-http-server-section-settings"><code class="docutils literal notranslate"><span class="pre">[unix_http_server]</span></code> 节设置</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#inet-http-server-section-settings"><code class="docutils literal notranslate"><span class="pre">[inet_http_server]</span></code> Section Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#supervisord-section-settings"><code class="docutils literal notranslate"><span class="pre">[supervisord]</span></code> Section Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#supervisorctl-section-settings"><code class="docutils literal notranslate"><span class="pre">[supervisorctl]</span></code> Section Settings</a></li>
@@ -1423,7 +1406,7 @@ factory function.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="running.html" title="上一章">Running Supervisor</a></li>
+      <li>Previous: <a href="running.html" title="上一章">运行 Supervisor</a></li>
       <li>Next: <a href="subprocess.html" title="下一章">Subprocesses</a></li>
   </ul></li>
 </ul>

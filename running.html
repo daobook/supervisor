@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Running Supervisor &#8212; Supervisor 4.3.0.dev0 文档</title>
+    <title>运行 Supervisor &#8212; Supervisor 4.3.0.dev0 文档</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/repoze.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -16,8 +16,8 @@
     <script src="_static/translations.js"></script>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
-    <link rel="next" title="Configuration File" href="configuration.html" />
-    <link rel="prev" title="Installing" href="installing.html" />
+    <link rel="next" title="配置文件" href="configuration.html" />
+    <link rel="prev" title="安装" href="installing.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -35,328 +35,256 @@
           <div class="body" role="main">
             
   <section id="running-supervisor">
-<span id="running"></span><h1>Running Supervisor<a class="headerlink" href="#running-supervisor" title="永久链接至标题">¶</a></h1>
-<p>This section makes reference to a <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">BINDIR</span></code> when explaining how
-to run the <strong class="command">supervisord</strong> and <strong class="command">supervisorctl</strong>
-commands.  This is the “bindir” directory that your Python
-installation has been configured with.  For example, for an
-installation of Python installed via <code class="docutils literal notranslate"><span class="pre">./configure</span>
-<span class="pre">--prefix=/usr/local/py;</span> <span class="pre">make;</span> <span class="pre">make</span> <span class="pre">install</span></code>, <span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">BINDIR</span></code> would
-be <code class="file docutils literal notranslate"><span class="pre">/usr/local/py/bin</span></code>. Python interpreters on different
-platforms use a different <span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">BINDIR</span></code>.  Look at the output of
-<code class="docutils literal notranslate"><span class="pre">setup.py</span> <span class="pre">install</span></code> if you can’t figure out where yours is.</p>
+<span id="running"></span><h1>运行 Supervisor<a class="headerlink" href="#running-supervisor" title="永久链接至标题">¶</a></h1>
+<p>本节在解释如何运行 <strong class="command">supervisord</strong> 和 <strong class="command">supervisorctl</strong> 命令时，参考了 <span class="target" id="index-6"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">BINDIR</span></code>。这是您的 Python 安装已经配置的 “bindir” 目录。例如，对于通过 <code class="docutils literal notranslate"><span class="pre">./configure</span> <span class="pre">--prefix=/usr/local/py;</span> <span class="pre">make;</span> <span class="pre">make</span> <span class="pre">install</span></code> <span class="target" id="index-7"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">BINDIR</span></code> 应该是 <code class="file docutils literal notranslate"><span class="pre">/usr/local/py/bin</span></code>。不同平台上的 Python 解释器使用不同的 <span class="target" id="index-8"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">BINDIR</span></code>。如果你不知道你的安装在哪里，看看 <code class="docutils literal notranslate"><span class="pre">setup.py</span> <span class="pre">install</span></code> 的输出。</p>
 <section id="adding-a-program">
-<h2>Adding a Program<a class="headerlink" href="#adding-a-program" title="永久链接至标题">¶</a></h2>
-<p>Before <strong class="program">supervisord</strong> will do anything useful for you, you’ll
-need to add at least one <code class="docutils literal notranslate"><span class="pre">program</span></code> section to its configuration.
-The <code class="docutils literal notranslate"><span class="pre">program</span></code> section will define a program that is run and managed
-when you invoke the <strong class="command">supervisord</strong> command.  To add a program,
-you’ll need to edit the <code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> file.</p>
-<p>One of the simplest possible programs to run is the UNIX
-<strong class="program">cat</strong> program.  A <code class="docutils literal notranslate"><span class="pre">program</span></code> section that will run <code class="docutils literal notranslate"><span class="pre">cat</span></code>
-when the <strong class="program">supervisord</strong> process starts up is shown below.</p>
+<h2>关于程序<a class="headerlink" href="#adding-a-program" title="永久链接至标题">¶</a></h2>
+<p>在 <strong class="program">supervisord</strong> 将为你做任何有用的事情之前，你需要在它的配置中添加至少一个 <code class="docutils literal notranslate"><span class="pre">program</span></code> section。<code class="docutils literal notranslate"><span class="pre">program</span></code> 部分将定义一个程序，当你调用 <strong class="command">supervisord</strong> 命令时，该程序将被运行和管理。要添加一个程序，你需要编辑  <code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> 文件。</p>
+<p>UNIX <strong class="program">cat</strong> 程序是可能运行的最简单的程序之一。当 <strong class="program">supervisord</strong>  进程启动时，<code class="docutils literal notranslate"><span class="pre">program</span></code> 部分将运行 <code class="docutils literal notranslate"><span class="pre">cat</span></code>，如下图所示。</p>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[program:foo]</span><span class="w"></span>
 <span class="na">command</span><span class="o">=</span><span class="s">/bin/cat</span><span class="w"></span>
 </pre></div>
 </div>
-<p>This stanza may be cut and pasted into the <code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code>
-file.  This is the simplest possible program configuration, because it
-only names a command.  Program configuration sections have many other
-configuration options which aren’t shown here.  See
-<a class="reference internal" href="configuration.html#programx-section"><span class="std std-ref">[program:x] Section Settings</span></a> for more information.</p>
+<p>这一节可以剪切并粘贴到 <code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> 文件中这是最简单的程序配置，因为它只命名一个命令。程序配置部分有许多其他配置选项，这里没有显示。更多信息请参见 <a class="reference internal" href="configuration.html#programx-section"><span class="std std-ref">[program:x] Section Settings</span></a>。</p>
 </section>
 <section id="running-supervisord">
-<h2>Running <strong class="program">supervisord</strong><a class="headerlink" href="#running-supervisord" title="永久链接至标题">¶</a></h2>
-<p>To start <strong class="program">supervisord</strong>, run <code class="file docutils literal notranslate"><span class="pre">$BINDIR/supervisord</span></code>.  The
-resulting process will daemonize itself and detach from the terminal.
-It keeps an operations log at <code class="file docutils literal notranslate"><span class="pre">$CWD/supervisor.log</span></code> by default.</p>
-<p>You may start the <strong class="command">supervisord</strong> executable in the foreground
-by passing the <code class="docutils literal notranslate"><span class="pre">-n</span></code> flag on its command line.  This is useful to
-debug startup problems.</p>
+<h2>运行 <strong class="program">supervisord</strong><a class="headerlink" href="#running-supervisord" title="永久链接至标题">¶</a></h2>
+<p>“运行 <code class="file docutils literal notranslate"><span class="pre">$BINDIR/supervisord</span></code> 命令启动 <strong class="program">supervisord</strong>。生成的进程将自动守护自己，并与终端分离。默认情况下，它会将操作日志保存在 <code class="file docutils literal notranslate"><span class="pre">$CWD/supervisor.log</span></code>。</p>
+<p>你可以在前台通过在命令行中传递 <code class="docutils literal notranslate"><span class="pre">-n</span></code> 标志来启动 <strong class="command">supervisord</strong> 可执行文件。这对调试启动问题很有用。</p>
 <div class="admonition warning">
 <p class="admonition-title">警告</p>
-<p>When <strong class="program">supervisord</strong> starts up, it will search for its
-configuration file in default locations <em>including the current working
-directory</em>.  If you are security-conscious you will probably want to
-specify a “-c” argument after the <strong class="program">supervisord</strong> command
-specifying an absolute path to a configuration file to ensure that someone
-doesn’t trick you into running supervisor from within a directory that
-contains a rogue <code class="docutils literal notranslate"><span class="pre">supervisord.conf</span></code> file.  A warning is emitted when
-supervisor is started as root without this <code class="docutils literal notranslate"><span class="pre">-c</span></code> argument.</p>
+<p>“当 <strong class="program">supervisord</strong> 启动时，它会在默认位置 <em>包括当前工作目录</em> 中搜索配置文件。如果你有安全意识，你可能会想在 <strong class="program">supervisord</strong> 命令后指定一个 “-c” 参数，指定配置文件的绝对路径，以确保别人不会骗你在包含流氓 <code class="docutils literal notranslate"><span class="pre">supervisord.conf</span></code> 文件的目录下运行 supervisor。当没有 <code class="docutils literal notranslate"><span class="pre">-c</span></code> 参数的 supervisor 以 root 用户身份启动时，会发出警告。</p>
 </div>
-<p>To change the set of programs controlled by <strong class="program">supervisord</strong>,
-edit the <code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> file and <code class="docutils literal notranslate"><span class="pre">kill</span> <span class="pre">-HUP</span></code> or otherwise
-restart the <strong class="program">supervisord</strong> process.  This file has several
-example program definitions.</p>
-<p>The <strong class="command">supervisord</strong> command accepts a number of command-line
-options.  Each of these command line options overrides any equivalent
-value in the configuration file.</p>
+<p>要改变 <strong class="program">supervisord</strong> 控制的程序集合，编辑 <code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> 文件和 <code class="docutils literal notranslate"><span class="pre">kill</span> <span class="pre">-HUP</span></code>，或者重启 <strong class="program">supervisord</strong> 进程。这个文件有几个示例程序定义。</p>
+<p><strong class="command">supervisord</strong> 命令接受很多命令行选项。每个命令行选项都将覆盖配置文件中的任何等价的值。</p>
 <section id="supervisord-command-line-options">
-<h3><strong class="command">supervisord</strong> Command-Line Options<a class="headerlink" href="#supervisord-command-line-options" title="永久链接至标题">¶</a></h3>
+<h3><strong class="command">supervisord</strong> 命令行选项<a class="headerlink" href="#supervisord-command-line-options" title="永久链接至标题">¶</a></h3>
 <dl class="option-list">
 <dt><kbd><span class="option">-c <var>FILE</var></span>, <span class="option">--configuration=<var>FILE</var></span></kbd></dt>
-<dd><p>The path to a <strong class="program">supervisord</strong> configuration file.</p>
+<dd><p><strong class="program">supervisord</strong> 配置文件的路径。</p>
 </dd>
 <dt><kbd><span class="option">-n</span>, <span class="option">--nodaemon</span></kbd></dt>
-<dd><p>Run <strong class="program">supervisord</strong> in the foreground.</p>
+<dd><p>在前台运行 <strong class="program">supervisord</strong>。</p>
 </dd>
 <dt><kbd><span class="option">-s</span>, <span class="option">--silent</span></kbd></dt>
-<dd><p>No output directed to stdout.</p>
+<dd><p>没有指向标准输出的输出。</p>
 </dd>
 <dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
-<dd><p>Show <strong class="command">supervisord</strong> command help.</p>
+<dd><p>显示 <strong class="command">supervisord</strong> 命令帮助。</p>
 </dd>
 <dt><kbd><span class="option">-u <var>USER</var></span>, <span class="option">--user=<var>USER</var></span></kbd></dt>
-<dd><p>UNIX username or numeric user id.  If <strong class="program">supervisord</strong> is
-started as the root user, setuid to this user as soon as possible
-during startup.</p>
+<dd><p>UNIX 用户名或数字用户 id。如果 <strong class="program">supervisord</strong> 是以 root 用户身份启动的，在启动过程中尽快给这个用户 setuid。</p>
 </dd>
 <dt><kbd><span class="option">-m <var>OCTAL</var></span>, <span class="option">--umask=<var>OCTAL</var></span></kbd></dt>
-<dd><p>Octal number (e.g. 022) representing the <a class="reference internal" href="glossary.html#term-umask"><span class="xref std std-term">umask</span></a> that should
-be used by <strong class="program">supervisord</strong> after it starts.</p>
+<dd><p>表示 <a class="reference internal" href="glossary.html#term-umask"><span class="xref std std-term">umask</span></a> 的八进制数(例如 022)，它应该在 <strong class="program">supervisord</strong> 启动后被使用。</p>
 </dd>
 <dt><kbd><span class="option">-d <var>PATH</var></span>, <span class="option">--directory=<var>PATH</var></span></kbd></dt>
-<dd><p>When supervisord is run as a daemon, cd to this directory before
-daemonizing.</p>
+<dd><p>当 supervise 作为守护进程运行时，请在守护之前先 cd 到这个目录。</p>
 </dd>
 <dt><kbd><span class="option">-l <var>FILE</var></span>, <span class="option">--logfile=<var>FILE</var></span></kbd></dt>
-<dd><p>Filename path to use as the supervisord activity log.</p>
+<dd><p>作为 supervisord 活动日志使用的文件名路径。</p>
 </dd>
 <dt><kbd><span class="option">-y <var>BYTES</var></span>, <span class="option">--logfile_maxbytes=<var>BYTES</var></span></kbd></dt>
-<dd><p>Max size of the supervisord activity log file before a rotation
-occurs.  The value is suffix-multiplied, e.g “1” is one byte, “1MB”
-is 1 megabyte, “1GB” is 1 gigabyte.</p>
+<dd><p>在发生旋转之前，supervisord 活动日志文件的最大大小。值是后缀乘，例如 “1” 是一个字节，”1MB” 是 1MB，”1GB”  是 1GB。</p>
 </dd>
 <dt><kbd><span class="option">-z <var>NUM</var></span>, <span class="option">--logfile_backups=<var>NUM</var></span></kbd></dt>
-<dd><p>Number of backup copies of the supervisord activity log to keep
-around.  Each logfile will be of size <code class="docutils literal notranslate"><span class="pre">logfile_maxbytes</span></code>.</p>
+<dd><p>要保存的 supervisord 活动日志备份副本的数量。每个日志文件的大小为 <code class="docutils literal notranslate"><span class="pre">logfile_maxbytes</span></code>。</p>
 </dd>
 <dt><kbd><span class="option">-e <var>LEVEL</var></span>, <span class="option">--loglevel=<var>LEVEL</var></span></kbd></dt>
-<dd><p>The logging level at which supervisor should write to the activity
-log.  Valid levels are <code class="docutils literal notranslate"><span class="pre">trace</span></code>, <code class="docutils literal notranslate"><span class="pre">debug</span></code>, <code class="docutils literal notranslate"><span class="pre">info</span></code>, <code class="docutils literal notranslate"><span class="pre">warn</span></code>,
-<code class="docutils literal notranslate"><span class="pre">error</span></code>, and <code class="docutils literal notranslate"><span class="pre">critical</span></code>.</p>
+<dd><p>supervisor 写入活动日志的日志级别。有效的级别 <code class="docutils literal notranslate"><span class="pre">trace</span></code>, <code class="docutils literal notranslate"><span class="pre">debug</span></code>, <code class="docutils literal notranslate"><span class="pre">info</span></code>, <code class="docutils literal notranslate"><span class="pre">warn</span></code>, <code class="docutils literal notranslate"><span class="pre">error</span></code> 和 <code class="docutils literal notranslate"><span class="pre">critical</span></code>。</p>
 </dd>
 <dt><kbd><span class="option">-j <var>FILE</var></span>, <span class="option">--pidfile=<var>FILE</var></span></kbd></dt>
-<dd><p>The filename to which supervisord should write its pid file.</p>
+<dd><p>supervisor 应该写入其 pid 文件的文件名。</p>
 </dd>
 <dt><kbd><span class="option">-i <var>STRING</var></span>, <span class="option">--identifier=<var>STRING</var></span></kbd></dt>
-<dd><p>Arbitrary string identifier exposed by various client UIs for this
-instance of supervisor.</p>
+<dd><p>“由不同的客户端 UI 为这个 supervisor 实例公开的任意字符串标识符</p>
 </dd>
 <dt><kbd><span class="option">-q <var>PATH</var></span>, <span class="option">--childlogdir=<var>PATH</var></span></kbd></dt>
-<dd><p>A path to a directory (it must already exist) where supervisor will
-write its <code class="docutils literal notranslate"><span class="pre">AUTO</span></code> -mode child process logs.</p>
+<dd><p>目录的路径(必须已经存在)，其中 supervisor 将写入它的 <cite>AUTO`</cite> 模式的子进程日志。</p>
 </dd>
 <dt><kbd><span class="option">-k</span>, <span class="option">--nocleanup</span></kbd></dt>
-<dd><p>Prevent <strong class="program">supervisord</strong> from performing cleanup (removal of
-old <code class="docutils literal notranslate"><span class="pre">AUTO</span></code> process log files) at startup.</p>
+<dd><p>防止 <strong class="program">supervisord</strong> 在启动时执行清理（删除旧的 <code class="docutils literal notranslate"><span class="pre">AUTO</span></code> 进程日志文件）。</p>
 </dd>
 <dt><kbd><span class="option">-a <var>NUM</var></span>, <span class="option">--minfds=<var>NUM</var></span></kbd></dt>
-<dd><p>The minimum number of file descriptors that must be available to
-the supervisord process before it will start successfully.</p>
+<dd><p>supervisord 进程在成功启动之前必须可用的文件描述符的最小数量。</p>
 </dd>
 <dt><kbd><span class="option">-t</span>, <span class="option">--strip_ansi</span></kbd></dt>
-<dd><p>Strip ANSI escape sequences from all child log process.</p>
+<dd><p>从所有子日志进程中去除 ANSI 转义序列。</p>
 </dd>
 <dt><kbd><span class="option">-v</span>, <span class="option">--version</span></kbd></dt>
-<dd><p>Print the supervisord version number out to stdout and exit.</p>
+<dd><p>将 supervisor 版本号打印到 stdout 并退出。</p>
 </dd>
 <dt><kbd><span class="option">--profile_options=<var>LIST</var></span></kbd></dt>
-<dd><p>Comma-separated options list for profiling.  Causes
-<strong class="program">supervisord</strong> to run under a profiler, and output results
-based on the options, which is a comma-separated list of the
-following: <code class="docutils literal notranslate"><span class="pre">cumulative</span></code>, <code class="docutils literal notranslate"><span class="pre">calls</span></code>, <code class="docutils literal notranslate"><span class="pre">callers</span></code>.
-E.g. <code class="docutils literal notranslate"><span class="pre">cumulative,callers</span></code>.</p>
+<dd><p>用于分析的逗号分隔选项列表。原因 <strong class="program">supervisord</strong> 在 profiler 下运行，并基于选项输出结果，这是一个逗号分隔的列表，包含以下内容： <code class="docutils literal notranslate"><span class="pre">cumulative</span></code>、 <code class="docutils literal notranslate"><span class="pre">calls</span></code>、 <code class="docutils literal notranslate"><span class="pre">callers</span></code> 。如 <code class="docutils literal notranslate"><span class="pre">cumulative,callers</span></code> 。</p>
 </dd>
 <dt><kbd><span class="option">--minprocs=<var>NUM</var></span></kbd></dt>
-<dd><p>The minimum number of OS process slots that must be available to
-the supervisord process before it will start successfully.</p>
+<dd><p>在supervisor进程成功启动之前，操作系统进程可用的最小槽数。</p>
 </dd>
 </dl>
 </section>
 </section>
 <section id="running-supervisorctl">
-<h2>Running <strong class="program">supervisorctl</strong><a class="headerlink" href="#running-supervisorctl" title="永久链接至标题">¶</a></h2>
-<p>To start <strong class="program">supervisorctl</strong>, run <code class="docutils literal notranslate"><span class="pre">$BINDIR/supervisorctl</span></code>.  A
-shell will be presented that will allow you to control the processes
-that are currently managed by <strong class="program">supervisord</strong>.  Type “help” at
-the prompt to get information about the supported commands.</p>
-<p>The <strong class="command">supervisorctl</strong> executable may be invoked with “one time”
-commands when invoked with arguments from a command line.  An example:
-<code class="docutils literal notranslate"><span class="pre">supervisorctl</span> <span class="pre">stop</span> <span class="pre">all</span></code>.  If arguments are present on the
-command-line, it will prevent the interactive shell from being
-invoked.  Instead, the command will be executed and <code class="docutils literal notranslate"><span class="pre">supervisorctl</span></code>
-will exit with a code of 0 for success or running and non-zero for
-error. An example: <code class="docutils literal notranslate"><span class="pre">supervisorctl</span> <span class="pre">status</span> <span class="pre">all</span></code> would return non-zero
-if any single process was not running.</p>
-<p>If <strong class="command">supervisorctl</strong> is invoked in interactive mode against a
-<strong class="program">supervisord</strong> that requires authentication, you will be asked
-for authentication credentials.</p>
+<h2>运行 <strong class="program">supervisorctl</strong><a class="headerlink" href="#running-supervisorctl" title="永久链接至标题">¶</a></h2>
+<p>启动 <strong class="program">supervisorctl</strong>，执行 <code class="docutils literal notranslate"><span class="pre">$BINDIR/supervisorctl</span></code>。shell 将允许你控制当前由 <strong class="program">supervisord</strong> 管理的进程。在提示符处输入 “help”，以获取有关所支持命令的信息。</p>
+<p>当使用命令行参数调用时，<strong class="command">supervisorctl</strong> 可执行文件可能被 “one time” 命令调用。例如：<code class="docutils literal notranslate"><span class="pre">supervisorctl</span> <span class="pre">stop</span> <span class="pre">all</span></code>。如果命令行中存在参数，它将阻止交互式 shell 被调用。相反，命令将被执行，<code class="docutils literal notranslate"><span class="pre">supervisorctl</span></code> 将退出，成功或运行的代码为 0，错误的代码为非 0。例如：<code class="docutils literal notranslate"><span class="pre">supervisorctl</span> <span class="pre">status</span> <span class="pre">all</span></code> 将返回非零，如果任何单个进程没有运行。</p>
+<p>如果 <strong class="command">supervisorctl</strong> 在交互模式下对需要验证的 <strong class="program">supervisord</strong> 被调用，你将被要求验证凭据。</p>
 <section id="supervisorctl-command-line-options">
-<h3><strong class="command">supervisorctl</strong> Command-Line Options<a class="headerlink" href="#supervisorctl-command-line-options" title="永久链接至标题">¶</a></h3>
+<h3><strong class="command">supervisorctl</strong> 命令行选项<a class="headerlink" href="#supervisorctl-command-line-options" title="永久链接至标题">¶</a></h3>
 <dl class="option-list">
 <dt><kbd><span class="option">-c</span>, <span class="option">--configuration</span></kbd></dt>
-<dd><p>Configuration file path (default /etc/supervisord.conf)</p>
+<dd><p>配置文件路径（默认 /etc/supervisord.conf）</p>
 </dd>
 <dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
-<dd><p>Print usage message and exit</p>
+<dd><p>打印使用信息并退出</p>
 </dd>
 <dt><kbd><span class="option">-i</span>, <span class="option">--interactive</span></kbd></dt>
-<dd><p>Start an interactive shell after executing commands</p>
+<dd><p>在执行命令后启动交互式 shell</p>
 </dd>
 <dt><kbd><span class="option">-s</span>, <span class="option">--serverurl <var>URL</var></span></kbd></dt>
-<dd><p>URL on which supervisord server is listening (default “<a class="reference external" href="http://localhost:9001">http://localhost:9001</a>”).</p>
+<dd><p>supervisord 服务器正在监听的 URL（默认 “<a class="reference external" href="http://localhost:9001">http://localhost:9001</a>”）。</p>
 </dd>
 <dt><kbd><span class="option">-u</span>, <span class="option">--username</span></kbd></dt>
-<dd><p>Username to use for authentication with server</p>
+<dd><p>与服务器进行身份验证使用的用户名</p>
 </dd>
 <dt><kbd><span class="option">-p</span>, <span class="option">--password</span></kbd></dt>
-<dd><p>Password to use for authentication with server</p>
+<dd><p>用于服务器身份验证的密码</p>
 </dd>
 <dt><kbd><span class="option">-r</span>, <span class="option">--history-file</span></kbd></dt>
-<dd><p>Keep a readline history (if readline is available)</p>
+<dd><p>保留 readline 历史记录(如果 readline 可用)</p>
 </dd>
 </dl>
 <p><cite>action [arguments]</cite></p>
-<p>Actions are commands like “tail” or “stop”.  If -i is specified or no action is
-specified on the command line, a “shell” interpreting actions typed
-interactively is started.  Use the action “help” to find out about available
-actions.</p>
+<p>“操作是像 “tail” 或 “stop” 这样的命令。如果在命令行上指定了 -i 或未指定操作，则会启动一个 “shell” 解释交互式键入的操作。使用操作 “help” 以了解可用的操作。</p>
 </section>
 <section id="supervisorctl-actions">
-<h3><strong class="command">supervisorctl</strong> Actions<a class="headerlink" href="#supervisorctl-actions" title="永久链接至标题">¶</a></h3>
+<h3><strong class="command">supervisorctl</strong> 操作<a class="headerlink" href="#supervisorctl-actions" title="永久链接至标题">¶</a></h3>
 <p>help</p>
 <blockquote>
-<div><p>Print a list of available actions</p>
+<div><p>打印可用操作的列表</p>
 </div></blockquote>
 <p>help &lt;action&gt;</p>
 <blockquote>
-<div><p>Print help for &lt;action&gt;</p>
+<div><p>打印 &lt;action&gt; 帮助</p>
 </div></blockquote>
 <p>add &lt;name&gt; […]</p>
 <blockquote>
-<div><p>Activates any updates in config for process/group</p>
+<div><p>激活进程/组配置中的任何更新</p>
 </div></blockquote>
 <p>remove &lt;name&gt; […]</p>
 <blockquote>
-<div><p>Removes process/group from active config</p>
+<div><p>从活动配置中移除进程/组</p>
 </div></blockquote>
 <p>update</p>
 <blockquote>
-<div><p>Reload config and add/remove as necessary, and will restart affected programs</p>
+<div><p>重新加载配置并根据需要添加/删除，并将重新启动受影响的程序</p>
 </div></blockquote>
 <p>update all</p>
 <blockquote>
-<div><p>Reload config and add/remove as necessary, and will restart affected programs</p>
+<div><p>重新加载配置并根据需要添加/删除，并将重新启动受影响的程序</p>
 </div></blockquote>
 <p>update &lt;gname&gt; […]</p>
 <blockquote>
-<div><p>Update specific groups, and will restart affected programs</p>
+<div><p>更新特定组，并将重新启动受影响的程序</p>
 </div></blockquote>
 <p>clear &lt;name&gt;</p>
 <blockquote>
-<div><p>Clear a process’ log files.</p>
+<div><p>清除进程的日志文件。</p>
 </div></blockquote>
 <p>clear &lt;name&gt; &lt;name&gt;</p>
 <blockquote>
-<div><p>Clear multiple process’ log files</p>
+<div><p>清除多个进程的日志文件</p>
 </div></blockquote>
 <p>clear all</p>
 <blockquote>
-<div><p>Clear all process’ log files</p>
+<div><p>清除所有进程的日志文件</p>
 </div></blockquote>
 <p>fg &lt;process&gt;</p>
 <blockquote>
-<div><p>Connect to a process in foreground mode
-Press Ctrl+C to exit foreground</p>
+<div><p>连接前台模式的进程按 “Ctrl+C” 退出前台</p>
 </div></blockquote>
 <p>pid</p>
 <blockquote>
-<div><p>Get the PID of supervisord.</p>
+<div><p>获取 supervisor 的 PID。</p>
 </div></blockquote>
 <p>pid &lt;name&gt;</p>
 <blockquote>
-<div><p>Get the PID of a single child process by name.</p>
+<div><p>通过名称获取单个子进程的 PID。</p>
 </div></blockquote>
 <p>pid all</p>
 <blockquote>
-<div><p>Get the PID of every child process, one per line.</p>
+<div><p>获取每个子进程的 PID，每行一个。</p>
 </div></blockquote>
 <p>reload</p>
 <blockquote>
-<div><p>Restarts the remote supervisord</p>
+<div><p>重启远程 supervisord</p>
 </div></blockquote>
 <p>reread</p>
 <blockquote>
-<div><p>Reload the daemon’s configuration files, without add/remove (no restarts)</p>
+<div><p>重新加载守护进程的配置文件，不添加/删除(不重启)</p>
 </div></blockquote>
 <p>restart &lt;name&gt;</p>
 <blockquote>
-<div><p>Restart a process
-Note: restart does not reread config files. For that, see reread and update.</p>
+<div><p>重启进程，注意：重启不会重新读取配置文件。关于这一点，请参阅 reread and update。</p>
 </div></blockquote>
 <p>restart &lt;gname&gt;:*</p>
 <blockquote>
-<div><p>Restart all processes in a group
-Note: restart does not reread config files. For that, see reread and update.</p>
+<div><p>重启组内全部进程，注意：重启不会重新读取配置文件。关于这一点，请参阅 reread and update。</p>
 </div></blockquote>
 <p>restart &lt;name&gt; &lt;name&gt;</p>
 <blockquote>
-<div><p>Restart multiple processes or groups
-Note: restart does not reread config files. For that, see reread and update.</p>
+<div><p>重启多个进程。注意：Restart不会重新读取配置文件。关于这一点，请参阅reread and update。</p>
 </div></blockquote>
 <p>restart all</p>
 <blockquote>
-<div><p>Restart all processes
-Note: restart does not reread config files. For that, see reread and update.</p>
+<div><p>重启全部进程，注意：重启不会重新读取配置文件。关于这一点，请参阅 reread and update。</p>
 </div></blockquote>
 <p>signal</p>
 <blockquote>
-<div><p>No help on signal</p>
+<div><p>没有信号帮助</p>
 </div></blockquote>
 <p>start &lt;name&gt;</p>
 <blockquote>
-<div><p>Start a process</p>
+<div><p>启动进程</p>
 </div></blockquote>
 <p>start &lt;gname&gt;:*</p>
 <blockquote>
-<div><p>Start all processes in a group</p>
+<div><p>启动组内全部进程</p>
 </div></blockquote>
 <p>start &lt;name&gt; &lt;name&gt;</p>
 <blockquote>
-<div><p>Start multiple processes or groups</p>
+<div><p>启动多进程或者组</p>
 </div></blockquote>
 <p>start all</p>
 <blockquote>
-<div><p>Start all processes</p>
+<div><p>启动全部进程</p>
 </div></blockquote>
 <p>status</p>
 <blockquote>
-<div><p>Get all process status info.</p>
+<div><p>获取所有进程状态信息。</p>
 </div></blockquote>
 <p>status &lt;name&gt;</p>
 <blockquote>
-<div><p>Get status on a single process by name.</p>
+<div><p>按名称获取单个进程的状态。</p>
 </div></blockquote>
 <p>status &lt;name&gt; &lt;name&gt;</p>
 <blockquote>
-<div><p>Get status on multiple named processes.</p>
+<div><p>获取多个命名进程的状态。</p>
 </div></blockquote>
 <p>stop &lt;name&gt;</p>
 <blockquote>
-<div><p>Stop a process</p>
+<div><p>停止进程</p>
 </div></blockquote>
 <p>stop &lt;gname&gt;:*</p>
 <blockquote>
-<div><p>Stop all processes in a group</p>
+<div><p>停止组内全部进程</p>
 </div></blockquote>
 <p>stop &lt;name&gt; &lt;name&gt;</p>
 <blockquote>
-<div><p>Stop multiple processes or groups</p>
+<div><p>停止多进程或者组</p>
 </div></blockquote>
 <p>stop all</p>
 <blockquote>
-<div><p>Stop all processes</p>
+<div><p>停止全部进程</p>
 </div></blockquote>
 <p>tail [-f] &lt;name&gt; [stdout|stderr] (default stdout)</p>
 <blockquote>
@@ -369,69 +297,42 @@ tail &lt;name&gt; stderr   last 1600 <em>bytes</em> of process stderr</p>
 </section>
 </section>
 <section id="signals">
-<h2>Signals<a class="headerlink" href="#signals" title="永久链接至标题">¶</a></h2>
-<p>The <strong class="program">supervisord</strong> program may be sent signals which cause it
-to perform certain actions while it’s running.</p>
-<p>You can send any of these signals to the single <strong class="program">supervisord</strong>
-process id.  This process id can be found in the file represented by
-the <code class="docutils literal notranslate"><span class="pre">pidfile</span></code> parameter in the <code class="docutils literal notranslate"><span class="pre">[supervisord]</span></code> section of the
-configuration file (by default it’s <code class="file docutils literal notranslate"><span class="pre">$CWD/supervisord.pid</span></code>).</p>
+<h2>信号<a class="headerlink" href="#signals" title="永久链接至标题">¶</a></h2>
+<p><strong class="program">supervisord</strong> 程序可能会被发送信号，导致它在运行时执行某些操作。</p>
+<p>你可以将这些信号发送给 <strong class="program">supervisord</strong> 进程 id。这个进程 id 可以在配置文件的 <code class="docutils literal notranslate"><span class="pre">[supervisord]</span></code> 部分的 <code class="docutils literal notranslate"><span class="pre">pidfile</span></code> 参数中找到（默认是 <code class="file docutils literal notranslate"><span class="pre">$CWD/supervisord.pid</span></code>）。</p>
 <section id="signal-handlers">
-<h3>Signal Handlers<a class="headerlink" href="#signal-handlers" title="永久链接至标题">¶</a></h3>
+<h3>信号句柄<a class="headerlink" href="#signal-handlers" title="永久链接至标题">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">SIGTERM</span></code></p>
 <blockquote>
-<div><p><strong class="program">supervisord</strong> and all its subprocesses will shut down.
-This may take several seconds.</p>
+<div><p><strong class="program">supervisord</strong> 和它的所有子进程都将关闭。这可能需要几秒钟。</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">SIGINT</span></code></p>
 <blockquote>
-<div><p><strong class="program">supervisord</strong> and all its subprocesses will shut down.
-This may take several seconds.</p>
+<div><p><strong class="program">supervisord</strong> 和它的所有子进程都将关闭。这可能需要几秒钟。</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">SIGQUIT</span></code></p>
 <blockquote>
-<div><p><strong class="program">supervisord</strong> and all its subprocesses will shut down.
-This may take several seconds.</p>
+<div><p><strong class="program">supervisord</strong> 和它的所有子进程都将关闭。这可能需要几秒钟。</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">SIGHUP</span></code></p>
 <blockquote>
-<div><p><strong class="program">supervisord</strong> will stop all processes, reload the
-configuration from the first config file it finds, and start all
-processes.</p>
+<div><p><strong class="program">supervisord</strong> 将停止所有进程，重新加载它找到的第一个配置文件中的配置，然后启动所有进程。</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">SIGUSR2</span></code></p>
 <blockquote>
-<div><p><strong class="program">supervisord</strong> will close and reopen the main activity log
-and all child log files.</p>
+<div><p><strong class="program">supervisord</strong> 将关闭并重新打开主活动日志和所有子日志文件。</p>
 </div></blockquote>
 </section>
 </section>
 <section id="runtime-security">
-<h2>Runtime Security<a class="headerlink" href="#runtime-security" title="永久链接至标题">¶</a></h2>
-<p>The developers have done their best to assure that use of a
-<strong class="program">supervisord</strong> process running as root cannot lead to
-unintended privilege escalation.  But <strong>caveat emptor</strong>.  Supervisor
-is not as paranoid as something like DJ Bernstein’s
-<a class="reference internal" href="glossary.html#term-daemontools"><span class="xref std std-term">daemontools</span></a>, inasmuch as <strong class="program">supervisord</strong> allows for
-arbitrary path specifications in its configuration file to which data
-may be written.  Allowing arbitrary path selections can create
-vulnerabilities from symlink attacks.  Be careful when specifying
-paths in your configuration.  Ensure that the <strong class="program">supervisord</strong>
-configuration file cannot be read from or written to by unprivileged
-users and that all files installed by the supervisor package have
-“sane” file permission protection settings.  Additionally, ensure that
-your <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> is sane and that all Python standard
-library files have adequate file permission protections.</p>
+<h2>运行时安全<a class="headerlink" href="#runtime-security" title="永久链接至标题">¶</a></h2>
+<p>开发人员已经尽最大努力确保 <strong class="program">supervisord</strong> 进程作为根用户运行不会导致意外的权限升级。但 <strong>caveat emptor</strong>。Supervisor 并不像 DJ Bernstein 的 <a class="reference internal" href="glossary.html#term-daemontools"><span class="xref std std-term">daemontools</span></a> 那样偏执，因为:program:“Supervisor”允许在配置文件中写入任意路径。允许任意路径选择可能会导致符号链接攻击的漏洞。在配置中指定路径时要小心。确保 <strong class="program">supervisord</strong> 配置文件不能被非特权用户读取或写入，并且由 supervisor 包安装的所有文件都有“健全的”文件权限保护设置。此外，确保你的 <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> 是正常的，并且所有 Python 标准库文件都有足够的文件权限保护。</p>
 </section>
 <section id="running-supervisord-automatically-on-startup">
-<h2>Running <strong class="program">supervisord</strong> automatically on startup<a class="headerlink" href="#running-supervisord-automatically-on-startup" title="永久链接至标题">¶</a></h2>
-<p>If you are using a distribution-packaged version of Supervisor, it should
-already be integrated into the service management infrastructure of your
-distribution.</p>
-<p>There are user-contributed scripts for various operating systems at:
-<a class="reference external" href="https://github.com/Supervisor/initscripts">https://github.com/Supervisor/initscripts</a></p>
-<p>There are some answers at Serverfault in case you get stuck:
-<a class="reference external" href="http://serverfault.com/questions/96499/how-to-automatically-start-supervisord-on-linux-ubuntu">How to automatically start supervisord on Linux (Ubuntu)</a></p>
+<h2>运行 <strong class="program">supervisord</strong> 自动启动<a class="headerlink" href="#running-supervisord-automatically-on-startup" title="永久链接至标题">¶</a></h2>
+<p>如果您使用的是Supervisor的发行版打包版本，那么它应该已经集成到您发行版的服务管理基础设施中了。</p>
+<p>有针对各种操作系统的用户贡献的脚本，请参阅：<a class="reference external" href="https://github.com/Supervisor/initscripts">https://github.com/Supervisor/initscripts</a></p>
+<p>如果你卡住了，服务器故障有一些答案：<a class="reference external" href="http://serverfault.com/questions/96499/how-to-automatically-start-supervisord-on-linux-ubuntu">如何在 Linux (Ubuntu) 上自动启动监督</a></p>
 </section>
 </section>
 
@@ -457,17 +358,17 @@ distribution.</p>
 <h3>导航</h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">介绍</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Running Supervisor</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#adding-a-program">Adding a Program</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#running-supervisord">Running <strong class="program">supervisord</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#running-supervisorctl">Running <strong class="program">supervisorctl</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#signals">Signals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#runtime-security">Runtime Security</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#running-supervisord-automatically-on-startup">Running <strong class="program">supervisord</strong> automatically on startup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">安装</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">运行 Supervisor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-program">关于程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-supervisord">运行 <strong class="program">supervisord</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-supervisorctl">运行 <strong class="program">supervisorctl</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#signals">信号</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#runtime-security">运行时安全</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-supervisord-automatically-on-startup">运行 <strong class="program">supervisord</strong> 自动启动</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">配置文件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="subprocess.html">Subprocesses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="events.html">Events</a></li>
@@ -488,8 +389,8 @@ distribution.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="installing.html" title="上一章">Installing</a></li>
-      <li>Next: <a href="configuration.html" title="下一章">Configuration File</a></li>
+      <li>Previous: <a href="installing.html" title="上一章">安装</a></li>
+      <li>Next: <a href="configuration.html" title="下一章">配置文件</a></li>
   </ul></li>
 </ul>
 </div>
