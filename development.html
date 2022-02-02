@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Resources and Development &#8212; Supervisor 4.3.0.dev0 文档</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/repoze.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/translations.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="Glossary" href="glossary.html" />
+    <link rel="prev" title="Frequently Asked Questions" href="faq.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="resources-and-development">
+<h1>Resources and Development<a class="headerlink" href="#resources-and-development" title="永久链接至标题">¶</a></h1>
+<section id="bug-tracker">
+<h2>Bug Tracker<a class="headerlink" href="#bug-tracker" title="永久链接至标题">¶</a></h2>
+<p>Supervisor has a bugtracker where you may report any bugs or other
+errors you find.  Please report bugs to the <a class="reference external" href="https://github.com/supervisor/supervisor/issues">GitHub issues page</a>.</p>
+</section>
+<section id="version-control-repository">
+<h2>Version Control Repository<a class="headerlink" href="#version-control-repository" title="永久链接至标题">¶</a></h2>
+<p>You can also view the <a class="reference external" href="https://github.com/Supervisor/supervisor">Supervisor version control repository</a>.</p>
+</section>
+<section id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="永久链接至标题">¶</a></h2>
+<p>We’ll review contributions from the community in
+<a class="reference external" href="https://help.github.com/articles/using-pull-requests">pull requests</a>
+on GitHub.</p>
+</section>
+<section id="author-information">
+<h2>Author Information<a class="headerlink" href="#author-information" title="永久链接至标题">¶</a></h2>
+<p>The following people are responsible for creating Supervisor.</p>
+<section id="original-author">
+<h3>Original Author<a class="headerlink" href="#original-author" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/mcdonc">Chris McDonough</a> is the original author of
+Supervisor.</p></li>
+</ul>
+</section>
+<section id="contributors">
+<h3>Contributors<a class="headerlink" href="#contributors" title="永久链接至标题">¶</a></h3>
+<p>Contributors are tracked on the <a class="reference external" href="https://github.com/Supervisor/supervisor/graphs/contributors">GitHub contributions page</a>.  The two lists
+below are included for historical reasons.</p>
+<p>This first list recognizes significant contributions that were made
+before the repository moved to GitHub.</p>
+<ul class="simple">
+<li><p>Anders Quist: Anders contributed the patch that was the basis for
+Supervisor’s ability to reload parts of its configuration without
+restarting.</p></li>
+<li><p>Derek DeVries: Derek did the web design of Supervisor’s internal web
+interface and website logos.</p></li>
+<li><p>Guido van Rossum: Guido authored <code class="docutils literal notranslate"><span class="pre">zdrun</span></code> and <code class="docutils literal notranslate"><span class="pre">zdctl</span></code>, the
+programs from Zope that were the original basis for Supervisor.  He
+also created Python, the programming language that Supervisor is
+written in.</p></li>
+<li><p>Jason Kirtland: Jason fixed Supervisor to run on Python 2.6 by
+contributing a patched version of Medusa (a Supervisor dependency)
+that we now bundle.</p></li>
+<li><p>Roger Hoover: Roger added support for spawning FastCGI programs. He
+has also been one of the most active mailing list users, providing
+his testing and feedback.</p></li>
+<li><p>Siddhant Goel: Siddhant worked on <strong class="program">supervisorctl</strong> as our
+Google Summer of Code student for 2008. He implemented the <code class="docutils literal notranslate"><span class="pre">fg</span></code>
+command and also added tab completion.</p></li>
+</ul>
+<p>This second list records contributors who signed a legal agreement.
+The legal agreement was
+<a class="reference external" href="https://github.com/Supervisor/supervisor/commit/7bdac36e67a91b513a2e53a6098751509a7a9e34">introduced</a>
+in January 2014 but later
+<a class="reference external" href="https://github.com/Supervisor/supervisor/commit/79090d521c512634bed03a65147f16cd41456051">withdrawn</a>
+in March 2014.  This list is being preserved in case it is useful
+later (e.g. if at some point there was a desire to donate the project
+to a foundation that required such agreements).</p>
+<ul class="simple">
+<li><p>Chris McDonough, 2006-06-26</p></li>
+<li><p>Siddhant Goel, 2008-06-15</p></li>
+<li><p>Chris Rossi, 2010-02-02</p></li>
+<li><p>Roger Hoover, 2010-08-17</p></li>
+<li><p>Benoit Sigoure, 2011-06-21</p></li>
+<li><p>John Szakmeister, 2011-09-06</p></li>
+<li><p>Gunnlaugur Þór Briem, 2011-11-26</p></li>
+<li><p>Jens Rantil, 2011-11-27</p></li>
+<li><p>Michael Blume, 2012-01-09</p></li>
+<li><p>Philip Zeyliger, 2012-02-21</p></li>
+<li><p>Marcelo Vanzin, 2012-05-03</p></li>
+<li><p>Martijn Pieters, 2012-06-04</p></li>
+<li><p>Marcin Kuźmiński, 2012-06-21</p></li>
+<li><p>Jean Jordaan, 2012-06-28</p></li>
+<li><p>Perttu Ranta-aho, 2012-09-27</p></li>
+<li><p>Chris Streeter, 2013-03-23</p></li>
+<li><p>Caio Ariede, 2013-03-25</p></li>
+<li><p>David Birdsong, 2013-04-11</p></li>
+<li><p>Lukas Rist, 2013-04-18</p></li>
+<li><p>Honza Pokorny, 2013-07-23</p></li>
+<li><p>Thúlio Costa, 2013-10-31</p></li>
+<li><p>Gary M. Josack, 2013-11-12</p></li>
+<li><p>Márk Sági-Kazár, 2013-12-16</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_hi.gif" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="index.html">Supervisor</a></h1>
+
+
+
+
+
+
+
+
+<h3>导航</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running Supervisor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="subprocess.html">Subprocesses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="events.html">Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xmlrpc.html">Extending Supervisor’s XML-RPC API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrading.html">Upgrading Supervisor 2 to 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Resources and Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bug-tracker">Bug Tracker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-control-repository">Version Control Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributing">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#author-information">Author Information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">XML-RPC API Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Third Party Applications and Libraries</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="faq.html" title="上一章">Frequently Asked Questions</a></li>
+      <li>Next: <a href="glossary.html" title="下一章">Glossary</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">快速搜索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="转向" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2004-2022, Agendaless Consulting and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/development.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

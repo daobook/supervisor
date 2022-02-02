@@ -1,0 +1,815 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>XML-RPC API Documentation &#8212; Supervisor 4.3.0.dev0 文档</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/repoze.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/translations.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="Third Party Applications and Libraries" href="plugins.html" />
+    <link rel="prev" title="Glossary" href="glossary.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="xml-rpc-api-documentation">
+<span id="xml-rpc"></span><h1>XML-RPC API Documentation<a class="headerlink" href="#xml-rpc-api-documentation" title="永久链接至标题">¶</a></h1>
+<p>To use the XML-RPC interface, first make sure you have configured the interface
+factory properly by setting the default factory. See <a class="reference internal" href="xmlrpc.html#rpcinterface-factories"><span class="std std-ref">Configuring XML-RPC Interface Factories</span></a>.</p>
+<p>Then you can connect to supervisor’s HTTP port
+with any XML-RPC client library and run commands against it.</p>
+<p>An example of doing this using Python 2’s <code class="docutils literal notranslate"><span class="pre">xmlrpclib</span></code> client library
+is as follows.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">xmlrpclib</span><span class="o">.</span><span class="n">Server</span><span class="p">(</span><span class="s1">&#39;http://localhost:9001/RPC2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>An example of doing this using Python 3’s <code class="docutils literal notranslate"><span class="pre">xmlrpc.client</span></code> library
+is as follows.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">xmlrpc.client</span> <span class="kn">import</span> <span class="n">ServerProxy</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">ServerProxy</span><span class="p">(</span><span class="s1">&#39;http://localhost:9001/RPC2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You may call methods against <strong class="program">supervisord</strong> and its
+subprocesses by using the <code class="docutils literal notranslate"><span class="pre">supervisor</span></code> namespace.  An example is
+provided below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">server</span><span class="o">.</span><span class="n">supervisor</span><span class="o">.</span><span class="n">getState</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can get a list of methods supported by the
+<strong class="program">supervisord</strong> XML-RPC interface by using the XML-RPC
+<code class="docutils literal notranslate"><span class="pre">system.listMethods</span></code> API:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">server</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">listMethods</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can see help on a method by using the <code class="docutils literal notranslate"><span class="pre">system.methodHelp</span></code> API
+against the method:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">server</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">methodHelp</span><span class="p">(</span><span class="s1">&#39;supervisor.shutdown&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <strong class="program">supervisord</strong> XML-RPC interface also supports the
+<a class="reference external" href="http://web.archive.org/web/20060824100531/http://www.xmlrpc.com/discuss/msgReader$1208">XML-RPC multicall API</a>.</p>
+<p>You can extend <strong class="program">supervisord</strong> functionality with new XML-RPC
+API methods by adding new top-level RPC interfaces as necessary.
+See <a class="reference internal" href="xmlrpc.html#rpcinterface-factories"><span class="std std-ref">Configuring XML-RPC Interface Factories</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>Any XML-RPC method call may result in a fault response.  This includes errors caused
+by the client such as bad arguments, and any errors that make <strong class="program">supervisord</strong>
+unable to fulfill the request.  Many XML-RPC client programs will raise an exception
+when a fault response is encountered.</p>
+</div>
+<span class="target" id="module-supervisor.rpcinterface"></span><section id="status-and-control">
+<h2>Status and Control<a class="headerlink" href="#status-and-control" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><dl class="py class">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">supervisor.rpcinterface.</span></span><span class="sig-name descname"><span class="pre">SupervisorNamespaceRPCInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supervisord</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface" title="永久链接至目标">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getAPIVersion">
+<span class="sig-name descname"><span class="pre">getAPIVersion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getAPIVersion" title="永久链接至目标">¶</a></dt>
+<dd><p>Return the version of the RPC API used by supervisord</p>
+<p>&#64;return string version version id</p>
+<p>This API is versioned separately from Supervisor itself. The API version
+returned by <code class="docutils literal notranslate"><span class="pre">getAPIVersion</span></code> only changes when the API changes. Its purpose
+is to help the client identify with which version of the Supervisor API it
+is communicating.</p>
+<p>When writing software that communicates with this API, it is highly
+recommended that you first test the API version for compatibility before
+making method calls.</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">getAPIVersion</span></code> method replaces <code class="docutils literal notranslate"><span class="pre">getVersion</span></code> found in Supervisor
+versions prior to 3.0a1. It is aliased for compatibility but getVersion()
+is deprecated and support will be dropped from Supervisor in a future
+version.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getSupervisorVersion">
+<span class="sig-name descname"><span class="pre">getSupervisorVersion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getSupervisorVersion" title="永久链接至目标">¶</a></dt>
+<dd><p>Return the version of the supervisor package in use by supervisord</p>
+<p>&#64;return string version version id</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getIdentification">
+<span class="sig-name descname"><span class="pre">getIdentification</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getIdentification" title="永久链接至目标">¶</a></dt>
+<dd><p>Return identifying string of supervisord</p>
+<p>&#64;return string identifier identifying string</p>
+<p>This method allows the client to identify with which Supervisor
+instance it is communicating in the case of environments where
+multiple Supervisors may be running.</p>
+<p>The identification is a string that must be set in Supervisor’s
+configuration file. This method simply returns that value back to the
+client.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getState">
+<span class="sig-name descname"><span class="pre">getState</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getState" title="永久链接至目标">¶</a></dt>
+<dd><p>Return current state of supervisord as a struct</p>
+<p>&#64;return struct A struct with keys int statecode, string statename</p>
+<p>This is an internal value maintained by Supervisor that determines what
+Supervisor believes to be its current operational state.</p>
+<p>Some method calls can alter the current state of the Supervisor. For
+example, calling the method supervisor.shutdown() while the station is
+in the RUNNING state places the Supervisor in the SHUTDOWN state while
+it is shutting down.</p>
+<p>The supervisor.getState() method provides a means for the client to check
+Supervisor’s state, both for informational purposes and to ensure that the
+methods it intends to call will be permitted.</p>
+<p>The return value is a struct:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;statecode&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+ <span class="s1">&#39;statename&#39;</span><span class="p">:</span> <span class="s1">&#39;RUNNING&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The possible return values are:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 15%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>statecode</p></th>
+<th class="head"><p>statename</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>FATAL</p></td>
+<td><p>Supervisor has experienced a serious error.</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>RUNNING</p></td>
+<td><p>Supervisor is working normally.</p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>RESTARTING</p></td>
+<td><p>Supervisor is in the process of restarting.</p></td>
+</tr>
+<tr class="row-odd"><td><p>-1</p></td>
+<td><p>SHUTDOWN</p></td>
+<td><p>Supervisor is in the process of shutting down.</p></td>
+</tr>
+</tbody>
+</table>
+<p>The <code class="docutils literal notranslate"><span class="pre">FATAL</span></code> state reports unrecoverable errors, such as internal
+errors inside Supervisor or system runaway conditions. Once set to
+<code class="docutils literal notranslate"><span class="pre">FATAL</span></code>, the Supervisor can never return to any other state without
+being restarted.</p>
+<p>In the <code class="docutils literal notranslate"><span class="pre">FATAL</span></code> state, all future methods except
+supervisor.shutdown() and supervisor.restart() will automatically fail
+without being called and the fault <code class="docutils literal notranslate"><span class="pre">FATAL_STATE</span></code> will be raised.</p>
+<p>In the <code class="docutils literal notranslate"><span class="pre">SHUTDOWN</span></code> or <code class="docutils literal notranslate"><span class="pre">RESTARTING</span></code> states, all method calls are
+ignored and their possible return values are undefined.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getPID">
+<span class="sig-name descname"><span class="pre">getPID</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getPID" title="永久链接至目标">¶</a></dt>
+<dd><p>Return the PID of supervisord</p>
+<p>&#64;return int PID</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readLog">
+<span class="sig-name descname"><span class="pre">readLog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readLog" title="永久链接至目标">¶</a></dt>
+<dd><p>Read length bytes from the main log starting at offset</p>
+<p>&#64;param int offset         offset to start reading from.
+&#64;param int length         number of bytes to read from the log.
+&#64;return string result     Bytes of log</p>
+<p>It can either return the entire log, a number of characters from the
+tail of the log, or a slice of the log specified by the offset and
+length parameters:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 14%" />
+<col style="width: 74%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Offset</p></th>
+<th class="head"><p>Length</p></th>
+<th class="head"><p>Behavior of <code class="docutils literal notranslate"><span class="pre">readProcessLog</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Negative</p></td>
+<td><p>Not Zero</p></td>
+<td><p>Bad arguments. This will raise the fault
+<code class="docutils literal notranslate"><span class="pre">BAD_ARGUMENTS</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Negative</p></td>
+<td><p>Zero</p></td>
+<td><p>This will return the tail of the log, or offset
+number of characters from the end of the log.
+For example, if <code class="docutils literal notranslate"><span class="pre">offset</span></code> = -4 and <code class="docutils literal notranslate"><span class="pre">length</span></code>
+= 0, then the last four characters will be
+returned from the end of the log.</p></td>
+</tr>
+<tr class="row-even"><td><p>Zero or
+Positive</p></td>
+<td><p>Negative</p></td>
+<td><p>Bad arguments. This will raise the fault
+<code class="docutils literal notranslate"><span class="pre">BAD_ARGUMENTS</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Zero or
+Positive</p></td>
+<td><p>Zero</p></td>
+<td><p>All characters will be returned from the
+<code class="docutils literal notranslate"><span class="pre">offset</span></code> specified.</p></td>
+</tr>
+<tr class="row-even"><td><p>Zero or
+Positive</p></td>
+<td><p>Positive</p></td>
+<td><p>A number of characters length will be returned
+from the <code class="docutils literal notranslate"><span class="pre">offset</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+<p>If the log is empty and the entire log is requested, an empty string
+is returned.</p>
+<p>If either offset or length is out of range, the fault
+<code class="docutils literal notranslate"><span class="pre">BAD_ARGUMENTS</span></code> will be returned.</p>
+<p>If the log cannot be read, this method will raise either the
+<code class="docutils literal notranslate"><span class="pre">NO_FILE</span></code> error if the file does not exist or the <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> error
+if any other problem was encountered.</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>The readLog() method replaces readMainLog() found in Supervisor
+versions prior to 2.1. It is aliased for compatibility but
+readMainLog() is deprecated and support will be dropped from
+Supervisor in a future version.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearLog">
+<span class="sig-name descname"><span class="pre">clearLog</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearLog" title="永久链接至目标">¶</a></dt>
+<dd><p>Clear the main log.</p>
+<p>&#64;return boolean result always returns True unless error</p>
+<p>If the log cannot be cleared because the log file does not exist, the
+fault <code class="docutils literal notranslate"><span class="pre">NO_FILE</span></code> will be raised. If the log cannot be cleared for any
+other reason, the fault <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> will be raised.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.shutdown">
+<span class="sig-name descname"><span class="pre">shutdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.shutdown" title="永久链接至目标">¶</a></dt>
+<dd><p>Shut down the supervisor process</p>
+<p>&#64;return boolean result always returns True unless error</p>
+<p>This method shuts down the Supervisor daemon. If any processes are running,
+they are automatically killed without warning.</p>
+<p>Unlike most other methods, if Supervisor is in the <code class="docutils literal notranslate"><span class="pre">FATAL</span></code> state,
+this method will still function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.restart">
+<span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.restart" title="永久链接至目标">¶</a></dt>
+<dd><p>Restart the supervisor process</p>
+<p>&#64;return boolean result  always return True unless error</p>
+<p>This method soft restarts the Supervisor daemon. If any processes are
+running, they are automatically killed without warning. Note that the
+actual UNIX process for Supervisor cannot restart; only Supervisor’s
+main program loop. This has the effect of resetting the internal
+states of Supervisor.</p>
+<p>Unlike most other methods, if Supervisor is in the <code class="docutils literal notranslate"><span class="pre">FATAL</span></code> state,
+this method will still function.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div></blockquote>
+</section>
+<section id="process-control">
+<h2>Process Control<a class="headerlink" href="#process-control" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">supervisor.rpcinterface.</span></span><span class="sig-name descname"><span class="pre">SupervisorNamespaceRPCInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supervisord</span></span></em><span class="sig-paren">)</span></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getProcessInfo">
+<span class="sig-name descname"><span class="pre">getProcessInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getProcessInfo" title="永久链接至目标">¶</a></dt>
+<dd><p>Get info about a process named name</p>
+<p>&#64;param string name The name of the process (or ‘group:name’)
+&#64;return struct result     A structure containing data about the process</p>
+<p>The return value is a struct:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span>           <span class="s1">&#39;process name&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;group&#39;</span><span class="p">:</span>          <span class="s1">&#39;group name&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;description&#39;</span><span class="p">:</span>    <span class="s1">&#39;pid 18806, uptime 0:03:12&#39;</span>
+ <span class="s1">&#39;start&#39;</span><span class="p">:</span>          <span class="mi">1200361776</span><span class="p">,</span>
+ <span class="s1">&#39;stop&#39;</span><span class="p">:</span>           <span class="mi">0</span><span class="p">,</span>
+ <span class="s1">&#39;now&#39;</span><span class="p">:</span>            <span class="mi">1200361812</span><span class="p">,</span>
+ <span class="s1">&#39;state&#39;</span><span class="p">:</span>          <span class="mi">20</span><span class="p">,</span>
+ <span class="s1">&#39;statename&#39;</span><span class="p">:</span>      <span class="s1">&#39;RUNNING&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;spawnerr&#39;</span><span class="p">:</span>       <span class="s1">&#39;&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;exitstatus&#39;</span><span class="p">:</span>     <span class="mi">0</span><span class="p">,</span>
+ <span class="s1">&#39;logfile&#39;</span><span class="p">:</span>        <span class="s1">&#39;/path/to/stdout-log&#39;</span><span class="p">,</span> <span class="c1"># deprecated, b/c only</span>
+ <span class="s1">&#39;stdout_logfile&#39;</span><span class="p">:</span> <span class="s1">&#39;/path/to/stdout-log&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;stderr_logfile&#39;</span><span class="p">:</span> <span class="s1">&#39;/path/to/stderr-log&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;pid&#39;</span><span class="p">:</span>            <span class="mi">1</span><span class="p">}</span>
+</pre></div>
+</div>
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">name</span></span></dt>
+<dd><p>Name of the process</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">group</span></span></dt>
+<dd><p>Name of the process’ group</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">description</span></span></dt>
+<dd><p>If process state is running description’s value is process_id
+and uptime. Example “pid 18806, uptime 0:03:12 “.
+If process state is stopped description’s value is stop time.
+Example:”Jun 5 03:16 PM “.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">start</span></span></dt>
+<dd><p>UNIX timestamp of when the process was started</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">stop</span></span></dt>
+<dd><p>UNIX timestamp of when the process last ended, or 0 if the process
+has never been stopped.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">now</span></span></dt>
+<dd><p>UNIX timestamp of the current time, which can be used to calculate
+process up-time.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">state</span></span></dt>
+<dd><p>State code, see <a class="reference internal" href="subprocess.html#process-states"><span class="std std-ref">Process States</span></a>.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">statename</span></span></dt>
+<dd><p>String description of <cite>state</cite>, see <a class="reference internal" href="subprocess.html#process-states"><span class="std std-ref">Process States</span></a>.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">logfile</span></span></dt>
+<dd><p>Deprecated alias for <code class="docutils literal notranslate"><span class="pre">stdout_logfile</span></code>.  This is provided only
+for compatibility with clients written for Supervisor 2.x and
+may be removed in the future.  Use <code class="docutils literal notranslate"><span class="pre">stdout_logfile</span></code> instead.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">stdout_logfile</span></span></dt>
+<dd><p>Absolute path and filename to the STDOUT logfile</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">stderr_logfile</span></span></dt>
+<dd><p>Absolute path and filename to the STDOUT logfile</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">spawnerr</span></span></dt>
+<dd><p>Description of error that occurred during spawn, or empty string
+if none.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">exitstatus</span></span></dt>
+<dd><p>Exit status (errorlevel) of process, or 0 if the process is still
+running.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">pid</span></span></dt>
+<dd><p>UNIX process ID (PID) of the process, or 0 if the process is not
+running.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getAllProcessInfo">
+<span class="sig-name descname"><span class="pre">getAllProcessInfo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getAllProcessInfo" title="永久链接至目标">¶</a></dt>
+<dd><p>Get info about all processes</p>
+<p>&#64;return array result  An array of process status results</p>
+<p>Each element contains a struct, and this struct contains the exact
+same elements as the struct returned by <code class="docutils literal notranslate"><span class="pre">getProcessInfo</span></code>. If the process
+table is empty, an empty array is returned.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startProcess">
+<span class="sig-name descname"><span class="pre">startProcess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startProcess" title="永久链接至目标">¶</a></dt>
+<dd><p>Start a process</p>
+<p>&#64;param string name Process name (or <code class="docutils literal notranslate"><span class="pre">group:name</span></code>, or <code class="docutils literal notranslate"><span class="pre">group:*</span></code>)
+&#64;param boolean wait Wait for process to be fully started
+&#64;return boolean result     Always true unless error</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startAllProcesses">
+<span class="sig-name descname"><span class="pre">startAllProcesses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startAllProcesses" title="永久链接至目标">¶</a></dt>
+<dd><p>Start all processes listed in the configuration file</p>
+<p>&#64;param boolean wait    Wait for each process to be fully started
+&#64;return array result   An array of process status info structs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startProcessGroup">
+<span class="sig-name descname"><span class="pre">startProcessGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startProcessGroup" title="永久链接至目标">¶</a></dt>
+<dd><p>Start all processes in the group named ‘name’</p>
+<p>&#64;param string name     The group name
+&#64;param boolean wait    Wait for each process to be fully started
+&#64;return array result   An array of process status info structs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopProcess">
+<span class="sig-name descname"><span class="pre">stopProcess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopProcess" title="永久链接至目标">¶</a></dt>
+<dd><p>Stop a process named by name</p>
+<p>&#64;param string name  The name of the process to stop (or ‘group:name’)
+&#64;param boolean wait        Wait for the process to be fully stopped
+&#64;return boolean result     Always return True unless error</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopProcessGroup">
+<span class="sig-name descname"><span class="pre">stopProcessGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopProcessGroup" title="永久链接至目标">¶</a></dt>
+<dd><p>Stop all processes in the process group named ‘name’</p>
+<p>&#64;param string name     The group name
+&#64;param boolean wait    Wait for each process to be fully stopped
+&#64;return array result   An array of process status info structs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopAllProcesses">
+<span class="sig-name descname"><span class="pre">stopAllProcesses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopAllProcesses" title="永久链接至目标">¶</a></dt>
+<dd><p>Stop all processes in the process list</p>
+<p>&#64;param  boolean wait   Wait for each process to be fully stopped
+&#64;return array result   An array of process status info structs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalProcess">
+<span class="sig-name descname"><span class="pre">signalProcess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalProcess" title="永久链接至目标">¶</a></dt>
+<dd><p>Send an arbitrary UNIX signal to the process named by name</p>
+<p>&#64;param string name    Name of the process to signal (or ‘group:name’)
+&#64;param string signal  Signal to send, as name (‘HUP’) or number (‘1’)
+&#64;return boolean</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalProcessGroup">
+<span class="sig-name descname"><span class="pre">signalProcessGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalProcessGroup" title="永久链接至目标">¶</a></dt>
+<dd><p>Send a signal to all processes in the group named ‘name’</p>
+<p>&#64;param string name    The group name
+&#64;param string signal  Signal to send, as name (‘HUP’) or number (‘1’)
+&#64;return array</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalAllProcesses">
+<span class="sig-name descname"><span class="pre">signalAllProcesses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalAllProcesses" title="永久链接至目标">¶</a></dt>
+<dd><p>Send a signal to all processes in the process list</p>
+<p>&#64;param string signal  Signal to send, as name (‘HUP’) or number (‘1’)
+&#64;return array         An array of process status info structs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.sendProcessStdin">
+<span class="sig-name descname"><span class="pre">sendProcessStdin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chars</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.sendProcessStdin" title="永久链接至目标">¶</a></dt>
+<dd><p>Send a string of chars to the stdin of the process name.
+If non-7-bit data is sent (unicode), it is encoded to utf-8
+before being sent to the process’ stdin.  If chars is not a
+string or is not unicode, raise INCORRECT_PARAMETERS.  If the
+process is not running, raise NOT_RUNNING.  If the process’
+stdin cannot accept input (e.g. it was closed by the child
+process), raise NO_FILE.</p>
+<p>&#64;param string name        The process name to send to (or ‘group:name’)
+&#64;param string chars       The character data to send to the process
+&#64;return boolean result    Always return True unless error</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.sendRemoteCommEvent">
+<span class="sig-name descname"><span class="pre">sendRemoteCommEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.sendRemoteCommEvent" title="永久链接至目标">¶</a></dt>
+<dd><p>Send an event that will be received by event listener
+subprocesses subscribing to the RemoteCommunicationEvent.</p>
+<p>&#64;param  string  type  String for the “type” key in the event header
+&#64;param  string  data  Data for the event body
+&#64;return boolean       Always return True unless error</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.reloadConfig">
+<span class="sig-name descname"><span class="pre">reloadConfig</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.reloadConfig" title="永久链接至目标">¶</a></dt>
+<dd><p>Reload the configuration.</p>
+<p>The result contains three arrays containing names of process
+groups:</p>
+<ul class="simple">
+<li><p><cite>added</cite> gives the process groups that have been added</p></li>
+<li><p><cite>changed</cite> gives the process groups whose contents have
+changed</p></li>
+<li><p><cite>removed</cite> gives the process groups that are no longer
+in the configuration</p></li>
+</ul>
+<p>&#64;return array result  [[added, changed, removed]]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.addProcessGroup">
+<span class="sig-name descname"><span class="pre">addProcessGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.addProcessGroup" title="永久链接至目标">¶</a></dt>
+<dd><p>Update the config for a running process from config file.</p>
+<p>&#64;param string name         name of process group to add
+&#64;return boolean result     true if successful</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.removeProcessGroup">
+<span class="sig-name descname"><span class="pre">removeProcessGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.removeProcessGroup" title="永久链接至目标">¶</a></dt>
+<dd><p>Remove a stopped process from the active configuration.</p>
+<p>&#64;param string name         name of process group to remove
+&#64;return boolean result     Indicates whether the removal was successful</p>
+</dd></dl>
+
+</dd></dl>
+
+</div></blockquote>
+</section>
+<section id="process-logging">
+<h2>Process Logging<a class="headerlink" href="#process-logging" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">supervisor.rpcinterface.</span></span><span class="sig-name descname"><span class="pre">SupervisorNamespaceRPCInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supervisord</span></span></em><span class="sig-paren">)</span></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readProcessStdoutLog">
+<span class="sig-name descname"><span class="pre">readProcessStdoutLog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readProcessStdoutLog" title="永久链接至目标">¶</a></dt>
+<dd><p>Read length bytes from name’s stdout log starting at offset</p>
+<p>&#64;param string name        the name of the process (or ‘group:name’)
+&#64;param int offset         offset to start reading from.
+&#64;param int length         number of bytes to read from the log.
+&#64;return string result     Bytes of log</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readProcessStderrLog">
+<span class="sig-name descname"><span class="pre">readProcessStderrLog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readProcessStderrLog" title="永久链接至目标">¶</a></dt>
+<dd><p>Read length bytes from name’s stderr log starting at offset</p>
+<p>&#64;param string name        the name of the process (or ‘group:name’)
+&#64;param int offset         offset to start reading from.
+&#64;param int length         number of bytes to read from the log.
+&#64;return string result     Bytes of log</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.tailProcessStdoutLog">
+<span class="sig-name descname"><span class="pre">tailProcessStdoutLog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.tailProcessStdoutLog" title="永久链接至目标">¶</a></dt>
+<dd><p>Provides a more efficient way to tail the (stdout) log than
+readProcessStdoutLog().  Use readProcessStdoutLog() to read
+chunks and tailProcessStdoutLog() to tail.</p>
+<p>Requests (length) bytes from the (name)’s log, starting at
+(offset).  If the total log size is greater than (offset +
+length), the overflow flag is set and the (offset) is
+automatically increased to position the buffer at the end of
+the log.  If less than (length) bytes are available, the
+maximum number of available bytes will be returned.  (offset)
+returned is always the last offset in the log +1.</p>
+<p>&#64;param string name         the name of the process (or ‘group:name’)
+&#64;param int offset          offset to start reading from
+&#64;param int length          maximum number of bytes to return
+&#64;return array result       [string bytes, int offset, bool overflow]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.tailProcessStderrLog">
+<span class="sig-name descname"><span class="pre">tailProcessStderrLog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.tailProcessStderrLog" title="永久链接至目标">¶</a></dt>
+<dd><p>Provides a more efficient way to tail the (stderr) log than
+readProcessStderrLog().  Use readProcessStderrLog() to read
+chunks and tailProcessStderrLog() to tail.</p>
+<p>Requests (length) bytes from the (name)’s log, starting at
+(offset).  If the total log size is greater than (offset +
+length), the overflow flag is set and the (offset) is
+automatically increased to position the buffer at the end of
+the log.  If less than (length) bytes are available, the
+maximum number of available bytes will be returned.  (offset)
+returned is always the last offset in the log +1.</p>
+<p>&#64;param string name         the name of the process (or ‘group:name’)
+&#64;param int offset          offset to start reading from
+&#64;param int length          maximum number of bytes to return
+&#64;return array result       [string bytes, int offset, bool overflow]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearProcessLogs">
+<span class="sig-name descname"><span class="pre">clearProcessLogs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearProcessLogs" title="永久链接至目标">¶</a></dt>
+<dd><p>Clear the stdout and stderr logs for the named process and
+reopen them.</p>
+<p>&#64;param string name   The name of the process (or ‘group:name’)
+&#64;return boolean result      Always True unless error</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearAllProcessLogs">
+<span class="sig-name descname"><span class="pre">clearAllProcessLogs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearAllProcessLogs" title="永久链接至目标">¶</a></dt>
+<dd><p>Clear all process log files</p>
+<p>&#64;return array result   An array of process status info structs</p>
+</dd></dl>
+
+</dd></dl>
+
+</div></blockquote>
+<span class="target" id="module-supervisor.xmlrpc"></span></section>
+<section id="system-methods">
+<h2>System Methods<a class="headerlink" href="#system-methods" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><dl class="py class">
+<dt class="sig sig-object py" id="supervisor.xmlrpc.SystemNamespaceRPCInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">supervisor.xmlrpc.</span></span><span class="sig-name descname"><span class="pre">SystemNamespaceRPCInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">namespaces</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.xmlrpc.SystemNamespaceRPCInterface" title="永久链接至目标">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="supervisor.xmlrpc.SystemNamespaceRPCInterface.listMethods">
+<span class="sig-name descname"><span class="pre">listMethods</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.xmlrpc.SystemNamespaceRPCInterface.listMethods" title="永久链接至目标">¶</a></dt>
+<dd><p>Return an array listing the available method names</p>
+<p>&#64;return array result  An array of method names available (strings).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.xmlrpc.SystemNamespaceRPCInterface.methodHelp">
+<span class="sig-name descname"><span class="pre">methodHelp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.xmlrpc.SystemNamespaceRPCInterface.methodHelp" title="永久链接至目标">¶</a></dt>
+<dd><p>Return a string showing the method’s documentation</p>
+<p>&#64;param string name   The name of the method.
+&#64;return string result The documentation for the method name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.xmlrpc.SystemNamespaceRPCInterface.methodSignature">
+<span class="sig-name descname"><span class="pre">methodSignature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.xmlrpc.SystemNamespaceRPCInterface.methodSignature" title="永久链接至目标">¶</a></dt>
+<dd><p>Return an array describing the method signature in the
+form [rtype, ptype, ptype…] where rtype is the return data type
+of the method, and ptypes are the parameter data types that the
+method accepts in method argument order.</p>
+<p>&#64;param string name  The name of the method.
+&#64;return array result  The result.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="supervisor.xmlrpc.SystemNamespaceRPCInterface.multicall">
+<span class="sig-name descname"><span class="pre">multicall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.xmlrpc.SystemNamespaceRPCInterface.multicall" title="永久链接至目标">¶</a></dt>
+<dd><p>Process an array of calls, and return an array of
+results. Calls should be structs of the form {‘methodName’:
+string, ‘params’: array}. Each result will either be a
+single-item array containing the result value, or a struct of
+the form {‘faultCode’: int, ‘faultString’: string}. This is
+useful when you need to make lots of small calls without lots
+of round trips.</p>
+<p>&#64;param array calls  An array of call requests
+&#64;return array result  An array of results</p>
+</dd></dl>
+
+</dd></dl>
+
+</div></blockquote>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_hi.gif" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="index.html">Supervisor</a></h1>
+
+
+
+
+
+
+
+
+<h3>导航</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running Supervisor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="subprocess.html">Subprocesses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="events.html">Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xmlrpc.html">Extending Supervisor’s XML-RPC API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrading.html">Upgrading Supervisor 2 to 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Resources and Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">XML-RPC API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#status-and-control">Status and Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#process-control">Process Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#process-logging">Process Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#system-methods">System Methods</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Third Party Applications and Libraries</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="glossary.html" title="上一章">Glossary</a></li>
+      <li>Next: <a href="plugins.html" title="下一章">Third Party Applications and Libraries</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">快速搜索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="转向" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2004-2022, Agendaless Consulting and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/api.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
