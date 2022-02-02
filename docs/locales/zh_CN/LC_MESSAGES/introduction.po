@@ -67,6 +67,9 @@ msgid ""
 "it always knows the true up/down status of its children and can be "
 "queried conveniently for this data."
 msgstr ""
+"在 UNIX 上准确地获取进程的 up/down 状态通常是很困难的。"
+"pidfile 经常说谎。"
+"supervise 以子进程的形式启动进程，因此它总是知道子进程的真实 up/down 状态，并且可以方便地查询这些数据。"
 
 #: ../../introduction.rst:31
 msgid "Delegation"
@@ -90,10 +93,20 @@ msgid ""
 "subprocesses by emitting \"stop\", \"start\", and \"restart\" commands "
 "from a simple shell or web UI."
 msgstr ""
+"需要控制进程状态的用户通常只需要这样做。"
+"他们不希望或不需要对运行进程的机器进行完整的 shell 访问。"
+"监听 \"low\" TCP 端口的进程通常需要作为根用户启动并重新启动（UNIX 的一个错误特性）。"
+"通常情况下，允许 \"normal\" 用户停止或重新启动这样的进程是完全没问题的，"
+"但为他们提供 shell 访问权限通常是不切实际的，而为他们提供根访问权限或 sudo 访问权限通常是不可能的。"
+"向他们解释这个问题的存在也是很困难的。"
+"如果 supervisor 以 root 用户的身份启动，就可以允许“普通”用户控制这些进程，而不需要向他们解释问题的复杂性。"
+"Supervisorctl 允许对机器进行非常有限的访问，"
+"本质上允许用户通过从简单的 shell 或 web UI 中发出 “stop”、“start” 和 “restart” "
+"命令来查看进程状态和控制受监控的子进程。"
 
 #: ../../introduction.rst:50
 msgid "Process Groups"
-msgstr ""
+msgstr "进程组"
 
 #: ../../introduction.rst:52
 msgid ""
@@ -106,14 +119,19 @@ msgid ""
 "and a set of logically related processes can be stopped and started as a "
 "unit."
 msgstr ""
+"进程通常需要按组启动和停止，有时甚至需要按“优先顺序”。"
+"通常很难向人们解释如何做到这一点。"
+"Supervisor 允许你给进程分配优先级，并允许用户通过 supervisorctl 客户端发出命令，"
+"比如 \"start all\" 和 \"restart all\"，它们按照预先分配的优先级顺序启动它们。"
+"此外，进程可以被分组为“进程组”，一组逻辑上相关的进程可以作为一个单元停止和启动。"
 
 #: ../../introduction.rst:62
 msgid "Features"
-msgstr ""
+msgstr "特性"
 
 #: ../../introduction.rst:64
 msgid "Simple"
-msgstr ""
+msgstr "简单"
 
 #: ../../introduction.rst:66
 msgid ""
@@ -121,10 +139,12 @@ msgid ""
 "easy to learn. It provides many per-process options that make your life "
 "easier like restarting failed processes and automatic log rotation."
 msgstr ""
+"Supervisor 通过简单的 ini 风格的配置文件进行配置，很容易学习。"
+"它为每个进程提供了许多选项，让您的生活更轻松，比如重新启动失败的进程和自动日志旋转。”
 
 #: ../../introduction.rst:71
 msgid "Centralized"
-msgstr ""
+msgstr "集中"
 
 #: ../../introduction.rst:73
 msgid ""
@@ -133,10 +153,13 @@ msgid ""
 " configure Supervisor to provide a local or remote command line and web "
 "interface."
 msgstr ""
+"Supervisor 为您提供一个启动、停止和监视流程的地方。"
+"进程可以单独控制，也可以分组控制。"
+"您可以配置 Supervisor 提供本地或远程命令行和 web 界面。"
 
 #: ../../introduction.rst:78
 msgid "Efficient"
-msgstr ""
+msgstr "高效"
 
 #: ../../introduction.rst:80
 msgid ""
@@ -145,10 +168,13 @@ msgid ""
 "process terminates, unlike some solutions that rely on troublesome PID "
 "files and periodic polling to restart failed processes."
 msgstr ""
+""Supervisor 通过 fork/exec 启动子进程，子进程不会守护。"
+"当一个进程终止时，操作系统会立即向 Supervisor 发出信号，"
+"而不是像某些解决方案那样依赖于麻烦的 PID 文件和周期性轮询来重启失败的进程。"
 
 #: ../../introduction.rst:86
 msgid "Extensible"
-msgstr ""
+msgstr "可扩展"
 
 #: ../../introduction.rst:88
 msgid ""
@@ -157,10 +183,12 @@ msgid ""
 "control. It is also built with extension points that can be leveraged by "
 "Python developers."
 msgstr ""
+"“Supervisor 有简单的事件通知协议，用任何语言编写的程序都可以用来监视它，还有一个用于控制的 XML-RPC 接口。"
+"它还使用扩展点构建，可以被 Python 开发人员利用。"
 
 #: ../../introduction.rst:93
 msgid "Compatible"
-msgstr ""
+msgstr "兼容"
 
 #: ../../introduction.rst:95
 msgid ""
@@ -169,10 +197,13 @@ msgid ""
 "written entirely in Python, so installation does not require a C "
 "compiler."
 msgstr ""
+"“Supervisor 几乎可以处理除 Windows 之外的所有东西。"
+"它在 Linux、Mac OS X、Solaris 和 FreeBSD 上得到了测试和支持。"
+"它完全是用 Python 编写的，所以安装不需要 C 编译器。"
 
 #: ../../introduction.rst:100
 msgid "Proven"
-msgstr ""
+msgstr "证明"
 
 #: ../../introduction.rst:102
 msgid ""
@@ -180,10 +211,12 @@ msgid ""
 "software. Supervisor has been around for years and is already in use on "
 "many servers."
 msgstr ""
+"虽然 Supervisor 在今天的开发非常活跃，但它并不是一款新软件。"
+"Supervisor 已经存在多年，已经在许多服务器上使用。"
 
 #: ../../introduction.rst:107
 msgid "Supervisor Components"
-msgstr ""
+msgstr "Supervisor 组件"
 
 #: ../../introduction.rst:109
 msgid ":program:`supervisord`"
@@ -197,6 +230,9 @@ msgid ""
 "logging its subprocess ``stdout`` and ``stderr`` output, and generating "
 "and handling \"events\" corresponding to points in subprocess lifetimes."
 msgstr ""
+"supervisor 的服务器端名为 :program:`supervisord`。"
+"它负责在自己的调用中启动子程序，响应来自客户端的命令，重新启动崩溃或退出的子进程，"
+"记录子进程的 ``stdout`` 和 ``stderr`` 输出，并生成和处理子进程生命周期中相应点的事件。"
 
 #: ../../introduction.rst:118
 msgid ""
@@ -206,6 +242,9 @@ msgid ""
 "secure via proper filesystem permissions because it may contain "
 "unencrypted usernames and passwords."
 msgstr ""
+"服务器进程使用一个配置文件。它通常位于 :file:`/etc/supervisor .conf` 中。"
+"这个配置文件是一个 \"Windows-INI\" 风格的配置文件。"
+"通过适当的文件系统权限来保证这个文件的安全是很重要的，因为它可能包含未加密的用户名和密码。"
 
 #: ../../introduction.rst:124
 msgid ":program:`supervisorctl`"
