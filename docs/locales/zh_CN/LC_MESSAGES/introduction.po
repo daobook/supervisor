@@ -260,6 +260,11 @@ msgid ""
 "subprocesses controlled by, stop and start subprocesses of, and get lists"
 " of running processes of a :program:`supervisord`."
 msgstr ""
+"supervisor 的客户端命令行名为 :program:`supervisorctl`。"
+"它为 :program:`supervisord` 提供了类似 shell 的接口。"
+"从 :program:`supervisorctl` 中，用户可以连接到不同的 :program:`supervisord` 进程(一次一个)，"
+"获取被 :program:`supervisord` 进程控制的子进程的状态，停止和启动子进程，"
+"获取 :program:`supervisord` 进程的运行列表。"
 
 #: ../../introduction.rst:134
 msgid ""
@@ -270,10 +275,13 @@ msgid ""
 "configuration file as the server but any configuration file with a "
 "``[supervisorctl]`` section in it will work."
 msgstr ""
+"命令行客户端通过 UNIX 域套接字或 internet (TCP)套接字与服务器进行对话。"
+"服务器可以断言客户端的用户在执行命令之前应该提供身份验证凭据。"
+"客户端进程通常使用与服务器相同的配置文件，但任何包含 ``[supervisorctl]`` 部分的配置文件都可以工作。"
 
 #: ../../introduction.rst:141
 msgid "Web Server"
-msgstr ""
+msgstr "Web 服务器"
 
 #: ../../introduction.rst:143
 msgid ""
@@ -284,10 +292,13 @@ msgid ""
 "through the web interface after activating the configuration file's "
 "``[inet_http_server]`` section."
 msgstr ""
+"(稀疏的)web 用户界面的功能类似 :program:`supervisorctl` 可以通过浏览器访问，"
+"如果你针对一个互联网插座启动 :program:`supervisord`。"
+"访问服务器 URL(例如:在激活配置文件的 ``[inet_http_server]`` 部分后，通过 web 界面查看和控制进程状态。"
 
 #: ../../introduction.rst:150
 msgid "XML-RPC Interface"
-msgstr ""
+msgstr "XML-RPC 接口"
 
 #: ../../introduction.rst:152
 msgid ""
@@ -295,10 +306,12 @@ msgid ""
 "interface that can be used to interrogate and control supervisor and the "
 "programs it runs.  See :ref:`xml_rpc`."
 msgstr ""
+"服务于 web UI 的 HTTP 服务器也提供了 XML-RPC 接口，可以用来询问和控制管理器及其运行的程序。"
+"参考 :ref:`xml_rpc`。"
 
 #: ../../introduction.rst:157
 msgid "Platform Requirements"
-msgstr ""
+msgstr "平台需求"
 
 #: ../../introduction.rst:159
 msgid ""
@@ -306,14 +319,15 @@ msgid ""
 "Mac OS X (10.4/10.5/10.6), and Solaris (10 for Intel) and FreeBSD 6.1. It"
 " will likely work fine on most UNIX systems."
 msgstr ""
+"Supervisor 已经经过测试，已知运行在 Linux (Ubuntu 18.04)， Mac OS X (10.4/10.5/10.6)， Solaris (10 for Intel)和FreeBSD 6.1。它可能在大多数 UNIX 系统上运行良好。"
 
 #: ../../introduction.rst:163
 msgid "Supervisor will *not* run at all under any version of Windows."
-msgstr ""
+msgstr "在任何版本的 Windows 下，Supervisor 都不会运行。"
 
 #: ../../introduction.rst:165
 msgid ""
 "Supervisor is intended to work on Python 3 version 3.4 or later and on "
 "Python 2 version 2.7."
 msgstr ""
-
+"Supervisor 将用于 Python 3 3.4 或更高版本以及 Python 2 2.7 版本。"
