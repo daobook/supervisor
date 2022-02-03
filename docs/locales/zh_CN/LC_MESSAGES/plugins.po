@@ -19,7 +19,7 @@ msgstr ""
 
 #: ../../plugins.rst:2
 msgid "Third Party Applications and Libraries"
-msgstr ""
+msgstr "第三方应用程序和库"
 
 #: ../../plugins.rst:4
 msgid ""
@@ -27,20 +27,22 @@ msgid ""
 "together with Supervisor. This list aims to summarize them and make them "
 "easier to find."
 msgstr ""
+"有许多第三方应用程序可以与 Supervisor 一起使用。这个列表的目的是总结它们，让它们更容易找到。"
 
 #: ../../plugins.rst:8
 msgid "See README.rst for information on how to contribute to this list."
-msgstr ""
+msgstr "见 README.rst 以获取关于如何对该列表作出贡献的信息。"
 
 #: ../../plugins.rst:11
 msgid "Dashboards and Tools for Multiple Supervisor Instances"
-msgstr ""
+msgstr "多个 Supervisor 实例的仪表板和工具"
 
 #: ../../plugins.rst:13
 msgid ""
 "These are tools that can monitor or control a number of Supervisor "
 "instances running on different servers."
 msgstr ""
+"这些工具可以监视或控制运行在不同服务器上的多个 Supervisor 实例。"
 
 #: ../../plugins.rst:17
 msgid "`cesi <https://github.com/Gamegos/cesi>`_"
@@ -48,7 +50,7 @@ msgstr ""
 
 #: ../../plugins.rst:17
 msgid "Web-based dashboard written in Python."
-msgstr ""
+msgstr "用Python编写的基于web的仪表盘。"
 
 #: ../../plugins.rst:20
 msgid "`Django-Dashvisor <https://github.com/aleszoulek/django-dashvisor>`_"
@@ -56,7 +58,7 @@ msgstr ""
 
 #: ../../plugins.rst:20
 msgid "Web-based dashboard written in Python.  Requires Django 1.3 or 1.4."
-msgstr ""
+msgstr "用Python编写的基于web的仪表盘。需要Django 1.3或1.4。"
 
 #: ../../plugins.rst:23
 msgid "`Nodervisor <https://github.com/TAKEALOT/nodervisor>`_"
@@ -64,7 +66,7 @@ msgstr ""
 
 #: ../../plugins.rst:23
 msgid "Web-based dashboard written in Node.js."
-msgstr ""
+msgstr "使用Node.js编写的基于web的仪表盘。"
 
 #: ../../plugins.rst:26
 msgid "`Supervisord-Monitor <https://github.com/mlazarov/supervisord-monitor>`_"
@@ -72,7 +74,7 @@ msgstr ""
 
 #: ../../plugins.rst:26
 msgid "Web-based dashboard written in PHP."
-msgstr ""
+msgstr "用PHP编写的基于web的仪表盘。"
 
 #: ../../plugins.rst:29
 msgid "`SupervisorUI <https://github.com/luxbet/supervisorui>`_"
@@ -80,7 +82,7 @@ msgstr ""
 
 #: ../../plugins.rst:29
 msgid "Another Web-based dashboard written in PHP."
-msgstr ""
+msgstr "另一个用PHP编写的基于web的仪表盘。"
 
 #: ../../plugins.rst:33
 msgid "`supervisorclusterctl <https://github.com/RobWin/supervisorclusterctl>`_"
@@ -91,6 +93,7 @@ msgid ""
 "Command line tool for controlling multiple Supervisor instances using "
 "Ansible."
 msgstr ""
+"使用Ansible控制多个Supervisor实例的命令行工具。"
 
 #: ../../plugins.rst:36
 msgid "`suponoff <https://github.com/GambitResearch/suponoff>`_"
@@ -98,7 +101,7 @@ msgstr ""
 
 #: ../../plugins.rst:36
 msgid "Web-based dashboard written in Python 3.  Requires Django 1.7 or later."
-msgstr ""
+msgstr "用Python 3编写的基于web的仪表盘。需要1.7或更高版本的Django。"
 
 #: ../../plugins.rst:40
 msgid "`Supvisors <https://github.com/julien6387/supvisors>`_"
@@ -110,6 +113,8 @@ msgid ""
 " extended XML-RPC API, a Web-based dashboard and special features such as"
 " staged start and stop."
 msgstr ""
+"专为分布式应用程序设计，用 Python 3.6 编写。"
+"包括扩展的 XML-RPC API，基于web的仪表板和特殊功能，如分段启动和停止。"
 
 #: ../../plugins.rst:46
 msgid "`multivisor <https://github.com/tiagocoutinho/multivisor>`_"

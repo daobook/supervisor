@@ -128,10 +128,12 @@ msgid ""
 "socket HTTP server will not be started.  The allowable configuration "
 "values are as follows."
 msgstr ""
+":file:`supervisord.conf` 文件包含名为 ``[unix_http_server]`` 的部分，在该部分中应该插入监听 UNIX 域套接字的 HTTP 服务器的配置参数。"
+"如果配置文件中没有 ``[unix_http_server]`` 部分，UNIX 域套接字 HTTP 服务器将不会启动。允许的配置值如下。"
 
 #: ../../configuration.rst:72
 msgid "``[unix_http_server]`` Section Values"
-msgstr ""
+msgstr "``[unix_http_server]`` 部分值"
 
 #: ../../configuration.rst:74
 msgid "``file``"
@@ -146,10 +148,13 @@ msgid ""
 "value ``%(here)s``, which expands to the directory in which the "
 ":program:`supervisord` configuration file was found."
 msgstr ""
+"通向 UNIX 域套接字的路径，supervisor 将在该套接字上监听 HTTP/XML-RPC 请求。"
+":program:`supervisorctl` 使用 XML-RPC 通过这个端口与 :program:`supervisord` 通信。"
+"这个选项可以包含值 ``%(here)s``，它会扩展到 :program:`supervisord` 配置文件所在的目录。"
 
 #: ../../configuration.rst:82
 msgid "*Default*:  None."
-msgstr ""
+msgstr "*默认*：None"
 
 #: ../../configuration.rst:84 ../../configuration.rst:104
 #: ../../configuration.rst:116 ../../configuration.rst:126
@@ -184,7 +189,7 @@ msgstr ""
 #: ../../configuration.rst:1378 ../../configuration.rst:1390
 #: ../../configuration.rst:1401 ../../configuration.rst:1589
 msgid "*Required*:  No."
-msgstr ""
+msgstr "*需求*：无"
 
 #: ../../configuration.rst:86 ../../configuration.rst:106
 #: ../../configuration.rst:118 ../../configuration.rst:128
@@ -216,7 +221,7 @@ msgstr ""
 #: ../../configuration.rst:1392 ../../configuration.rst:1403
 #: ../../configuration.rst:1591
 msgid "*Introduced*: 3.0"
-msgstr ""
+msgstr "*被引入*：3.0"
 
 #: ../../configuration.rst:90
 msgid ""
@@ -227,6 +232,10 @@ msgid ""
 "``/tmp``.  If the socket file is deleted, :program:`supervisorctl` will "
 "be unable to connect to :program:`supervisord`."
 msgstr ""
+"通过 :program:`echo_supervisord_conf` 输出的配置示例使用 ``/tmp/supervisor.sock`` 作为套接字文件。"
+"该路径只是一个示例，可能需要将其更改为更适合您的系统的位置。"
+"有些系统会定期删除 ``/tmp`` 目录下的旧文件。"
+"如果 socket 文件被删除，:program:`supervisorctl` 将无法连接到 :program:`supervisord`。"
 
 #: ../../configuration.rst:97
 msgid "``chmod``"
@@ -237,10 +246,11 @@ msgid ""
 "Change the UNIX permission mode bits of the UNIX domain socket to this "
 "value at startup."
 msgstr ""
+"在启动时修改 UNIX 域套接字的 UNIX 权限模式位为此值。"
 
 #: ../../configuration.rst:102
 msgid "*Default*: ``0700``"
-msgstr ""
+msgstr "*默认值*：``0700``"
 
 #: ../../configuration.rst:108
 msgid "``chown``"
@@ -252,10 +262,12 @@ msgid ""
 "UNIX username (e.g. ``chrism``) or a UNIX username and group separated by"
 " a colon (e.g. ``chrism:wheel``)."
 msgstr ""
+"将 socket 文件的用户和组修改为这个值。"
+"可能是 UNIX 用户名(例如 ``chrism``)或 UNIX 用户名和用冒号分隔的组(例如 ``chrism:wheel``)。"
 
 #: ../../configuration.rst:114
 msgid "*Default*:  Use the username and group of the user who starts supervisord."
-msgstr ""
+msgstr "*默认值*：使用启动supervisor的用户名和组。"
 
 #: ../../configuration.rst:120 ../../configuration.rst:199
 #: ../../configuration.rst:523
@@ -264,11 +276,11 @@ msgstr ""
 
 #: ../../configuration.rst:122 ../../configuration.rst:201
 msgid "The username required for authentication to this HTTP server."
-msgstr ""
+msgstr "此 HTTP 服务器的身份验证所需的用户名。"
 
 #: ../../configuration.rst:124 ../../configuration.rst:203
 msgid "*Default*:  No username required."
-msgstr ""
+msgstr "*默认*：不需要用户名。"
 
 #: ../../configuration.rst:130 ../../configuration.rst:209
 #: ../../configuration.rst:536
@@ -283,22 +295,25 @@ msgid ""
 "``{SHA}82ab876d1387bfafe46cc1c8a2ef074eae50cb1d`` is the SHA-stored "
 "version of the password \"thepassword\"."
 msgstr ""
+""此 HTTP 服务器的身份验证所需的密码。"
+"这可以是明文密码，也可以指定为SHA-1哈希，如果前缀为字符串 ``{SHA}``。"
+"例如 ``{SHA}82ab876d1387bfafe46cc1c8a2ef074eae50cb1d`` 为密码 \"thepassword\" 的 SHA 存储版本。"
 
 #: ../../configuration.rst:138 ../../configuration.rst:217
 msgid "Note that hashed password must be in hex format."
-msgstr ""
+msgstr "注意，散列密码必须是十六进制格式。"
 
 #: ../../configuration.rst:140 ../../configuration.rst:219
 msgid "*Default*:  No password required."
-msgstr ""
+msgstr "*默认*：不需要密码。"
 
 #: ../../configuration.rst:147
 msgid "``[unix_http_server]`` Section Example"
-msgstr ""
+msgstr "``[unix_http_server]`` 节示例"
 
 #: ../../configuration.rst:159
 msgid "``[inet_http_server]`` Section Settings"
-msgstr ""
+msgstr "``[inet_http_server]`` 节设置"
 
 #: ../../configuration.rst:161
 msgid ""
@@ -309,6 +324,9 @@ msgid ""
 "HTTP server will not be started.  The allowable configuration values are "
 "as follows."
 msgstr ""
+":file:`supervisord.conf` 文件包含一个名为 ``[inet_http_server]`` 的部分，"
+"在该部分中应该插入侦听 TCP (internet) 套接字的 HTTP 服务器的配置参数。"
+"如果配置文件中没有 ``[inet_http_server]`` 部分，inet HTTP 服务器将不会被启动。允许的配置值如下。"
 
 #: ../../configuration.rst:170
 msgid ""
@@ -324,10 +342,19 @@ msgid ""
 "subprocess logs to be viewed.  **Never expose the inet HTTP server to the"
 " public internet.**"
 msgstr ""
+"默认情况下，没有启用 inet HTTP 服务器。"
+"如果您选择启用，请阅读下面的安全警告。"
+"inet HTTP 服务器只能在受信任的环境中使用。"
+"它应该只绑定到本地主机，或者只能从一个隔离的、受信任的网络中访问。"
+"inet HTTP 服务器不支持任何形式的加密。"
+"inet HTTP 服务器在默认情况下不使用身份验证(参见 ``username=`` 和 ``password=`` 选项)。"
+"inet HTTP 服务器可以从 :program:`supervisorctl` 远程控制。"
+"它还提供了一个 web 界面，允许启动或停止子进程，并查看子进程日志。"
+"**永远不要将 inet HTTP 服务器暴露给公共互联网。**"
 
 #: ../../configuration.rst:182
 msgid "``[inet_http_server]`` Section Values"
-msgstr ""
+msgstr "``[inet_http_server]`` 节的值"
 
 #: ../../configuration.rst:184
 msgid "``port``"
@@ -341,6 +368,10 @@ msgid ""
 "listen on all interfaces in the machine, use ``:9001`` or ``*:9001``.  "
 "Please read the security warning above."
 msgstr ""
+"TCP  host:port 或(例如 ``127.0.0.1:9001``)，管理员将监听 HTTP/XML-RPC 请求。"
+":program:`supervisorctl` 将使用 XML-RPC 通过这个端口与 :program:`supervisord` 通信。"
+"要监听机器中的所有接口，请使用 ``:9001`` 或 ``*:9001``。"
+"请阅读以上安全警告。"
 
 #: ../../configuration.rst:193
 msgid "*Default*:  No default."
@@ -354,11 +385,11 @@ msgstr ""
 
 #: ../../configuration.rst:226
 msgid "``[inet_http_server]`` Section Example"
-msgstr ""
+msgstr "``[inet_http_server]`` 节示例"
 
 #: ../../configuration.rst:236
 msgid "``[supervisord]`` Section Settings"
-msgstr ""
+msgstr "``[supervisord]`` 节设置"
 
 #: ../../configuration.rst:238
 msgid ""
@@ -366,10 +397,12 @@ msgid ""
 "``[supervisord]`` in which global settings related to the "
 ":program:`supervisord` process should be inserted.  These are as follows."
 msgstr ""
+":file:`supervisord.conf` 文件中包含了名为 ``[supervisord]`` 的部分，"
+"其中应该插入与 :program:`supervisord` 进程相关的全局设置。如下。"
 
 #: ../../configuration.rst:244
 msgid "``[supervisord]`` Section Values"
-msgstr ""
+msgstr "``[supervisord]`` 节的值"
 
 #: ../../configuration.rst:246
 msgid "``logfile``"
