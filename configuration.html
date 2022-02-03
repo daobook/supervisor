@@ -68,73 +68,52 @@
 </section>
 <section id="unix-http-server-section-settings">
 <h2><code class="docutils literal notranslate"><span class="pre">[unix_http_server]</span></code> 节设置<a class="headerlink" href="#unix-http-server-section-settings" title="永久链接至标题">¶</a></h2>
-<p>The <code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> file contains a section named
-<code class="docutils literal notranslate"><span class="pre">[unix_http_server]</span></code> under which configuration parameters for an
-HTTP server that listens on a UNIX domain socket should be inserted.
-If the configuration file has no <code class="docutils literal notranslate"><span class="pre">[unix_http_server]</span></code> section, a
-UNIX domain socket HTTP server will not be started.  The allowable
-configuration values are as follows.</p>
+<p><code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> 文件包含名为 <code class="docutils literal notranslate"><span class="pre">[unix_http_server]</span></code> 的部分，在该部分中应该插入监听 UNIX 域套接字的 HTTP 服务器的配置参数。如果配置文件中没有 <code class="docutils literal notranslate"><span class="pre">[unix_http_server]</span></code> 部分，UNIX 域套接字 HTTP 服务器将不会启动。允许的配置值如下。</p>
 <section id="unix-http-server-section-values">
-<h3><code class="docutils literal notranslate"><span class="pre">[unix_http_server]</span></code> Section Values<a class="headerlink" href="#unix-http-server-section-values" title="永久链接至标题">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">[unix_http_server]</span></code> 部分值<a class="headerlink" href="#unix-http-server-section-values" title="永久链接至标题">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">file</span></code></p>
 <blockquote>
-<div><p>A path to a UNIX domain socket on which supervisor will listen for
-HTTP/XML-RPC requests.  <strong class="program">supervisorctl</strong> uses XML-RPC to
-communicate with <strong class="program">supervisord</strong> over this port.  This option
-can include the value <code class="docutils literal notranslate"><span class="pre">%(here)s</span></code>, which expands to the directory
-in which the <strong class="program">supervisord</strong> configuration file was found.</p>
-<p><em>Default</em>:  None.</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<div><p>通向 UNIX 域套接字的路径，supervisor 将在该套接字上监听 HTTP/XML-RPC 请求。<strong class="program">supervisorctl</strong> 使用 XML-RPC 通过这个端口与 <strong class="program">supervisord</strong> 通信。这个选项可以包含值 <code class="docutils literal notranslate"><span class="pre">%(here)s</span></code>，它会扩展到 <strong class="program">supervisord</strong> 配置文件所在的目录。</p>
+<p><em>默认</em>：None</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <div class="admonition warning">
 <p class="admonition-title">警告</p>
-<p>The example configuration output by <strong class="program">echo_supervisord_conf</strong> uses
-<code class="docutils literal notranslate"><span class="pre">/tmp/supervisor.sock</span></code> as the socket file.  That path is an example only
-and will likely need to be changed to a location more appropriate for your
-system.  Some systems periodically delete older files in <code class="docutils literal notranslate"><span class="pre">/tmp</span></code>.  If the
-socket file is deleted, <strong class="program">supervisorctl</strong> will be unable to
-connect to <strong class="program">supervisord</strong>.</p>
+<p>通过 <strong class="program">echo_supervisord_conf</strong> 输出的配置示例使用 <code class="docutils literal notranslate"><span class="pre">/tmp/supervisor.sock</span></code> 作为套接字文件。该路径只是一个示例，可能需要将其更改为更适合您的系统的位置。有些系统会定期删除 <code class="docutils literal notranslate"><span class="pre">/tmp</span></code> 目录下的旧文件。如果 socket 文件被删除，<strong class="program">supervisorctl</strong> 将无法连接到 <strong class="program">supervisord</strong>。</p>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">chmod</span></code></p>
 <blockquote>
-<div><p>Change the UNIX permission mode bits of the UNIX domain socket to
-this value at startup.</p>
-<p><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">0700</span></code></p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<div><p>在启动时修改 UNIX 域套接字的 UNIX 权限模式位为此值。</p>
+<p><em>默认值</em>：<code class="docutils literal notranslate"><span class="pre">0700</span></code></p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">chown</span></code></p>
 <blockquote>
-<div><p>Change the user and group of the socket file to this value.  May be
-a UNIX username (e.g. <code class="docutils literal notranslate"><span class="pre">chrism</span></code>) or a UNIX username and group
-separated by a colon (e.g. <code class="docutils literal notranslate"><span class="pre">chrism:wheel</span></code>).</p>
-<p><em>Default</em>:  Use the username and group of the user who starts supervisord.</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<div><p>将 socket 文件的用户和组修改为这个值。可能是 UNIX 用户名(例如 <code class="docutils literal notranslate"><span class="pre">chrism</span></code>)或 UNIX 用户名和用冒号分隔的组(例如 <code class="docutils literal notranslate"><span class="pre">chrism:wheel</span></code>)。</p>
+<p><em>默认值</em>：使用启动supervisor的用户名和组。</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">username</span></code></p>
 <blockquote>
-<div><p>The username required for authentication to this HTTP server.</p>
-<p><em>Default</em>:  No username required.</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<div><p>此 HTTP 服务器的身份验证所需的用户名。</p>
+<p><em>默认</em>：不需要用户名。</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">password</span></code></p>
 <blockquote>
-<div><p>The password required for authentication to this HTTP server.  This
-can be a cleartext password, or can be specified as a SHA-1 hash if
-prefixed by the string <code class="docutils literal notranslate"><span class="pre">{SHA}</span></code>.  For example,
-<code class="docutils literal notranslate"><span class="pre">{SHA}82ab876d1387bfafe46cc1c8a2ef074eae50cb1d</span></code> is the SHA-stored
-version of the password “thepassword”.</p>
-<p>Note that hashed password must be in hex format.</p>
-<p><em>Default</em>:  No password required.</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<div><p>“此 HTTP 服务器的身份验证所需的密码。这可以是明文密码，也可以指定为SHA-1哈希，如果前缀为字符串 <code class="docutils literal notranslate"><span class="pre">{SHA}</span></code>。例如 <code class="docutils literal notranslate"><span class="pre">{SHA}82ab876d1387bfafe46cc1c8a2ef074eae50cb1d</span></code> 为密码 “thepassword” 的 SHA 存储版本。</p>
+<p>注意，散列密码必须是十六进制格式。</p>
+<p><em>默认</em>：不需要密码。</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 </section>
 <section id="unix-http-server-section-example">
-<h3><code class="docutils literal notranslate"><span class="pre">[unix_http_server]</span></code> Section Example<a class="headerlink" href="#unix-http-server-section-example" title="永久链接至标题">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">[unix_http_server]</span></code> 节示例<a class="headerlink" href="#unix-http-server-section-example" title="永久链接至标题">¶</a></h3>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[unix_http_server]</span><span class="w"></span>
 <span class="na">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/tmp/supervisor.sock</span><span class="w"></span>
 <span class="na">chmod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0777</span><span class="w"></span>
@@ -146,62 +125,39 @@ version of the password “thepassword”.</p>
 </section>
 </section>
 <section id="inet-http-server-section-settings">
-<h2><code class="docutils literal notranslate"><span class="pre">[inet_http_server]</span></code> Section Settings<a class="headerlink" href="#inet-http-server-section-settings" title="永久链接至标题">¶</a></h2>
-<p>The <code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> file contains a section named
-<code class="docutils literal notranslate"><span class="pre">[inet_http_server]</span></code> under which configuration parameters for an
-HTTP server that listens on a TCP (internet) socket should be
-inserted.  If the configuration file has no <code class="docutils literal notranslate"><span class="pre">[inet_http_server]</span></code>
-section, an inet HTTP server will not be started.  The allowable
-configuration values are as follows.</p>
+<h2><code class="docutils literal notranslate"><span class="pre">[inet_http_server]</span></code> 节设置<a class="headerlink" href="#inet-http-server-section-settings" title="永久链接至标题">¶</a></h2>
+<p><code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> 文件包含一个名为 <code class="docutils literal notranslate"><span class="pre">[inet_http_server]</span></code> 的部分，在该部分中应该插入侦听 TCP (internet) 套接字的 HTTP 服务器的配置参数。如果配置文件中没有 <code class="docutils literal notranslate"><span class="pre">[inet_http_server]</span></code> 部分，inet HTTP 服务器将不会被启动。允许的配置值如下。</p>
 <div class="admonition warning">
 <p class="admonition-title">警告</p>
-<p>The inet HTTP server is not enabled by default.  If you choose to enable it,
-please read the following security warning.  The inet HTTP server is intended
-for use within a trusted environment only.  It should only be bound to localhost
-or only accessible from within an isolated, trusted network.  The inet HTTP server
-does not support any form of encryption.  The inet HTTP server does not use
-authentication by default (see the <code class="docutils literal notranslate"><span class="pre">username=</span></code> and <code class="docutils literal notranslate"><span class="pre">password=</span></code> options).
-The inet HTTP server can be controlled remotely from <strong class="program">supervisorctl</strong>.
-It also serves a web interface that allows subprocesses to be started or stopped,
-and subprocess logs to be viewed.  <strong>Never expose the inet HTTP server to the
-public internet.</strong></p>
+<p>默认情况下，没有启用 inet HTTP 服务器。如果您选择启用，请阅读下面的安全警告。inet HTTP 服务器只能在受信任的环境中使用。它应该只绑定到本地主机，或者只能从一个隔离的、受信任的网络中访问。inet HTTP 服务器不支持任何形式的加密。inet HTTP 服务器在默认情况下不使用身份验证(参见 <code class="docutils literal notranslate"><span class="pre">username=</span></code> 和 <code class="docutils literal notranslate"><span class="pre">password=</span></code> 选项)。inet HTTP 服务器可以从 <strong class="program">supervisorctl</strong> 远程控制。它还提供了一个 web 界面，允许启动或停止子进程，并查看子进程日志。<strong>永远不要将 inet HTTP 服务器暴露给公共互联网。</strong></p>
 </div>
 <section id="inet-http-server-section-values">
-<h3><code class="docutils literal notranslate"><span class="pre">[inet_http_server]</span></code> Section Values<a class="headerlink" href="#inet-http-server-section-values" title="永久链接至标题">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">[inet_http_server]</span></code> 节的值<a class="headerlink" href="#inet-http-server-section-values" title="永久链接至标题">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">port</span></code></p>
 <blockquote>
-<div><p>A TCP host:port value or (e.g. <code class="docutils literal notranslate"><span class="pre">127.0.0.1:9001</span></code>) on which
-supervisor will listen for HTTP/XML-RPC requests.
-<strong class="program">supervisorctl</strong> will use XML-RPC to communicate with
-<strong class="program">supervisord</strong> over this port.  To listen on all interfaces
-in the machine, use <code class="docutils literal notranslate"><span class="pre">:9001</span></code> or <code class="docutils literal notranslate"><span class="pre">*:9001</span></code>.  Please read the security
-warning above.</p>
+<div><p>TCP  host:port 或(例如 <code class="docutils literal notranslate"><span class="pre">127.0.0.1:9001</span></code>)，管理员将监听 HTTP/XML-RPC 请求。<strong class="program">supervisorctl</strong> 将使用 XML-RPC 通过这个端口与 <strong class="program">supervisord</strong> 通信。要监听机器中的所有接口，请使用 <code class="docutils literal notranslate"><span class="pre">:9001</span></code> 或 <code class="docutils literal notranslate"><span class="pre">*:9001</span></code>。请阅读以上安全警告。</p>
 <p><em>Default</em>:  No default.</p>
 <p><em>Required</em>:  Yes.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">username</span></code></p>
 <blockquote>
-<div><p>The username required for authentication to this HTTP server.</p>
-<p><em>Default</em>:  No username required.</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<div><p>此 HTTP 服务器的身份验证所需的用户名。</p>
+<p><em>默认</em>：不需要用户名。</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">password</span></code></p>
 <blockquote>
-<div><p>The password required for authentication to this HTTP server.  This
-can be a cleartext password, or can be specified as a SHA-1 hash if
-prefixed by the string <code class="docutils literal notranslate"><span class="pre">{SHA}</span></code>.  For example,
-<code class="docutils literal notranslate"><span class="pre">{SHA}82ab876d1387bfafe46cc1c8a2ef074eae50cb1d</span></code> is the SHA-stored
-version of the password “thepassword”.</p>
-<p>Note that hashed password must be in hex format.</p>
-<p><em>Default</em>:  No password required.</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<div><p>“此 HTTP 服务器的身份验证所需的密码。这可以是明文密码，也可以指定为SHA-1哈希，如果前缀为字符串 <code class="docutils literal notranslate"><span class="pre">{SHA}</span></code>。例如 <code class="docutils literal notranslate"><span class="pre">{SHA}82ab876d1387bfafe46cc1c8a2ef074eae50cb1d</span></code> 为密码 “thepassword” 的 SHA 存储版本。</p>
+<p>注意，散列密码必须是十六进制格式。</p>
+<p><em>默认</em>：不需要密码。</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 </section>
 <section id="inet-http-server-section-example">
-<h3><code class="docutils literal notranslate"><span class="pre">[inet_http_server]</span></code> Section Example<a class="headerlink" href="#inet-http-server-section-example" title="永久链接至标题">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">[inet_http_server]</span></code> 节示例<a class="headerlink" href="#inet-http-server-section-example" title="永久链接至标题">¶</a></h3>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[inet_http_server]</span><span class="w"></span>
 <span class="na">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">127.0.0.1:9001</span><span class="w"></span>
 <span class="na">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">user</span><span class="w"></span>
@@ -211,13 +167,10 @@ version of the password “thepassword”.</p>
 </section>
 </section>
 <section id="supervisord-section-settings">
-<h2><code class="docutils literal notranslate"><span class="pre">[supervisord]</span></code> Section Settings<a class="headerlink" href="#supervisord-section-settings" title="永久链接至标题">¶</a></h2>
-<p>The <code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> file contains a section named
-<code class="docutils literal notranslate"><span class="pre">[supervisord]</span></code> in which global settings related to the
-<strong class="program">supervisord</strong> process should be inserted.  These are as
-follows.</p>
+<h2><code class="docutils literal notranslate"><span class="pre">[supervisord]</span></code> 节设置<a class="headerlink" href="#supervisord-section-settings" title="永久链接至标题">¶</a></h2>
+<p><code class="file docutils literal notranslate"><span class="pre">supervisord.conf</span></code> 文件中包含了名为 <code class="docutils literal notranslate"><span class="pre">[supervisord]</span></code> 的部分，其中应该插入与 <strong class="program">supervisord</strong> 进程相关的全局设置。如下。</p>
 <section id="supervisord-section-values">
-<h3><code class="docutils literal notranslate"><span class="pre">[supervisord]</span></code> Section Values<a class="headerlink" href="#supervisord-section-values" title="永久链接至标题">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">[supervisord]</span></code> 节的值<a class="headerlink" href="#supervisord-section-values" title="永久链接至标题">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">logfile</span></code></p>
 <blockquote>
 <div><p>The path to the activity log of the supervisord process.  This
@@ -230,8 +183,8 @@ not seekable, log rotation must be disabled by setting
 <code class="docutils literal notranslate"><span class="pre">logfile_maxbytes</span> <span class="pre">=</span> <span class="pre">0</span></code>.</p>
 </div>
 <p><em>Default</em>:  <code class="file docutils literal notranslate"><span class="pre">$CWD/supervisord.log</span></code></p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">logfile_maxbytes</span></code></p>
 <blockquote>
@@ -240,16 +193,16 @@ file before it is rotated (suffix multipliers like “KB”, “MB”, and
 “GB” can be used in the value).  Set this value to 0 to indicate an
 unlimited log size.</p>
 <p><em>Default</em>:  50MB</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">logfile_backups</span></code></p>
 <blockquote>
 <div><p>The number of backups to keep around resulting from activity log
 file rotation.  If set to 0, no backups will be kept.</p>
 <p><em>Default</em>:  10</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">loglevel</span></code></p>
 <blockquote>
@@ -261,8 +214,8 @@ output of its child processes and extended info info about process
 state changes, which is useful for debugging a process which isn’t
 starting properly.  See also: <a class="reference internal" href="logging.html#activity-log-levels"><span class="std std-ref">Activity Log Levels</span></a>.</p>
 <p><em>Default</em>:  info</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">pidfile</span></code></p>
 <blockquote>
@@ -270,23 +223,23 @@ starting properly.  See also: <a class="reference internal" href="logging.html#a
 can include the value <code class="docutils literal notranslate"><span class="pre">%(here)s</span></code>, which expands to the directory
 in which the supervisord configuration file was found.</p>
 <p><em>Default</em>:  <code class="file docutils literal notranslate"><span class="pre">$CWD/supervisord.pid</span></code></p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">umask</span></code></p>
 <blockquote>
 <div><p>The <a class="reference internal" href="glossary.html#term-umask"><span class="xref std std-term">umask</span></a> of the supervisord process.</p>
 <p><em>Default</em>:  <code class="docutils literal notranslate"><span class="pre">022</span></code></p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">nodaemon</span></code></p>
 <blockquote>
 <div><p>If true, supervisord will start in the foreground instead of
 daemonizing.</p>
 <p><em>Default</em>:  false</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">silent</span></code></p>
 <blockquote>
@@ -308,8 +261,8 @@ of them during execution.  These limits will be inherited by the managed
 subprocesses.  This option is particularly useful on Solaris,
 which has a low per-process fd limit by default.</p>
 <p><em>Default</em>:  1024</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">minprocs</span></code></p>
 <blockquote>
@@ -321,16 +274,16 @@ is run as root.  supervisord will enter a failure mode when the OS runs out
 of process descriptors, so it’s useful to ensure that enough process
 descriptors are available upon <strong class="program">supervisord</strong> startup.</p>
 <p><em>Default</em>:  200</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">nocleanup</span></code></p>
 <blockquote>
 <div><p>Prevent supervisord from clearing any existing <code class="docutils literal notranslate"><span class="pre">AUTO</span></code>
 child log files at startup time.  Useful for debugging.</p>
 <p><em>Default</em>:  false</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">childlogdir</span></code></p>
 <blockquote>
@@ -338,8 +291,8 @@ child log files at startup time.  Useful for debugging.</p>
 include the value <code class="docutils literal notranslate"><span class="pre">%(here)s</span></code>, which expands to the directory in
 which the <strong class="program">supervisord</strong> configuration file was found.</p>
 <p><em>Default</em>: value of Python’s <code class="xref py py-func docutils literal notranslate"><span class="pre">tempfile.gettempdir()</span></code></p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">user</span></code></p>
 <blockquote>
@@ -347,8 +300,8 @@ which the <strong class="program">supervisord</strong> configuration file was fo
 account before doing any meaningful processing.  The user can only
 be switched if <strong class="program">supervisord</strong> is started as the root user.</p>
 <p><em>Default</em>: do not switch users</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 <p><em>Changed</em>: 3.3.4.  If <strong class="program">supervisord</strong> can’t switch to the
 specified user, it will write an error message to <code class="docutils literal notranslate"><span class="pre">stderr</span></code> and
 then exit immediately.  In earlier versions, it would continue to
@@ -361,15 +314,15 @@ This option can include the value <code class="docutils literal notranslate"><sp
 directory in which the <strong class="program">supervisord</strong> configuration file was
 found.</p>
 <p><em>Default</em>: do not cd</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">strip_ansi</span></code></p>
 <blockquote>
 <div><p>Strip all ANSI escape sequences from child log files.</p>
 <p><em>Default</em>: false</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">environment</span></code></p>
 <blockquote>
@@ -387,16 +340,16 @@ used to start <strong class="program">supervisord</strong> except for the ones o
 here and within the program’s <code class="docutils literal notranslate"><span class="pre">environment</span></code> option.  See
 <a class="reference internal" href="subprocess.html#subprocess-environment"><span class="std std-ref">Subprocess Environment</span></a>.</p>
 <p><em>Default</em>: no values</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">identifier</span></code></p>
 <blockquote>
 <div><p>The identifier string for this supervisor process, used by the RPC
 interface.</p>
 <p><em>Default</em>: supervisor</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 </section>
 <section id="supervisord-section-example">
@@ -437,8 +390,8 @@ are listed below.</p>
 e.g. <code class="docutils literal notranslate"><span class="pre">http://localhost:9001</span></code>.  For UNIX domain sockets, use
 <code class="docutils literal notranslate"><span class="pre">unix:///absolute/path/to/file.sock</span></code>.</p>
 <p><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">http://localhost:9001</span></code></p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">username</span></code></p>
 <blockquote>
@@ -447,8 +400,8 @@ authentication.  This should be same as <code class="docutils literal notranslat
 supervisord server configuration for the port or UNIX domain socket
 you’re attempting to access.</p>
 <p><em>Default</em>: No username</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">password</span></code></p>
 <blockquote>
@@ -459,15 +412,15 @@ domain socket you’re attempting to access.  This value cannot be
 passed as a SHA hash.  Unlike other passwords specified in this
 file, it must be provided in cleartext.</p>
 <p><em>Default</em>: No password</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">prompt</span></code></p>
 <blockquote>
 <div><p>String used as supervisorctl prompt.</p>
 <p><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">supervisor</span></code></p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">history_file</span></code></p>
 <blockquote>
@@ -476,7 +429,7 @@ enable this feature by choosing a path, your supervisorctl commands
 will be kept in the file, and you can use readline (e.g. arrow-up)
 to invoke commands you performed in your last supervisorctl session.</p>
 <p><em>Default</em>: No file</p>
-<p><em>Required</em>:  No.</p>
+<p><em>需求</em>：无</p>
 <p><em>Introduced</em>: 3.0a5</p>
 </div></blockquote>
 </section>
@@ -559,7 +512,7 @@ a shell would.</p>
 </div>
 <p><em>Default</em>: No default.</p>
 <p><em>Required</em>:  Yes.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>被引入</em>：3.0</p>
 <p><em>Changed</em>: 4.2.0.  Added support for the <code class="docutils literal notranslate"><span class="pre">numprocs</span></code> expansion.</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">process_name</span></code></p>
@@ -571,8 +524,8 @@ expression is evaluated against a dictionary that includes
 <code class="docutils literal notranslate"><span class="pre">group_name</span></code>, <code class="docutils literal notranslate"><span class="pre">host_node_name</span></code>, <code class="docutils literal notranslate"><span class="pre">process_num</span></code>, <code class="docutils literal notranslate"><span class="pre">program_name</span></code>,
 and <code class="docutils literal notranslate"><span class="pre">here</span></code> (the directory of the supervisord config file).</p>
 <p><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">%(program_name)s</span></code></p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">numprocs</span></code></p>
 <blockquote>
@@ -582,16 +535,16 @@ expression must include <code class="docutils literal notranslate"><span class="
 valid Python string expression that includes <code class="docutils literal notranslate"><span class="pre">process_num</span></code>) within
 it.</p>
 <p><em>Default</em>: 1</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">numprocs_start</span></code></p>
 <blockquote>
 <div><p>An integer offset that is used to compute the number at which
 <code class="docutils literal notranslate"><span class="pre">process_num</span></code> starts.</p>
 <p><em>Default</em>: 0</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">priority</span></code></p>
 <blockquote>
@@ -601,16 +554,16 @@ shut down last at startup and when aggregate commands are used in
 various clients (e.g. “start all”/”stop all”).  Higher priorities
 indicate programs that start last and shut down first.</p>
 <p><em>Default</em>: 999</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">autostart</span></code></p>
 <blockquote>
 <div><p>If true, this program will start automatically when supervisord is
 started.</p>
 <p><em>Default</em>: true</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">startsecs</span></code></p>
 <blockquote>
@@ -626,8 +579,8 @@ amount of time.</p>
 if the process exits quicker than <code class="docutils literal notranslate"><span class="pre">startsecs</span></code>.</p>
 </div>
 <p><em>Default</em>: 1</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">startretries</span></code></p>
 <blockquote>
@@ -642,8 +595,8 @@ and each retry attempt will take increasingly more time.</p>
 <code class="docutils literal notranslate"><span class="pre">BACKOFF</span></code> states.</p>
 </div>
 <p><em>Default</em>: 3</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">autorestart</span></code></p>
 <blockquote>
@@ -666,8 +619,8 @@ Retries during process startup are controlled by <code class="docutils literal n
 and <code class="docutils literal notranslate"><span class="pre">startretries</span></code>.</p>
 </div>
 <p><em>Default</em>: unexpected</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">exitcodes</span></code></p>
 <blockquote>
@@ -677,8 +630,8 @@ exits in any other way than as a result of a supervisor stop
 request, <strong class="program">supervisord</strong> will restart the process if it exits
 with an exit code that is not defined in this list.</p>
 <p><em>Default</em>: 0</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 <div class="admonition note">
 <p class="admonition-title">备注</p>
 <p>In Supervisor versions prior to 4.0, the default was <code class="docutils literal notranslate"><span class="pre">0,2</span></code>.  In
@@ -691,8 +644,8 @@ Supervisor 4.0, the default was changed to <code class="docutils literal notrans
 specified using the signal’s name or its number.  It is normally one of:
 <code class="docutils literal notranslate"><span class="pre">TERM</span></code>, <code class="docutils literal notranslate"><span class="pre">HUP</span></code>, <code class="docutils literal notranslate"><span class="pre">INT</span></code>, <code class="docutils literal notranslate"><span class="pre">QUIT</span></code>, <code class="docutils literal notranslate"><span class="pre">KILL</span></code>, <code class="docutils literal notranslate"><span class="pre">USR1</span></code>, or <code class="docutils literal notranslate"><span class="pre">USR2</span></code>.</p>
 <p><em>Default</em>: TERM</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">stopwaitsecs</span></code></p>
 <blockquote>
@@ -702,8 +655,8 @@ If this number of seconds elapses before <strong class="program">supervisord</st
 receives a SIGCHLD from the process, <strong class="program">supervisord</strong> will
 attempt to kill it with a final SIGKILL.</p>
 <p><em>Default</em>: 10</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">stopasgroup</span></code></p>
 <blockquote>
@@ -712,7 +665,7 @@ whole process group and implies <code class="docutils literal notranslate"><span
 for programs, such as Flask in debug mode, that do not propagate
 stop signals to their children, leaving them orphaned.</p>
 <p><em>Default</em>: false</p>
-<p><em>Required</em>:  No.</p>
+<p><em>需求</em>：无</p>
 <p><em>Introduced</em>: 3.0b1</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">killasgroup</span></code></p>
@@ -722,7 +675,7 @@ it send it to its whole process group instead, taking care of its
 children as well, useful e.g with Python programs using
 <code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing</span></code>.</p>
 <p><em>Default</em>: false</p>
-<p><em>Required</em>:  No.</p>
+<p><em>需求</em>：无</p>
 <p><em>Introduced</em>: 3.0a11</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">user</span></code></p>
@@ -738,8 +691,8 @@ a login shell and does not change environment variables like
 <code class="docutils literal notranslate"><span class="pre">USER</span></code> or <code class="docutils literal notranslate"><span class="pre">HOME</span></code>.  See <a class="reference internal" href="subprocess.html#subprocess-environment"><span class="std std-ref">Subprocess Environment</span></a> for details.</p>
 </div>
 <p><em>Default</em>: Do not switch users</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">redirect_stderr</span></code></p>
 <blockquote>
@@ -754,7 +707,7 @@ Eventlisteners use <code class="docutils literal notranslate"><span class="pre">
 <code class="docutils literal notranslate"><span class="pre">stderr</span></code> will interfere with the eventlistener protocol.</p>
 </div>
 <p><em>Default</em>: false</p>
-<p><em>Required</em>:  No.</p>
+<p><em>需求</em>：无</p>
 <p><em>Introduced</em>: 3.0, replaces 2.0’s <code class="docutils literal notranslate"><span class="pre">log_stdout</span></code> and <code class="docutils literal notranslate"><span class="pre">log_stderr</span></code></p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">stdout_logfile</span></code></p>
@@ -782,7 +735,7 @@ that is not seekable, log rotation must be disabled by setting
 <code class="docutils literal notranslate"><span class="pre">stdout_logfile_maxbytes</span> <span class="pre">=</span> <span class="pre">0</span></code>.</p>
 </div>
 <p><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">AUTO</span></code></p>
-<p><em>Required</em>:  No.</p>
+<p><em>需求</em>：无</p>
 <p><em>Introduced</em>: 3.0, replaces 2.0’s <code class="docutils literal notranslate"><span class="pre">logfile</span></code></p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">stdout_logfile_maxbytes</span></code></p>
@@ -792,7 +745,7 @@ that is not seekable, log rotation must be disabled by setting
 “KB”, “MB”, and “GB” can be used in the value).  Set this value to 0
 to indicate an unlimited log size.</p>
 <p><em>Default</em>: 50MB</p>
-<p><em>Required</em>:  No.</p>
+<p><em>需求</em>：无</p>
 <p><em>Introduced</em>: 3.0, replaces 2.0’s <code class="docutils literal notranslate"><span class="pre">logfile_maxbytes</span></code></p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">stdout_logfile_backups</span></code></p>
@@ -801,7 +754,7 @@ to indicate an unlimited log size.</p>
 from process stdout log file rotation.  If set to 0, no backups
 will be kept.</p>
 <p><em>Default</em>: 10</p>
-<p><em>Required</em>:  No.</p>
+<p><em>需求</em>：无</p>
 <p><em>Introduced</em>: 3.0, replaces 2.0’s <code class="docutils literal notranslate"><span class="pre">logfile_backups</span></code></p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">stdout_capture_maxbytes</span></code></p>
@@ -811,8 +764,8 @@ will be kept.</p>
 integer (suffix multipliers like “KB”, “MB” and “GB” can used in the
 value).  If this value is 0, process capture mode will be off.</p>
 <p><em>Default</em>: 0</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">stdout_events_enabled</span></code></p>
 <blockquote>
@@ -821,14 +774,14 @@ writes to its stdout file descriptor.  The events will only be
 emitted if the file descriptor is not in capture mode at the time
 the data is received (see <a class="reference internal" href="logging.html#capture-mode"><span class="std std-ref">Capture Mode</span></a>).</p>
 <p><em>Default</em>: 0</p>
-<p><em>Required</em>:  No.</p>
+<p><em>需求</em>：无</p>
 <p><em>Introduced</em>: 3.0a7</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">stdout_syslog</span></code></p>
 <blockquote>
 <div><p>If true, stdout will be directed to syslog along with the process name.</p>
 <p><em>Default</em>: False</p>
-<p><em>Required</em>:  No.</p>
+<p><em>需求</em>：无</p>
 <p><em>Introduced</em>: 4.0.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">stderr_logfile</span></code></p>
@@ -849,8 +802,8 @@ that is not seekable, log rotation must be disabled by setting
 <code class="docutils literal notranslate"><span class="pre">stderr_logfile_maxbytes</span> <span class="pre">=</span> <span class="pre">0</span></code>.</p>
 </div>
 <p><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">AUTO</span></code></p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">stderr_logfile_maxbytes</span></code></p>
 <blockquote>
@@ -858,16 +811,16 @@ that is not seekable, log rotation must be disabled by setting
 <code class="docutils literal notranslate"><span class="pre">stderr_logfile</span></code>.  Accepts the same value types as
 <code class="docutils literal notranslate"><span class="pre">stdout_logfile_maxbytes</span></code>.</p>
 <p><em>Default</em>: 50MB</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">stderr_logfile_backups</span></code></p>
 <blockquote>
 <div><p>The number of backups to keep around resulting from process stderr
 log file rotation.  If set to 0, no backups will be kept.</p>
 <p><em>Default</em>: 10</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">stderr_capture_maxbytes</span></code></p>
 <blockquote>
@@ -876,8 +829,8 @@ log file rotation.  If set to 0, no backups will be kept.</p>
 integer (suffix multipliers like “KB”, “MB” and “GB” can used in the
 value).  If this value is 0, process capture mode will be off.</p>
 <p><em>Default</em>: 0</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">stderr_events_enabled</span></code></p>
 <blockquote>
@@ -886,14 +839,14 @@ writes to its stderr file descriptor.  The events will only be
 emitted if the file descriptor is not in capture mode at the time
 the data is received (see <a class="reference internal" href="logging.html#capture-mode"><span class="std std-ref">Capture Mode</span></a>).</p>
 <p><em>Default</em>: false</p>
-<p><em>Required</em>:  No.</p>
+<p><em>需求</em>：无</p>
 <p><em>Introduced</em>: 3.0a7</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">stderr_syslog</span></code></p>
 <blockquote>
 <div><p>If true, stderr will be directed to syslog along with the process name.</p>
 <p><em>Default</em>: False</p>
-<p><em>Required</em>:  No.</p>
+<p><em>需求</em>：无</p>
 <p><em>Introduced</em>: 4.0.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">environment</span></code></p>
@@ -910,24 +863,24 @@ subprocess will inherit the environment variables of the shell used to
 start “supervisord” except for the ones overridden here.  See
 <a class="reference internal" href="subprocess.html#subprocess-environment"><span class="std std-ref">Subprocess Environment</span></a>.</p>
 <p><em>Default</em>: No extra environment</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">directory</span></code></p>
 <blockquote>
 <div><p>A file path representing a directory to which <strong class="program">supervisord</strong>
 should temporarily chdir before exec’ing the child.</p>
 <p><em>Default</em>: No chdir (inherit supervisor’s)</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">umask</span></code></p>
 <blockquote>
 <div><p>An octal number (e.g. 002, 022) representing the umask of the
 process.</p>
 <p><em>Default</em>: No special umask (inherit supervisor’s)</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">serverurl</span></code></p>
 <blockquote>
@@ -940,8 +893,8 @@ is set to AUTO, or is unset, supervisor will automatically construct
 a server URL, giving preference to a server that listens on UNIX
 domain sockets over one that listens on an internet socket.</p>
 <p><em>Default</em>: AUTO</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 </section>
 <section id="program-x-section-example">
@@ -1003,7 +956,7 @@ and <code class="docutils literal notranslate"><span class="pre">here</span></co
 includes from included files are not supported.</p>
 <p><em>Default</em>: No default (required)</p>
 <p><em>Required</em>:  Yes.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>被引入</em>：3.0</p>
 <p><em>Changed</em>: 3.3.0.  Added support for the <code class="docutils literal notranslate"><span class="pre">host_node_name</span></code> expansion.</p>
 <p><em>Changed</em>: 4.3.0.  Added support to <strong class="program">supervisorctl</strong> for reading
 files specified in the <code class="docutils literal notranslate"><span class="pre">[include]</span></code> section.  In previous versions,
@@ -1059,15 +1012,15 @@ been under them will now be moved into the <code class="docutils literal notrans
 listed become members of the group.</p>
 <p><em>Default</em>: No default (required)</p>
 <p><em>Required</em>:  Yes.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">priority</span></code></p>
 <blockquote>
 <div><p>A priority number analogous to a <code class="docutils literal notranslate"><span class="pre">[program:x]</span></code> priority value
 assigned to the group.</p>
 <p><em>Default</em>: 999</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 </section>
 <section id="group-x-section-example">
@@ -1142,13 +1095,13 @@ keys “program_name” and “here” (the directory of the supervisord
 config file).</p>
 <p><em>Default</em>: No default.</p>
 <p><em>Required</em>:  Yes.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">socket_backlog</span></code></p>
 <blockquote>
 <div><p>Sets socket listen(2) backlog.</p>
 <p><em>Default</em>: socket.SOMAXCONN</p>
-<p><em>Required</em>:  No.</p>
+<p><em>需求</em>：无</p>
 <p><em>Introduced</em>: 3.4.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">socket_owner</span></code></p>
@@ -1157,16 +1110,16 @@ config file).</p>
 and group for the FastCGI socket. May be a UNIX username (e.g. chrism)
 or a UNIX username and group separated by a colon (e.g. chrism:wheel).</p>
 <p><em>Default</em>: Uses the user and group set for the fcgi-program</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">socket_mode</span></code></p>
 <blockquote>
 <div><p>For UNIX domain sockets, this parameter can be used to specify the
 permission mode.</p>
 <p><em>Default</em>: 0700</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 <p>Consult <a class="reference internal" href="#programx-section"><span class="std std-ref">[program:x] Section Settings</span></a> for other allowable keys, delta the
 above constraints and additions.</p>
@@ -1333,8 +1286,8 @@ the factory.</p>
 <div><p><code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> “entry point” dotted name to your RPC interface’s
 factory function.</p>
 <p><em>Default</em>: N/A</p>
-<p><em>Required</em>:  No.</p>
-<p><em>Introduced</em>: 3.0</p>
+<p><em>需求</em>：无</p>
+<p><em>被引入</em>：3.0</p>
 </div></blockquote>
 </section>
 <section id="rpcinterface-x-section-example">
@@ -1375,8 +1328,8 @@ factory function.</p>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">配置文件</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#file-format">文件格式</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#unix-http-server-section-settings"><code class="docutils literal notranslate"><span class="pre">[unix_http_server]</span></code> 节设置</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#inet-http-server-section-settings"><code class="docutils literal notranslate"><span class="pre">[inet_http_server]</span></code> Section Settings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#supervisord-section-settings"><code class="docutils literal notranslate"><span class="pre">[supervisord]</span></code> Section Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inet-http-server-section-settings"><code class="docutils literal notranslate"><span class="pre">[inet_http_server]</span></code> 节设置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#supervisord-section-settings"><code class="docutils literal notranslate"><span class="pre">[supervisord]</span></code> 节设置</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#supervisorctl-section-settings"><code class="docutils literal notranslate"><span class="pre">[supervisorctl]</span></code> Section Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#program-x-section-settings"><code class="docutils literal notranslate"><span class="pre">[program:x]</span></code> Section Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#include-section-settings"><code class="docutils literal notranslate"><span class="pre">[include]</span></code> Section Settings</a></li>
@@ -1399,7 +1352,7 @@ factory function.</p>
 <li class="toctree-l1"><a class="reference internal" href="api.html">XML-RPC API Documentation</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="plugins.html">Third Party Applications and Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">第三方应用程序和库</a></li>
 </ul>
 
 <div class="relations">
