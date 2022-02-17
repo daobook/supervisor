@@ -32,7 +32,7 @@ class EndToEndTests(BaseTestCase):
             os.environ[key] = val
             supervisord = pexpect.spawn(sys.executable, args, encoding='utf-8')
             self.addCleanup(supervisord.kill, signal.SIGINT)
-            supervisord.expect_exact(key + "=" + val)
+            supervisord.expect_exact(f'{key}={val}')
         finally:
             del os.environ[key]
 
@@ -77,10 +77,7 @@ class EndToEndTests(BaseTestCase):
         supervisord = pexpect.spawn(sys.executable, args, encoding='utf-8')
         self.addCleanup(supervisord.kill, signal.SIGINT)
         is_py2 = sys.version_info[0] < 3
-        if is_py2:
-            b_prefix = ''
-        else:
-            b_prefix = 'b'
+        b_prefix = '' if is_py2 else 'b'
         supervisord.expect_exact(r"Undecodable: %s'\x88\n'" % b_prefix, timeout=30)
         supervisord.expect('received SIGCH?LD indicating a child quit', timeout=30)
         if is_py2:
@@ -95,7 +92,7 @@ class EndToEndTests(BaseTestCase):
         args = ['-m', 'supervisor.supervisord', '-c', filename]
         supervisord = pexpect.spawn(sys.executable, args, encoding='utf-8')
         self.addCleanup(supervisord.kill, signal.SIGINT)
-        for i in range(2):
+        for _ in range(2):
             supervisord.expect_exact('OKREADY', timeout=60)
             supervisord.expect_exact('BUSY -> ACKNOWLEDGED', timeout=30)
 

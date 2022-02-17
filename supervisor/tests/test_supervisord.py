@@ -464,10 +464,10 @@ class SupervisordTests(unittest.TestCase):
             return EventListenerConfig(options, **result)
 
         def make_econfig(*pool_event_names):
-            result = []
-            for pool_event_name in pool_event_names:
-                result.append(getattr(EventTypes, pool_event_name, None))
-            return result
+            return [
+                getattr(EventTypes, pool_event_name, None)
+                for pool_event_name in pool_event_names
+            ]
 
         def make_gconfig(name, pconfigs, pool_events, result_handler='supervisor.dispatchers:default_handler'):
             return EventListenerPoolConfig(options, name, 25, pconfigs, 10, pool_events, result_handler)

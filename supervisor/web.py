@@ -85,25 +85,28 @@ class DeferredWebProducer:
         wrap_in_chunking = 0
 
         if self.request.version == '1.0':
-            if connection == 'keep-alive':
-                if not self.request.has_key('Content-Length'):
-                    close_it = 1
-                else:
-                    self.request['Connection'] = 'Keep-Alive'
-            else:
+            if (
+                connection == 'keep-alive'
+                and not self.request.has_key('Content-Length')
+                or connection != 'keep-alive'
+            ):
                 close_it = 1
+            else:
+                self.request['Connection'] = 'Keep-Alive'
         elif self.request.version == '1.1':
             if connection == 'close':
                 close_it = 1
             elif 'Content-Length' not in self.request:
-                if 'Transfer-Encoding' in self.request:
-                    if not self.request['Transfer-Encoding'] == 'chunked':
-                        close_it = 1
-                elif self.request.use_chunked:
+                if (
+                    'Transfer-Encoding' in self.request
+                    and self.request['Transfer-Encoding'] != 'chunked'
+                    or 'Transfer-Encoding' not in self.request
+                    and not self.request.use_chunked
+                ):
+                    close_it = 1
+                elif 'Transfer-Encoding' not in self.request:
                     self.request['Transfer-Encoding'] = 'chunked'
                     wrap_in_chunking = 1
-                else:
-                    close_it = 1
         elif self.request.version is None:
             close_it = 1
 
@@ -193,18 +196,18 @@ class TailView(MeldView):
         supervisord = self.context.supervisord
         form = self.context.form
 
-        if not 'processname' in form:
+        if 'processname' not in form:
             tail = 'No process name found'
             processname = None
         else:
             processname = form['processname']
-            offset = 0
             limit = form.get('limit', '1024')
             limit = min(-1024, int(limit)*-1 if limit.isdigit() else -1024)
             if not processname:
                 tail = 'No process name found'
             else:
                 rpcinterface = SupervisorNamespaceRPCInterface(supervisord)
+                offset = 0
                 try:
                     tail = rpcinterface.readProcessStdoutLog(processname,
                                                              limit, offset)
@@ -270,13 +273,12 @@ class StatusView(MeldView):
             'target': '_blank'
         }
         if state == ProcessStates.RUNNING:
-            actions = [restart, stop, clearlog, tailf_stdout, tailf_stderr]
+            return [restart, stop, clearlog, tailf_stdout, tailf_stderr]
         elif state in (ProcessStates.STOPPED, ProcessStates.EXITED,
                        ProcessStates.FATAL):
-            actions = [start, None, clearlog, tailf_stdout, tailf_stderr]
+            return [start, None, clearlog, tailf_stdout, tailf_stderr]
         else:
-            actions = [None, None, clearlog, tailf_stdout, tailf_stderr]
-        return actions
+            return [None, None, clearlog, tailf_stdout, tailf_stderr]
 
     def css_class_for_state(self, state):
         if state == ProcessStates.RUNNING:
@@ -300,8 +302,7 @@ class StatusView(MeldView):
 
             if action == 'refresh':
                 def donothing():
-                    message = 'Page refreshed at %s' % time.ctime()
-                    return message
+                    return 'Page refreshed at %s' % time.ctime()
                 donothing.delay = 0.05
                 return donothing
 
@@ -477,8 +478,8 @@ class StatusView(MeldView):
                     return NOT_DONE_YET
                 if message is not None:
                     server_url = form['SERVER_URL']
-                    location = server_url + "/" + '?message=%s' % urllib.quote(
-                        message)
+                    location = (f'{server_url}/' + '?message=%s' % urllib.quote(
+                        message))
                     response['headers']['Location'] = location
 
         supervisord = self.context.supervisord
@@ -489,8 +490,10 @@ class StatusView(MeldView):
 
         processnames = []
         for group in supervisord.process_groups.values():
-            for gprocname in group.processes.keys():
-                processnames.append((group.config.name, gprocname))
+            processnames.extend(
+                (group.config.name, gprocname)
+                for gprocname in group.processes.keys()
+            )
 
         processnames.sort()
 

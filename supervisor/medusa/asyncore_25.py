@@ -206,11 +206,7 @@ class dispatcher:
     addr = None
 
     def __init__(self, sock=None, map=None):
-        if map is None:
-            self._map = socket_map
-        else:
-            self._map = map
-
+        self._map = socket_map if map is None else map
         if sock:
             self.set_socket(sock, map)
             # I think it should inherit this anyway
@@ -227,7 +223,7 @@ class dispatcher:
             self.socket = None
 
     def __repr__(self):
-        status = [self.__class__.__module__+"."+self.__class__.__name__]
+        status = [f'{self.__class__.__module__}.{self.__class__.__name__}']
         if self.accepting and self.addr:
             status.append('listening')
         elif self.connected:
@@ -310,12 +306,11 @@ class dispatcher:
         # XXX Should interpret Winsock return values
         if err in (EINPROGRESS, EALREADY, EWOULDBLOCK):
             return
-        if err in (0, EISCONN):
-            self.addr = address
-            self.connected = True
-            self.handle_connect()
-        else:
+        if err not in (0, EISCONN):
             raise socket.error(err, errorcode[err])
+        self.addr = address
+        self.connected = True
+        self.handle_connect()
 
     def accept(self):
         # XXX can return either an address pair or None
@@ -323,15 +318,12 @@ class dispatcher:
             conn, addr = self.socket.accept()
             return conn, addr
         except socket.error as why:
-            if why.args[0] == EWOULDBLOCK:
-                pass
-            else:
+            if why.args[0] != EWOULDBLOCK:
                 raise
 
     def send(self, data):
         try:
-            result = self.socket.send(data)
-            return result
+            return self.socket.send(data)
         except socket.error as why:
             if why.args[0] == EWOULDBLOCK:
                 return 0
@@ -340,21 +332,17 @@ class dispatcher:
 
     def recv(self, buffer_size):
         try:
-            data = self.socket.recv(buffer_size)
-            if not data:
-                # a closed connection is indicated by signaling
-                # a read condition, and having recv() return 0.
-                self.handle_close()
-                return b''
-            else:
+            if data := self.socket.recv(buffer_size):
                 return data
+            # a closed connection is indicated by signaling
+            # a read condition, and having recv() return 0.
+            self.handle_close()
+            return b''
         except socket.error as why:
-            # winsock sometimes throws ENOTCONN
-            if why.args[0] in [ECONNRESET, ENOTCONN, ESHUTDOWN]:
-                self.handle_close()
-                return b''
-            else:
+            if why.args[0] not in [ECONNRESET, ENOTCONN, ESHUTDOWN]:
                 raise
+            self.handle_close()
+            return b''
 
     def close(self):
         self.del_channel()

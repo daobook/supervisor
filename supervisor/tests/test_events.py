@@ -256,11 +256,9 @@ class TestEventTypes(unittest.TestCase):
 class TestSerializations(unittest.TestCase):
     def _deserialize(self, serialization):
         data = serialization.split('\n')
-        headerdata = data[0]
-        payload = ''
         headers = {}
-        if len(data) > 1:
-            payload = data[1]
+        headerdata = data[0]
+        payload = data[1] if len(data) > 1 else ''
         if headerdata:
             try:
                 headers = dict( [ x.split(':',1) for x in

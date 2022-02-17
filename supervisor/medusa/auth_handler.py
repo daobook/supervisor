@@ -43,11 +43,8 @@ class auth_handler:
         # by default, use the given handler's matcher
         return self.handler.match (request)
 
-    def handle_request (self, request):
-        # authorize a request before handling it...
-        scheme = get_header (AUTHORIZATION, request.header)
-
-        if scheme:
+    def handle_request(self, request):
+        if scheme := get_header(AUTHORIZATION, request.header):
             scheme = scheme.lower()
             if scheme == 'basic':
                 cookie = get_header (AUTHORIZATION, request.header, 2)

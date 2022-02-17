@@ -461,12 +461,10 @@ class _MeldElementInterface:
         elements = []
         for element in iterator:
             attribval = element.attrib.get(attrib)
-            if attribval is not None:
-                if value is None:
-                    elements.append(element)
-                else:
-                    if value == attribval:
-                        elements.append(element)
+            if attribval is not None and (
+                value is not None and value == attribval or value is None
+            ):
+                elements.append(element)
         return elements
 
     # ZPT-alike methods
@@ -484,20 +482,13 @@ class _MeldElementInterface:
         in the template. 'data' is a value from the passed in
         iterable.  Changing 'newelement' (typically based on values
         from 'data') mutates the element 'in place'."""
-        if childname:
-            element = self.findmeld(childname)
-        else:
-            element = self
-
+        element = self.findmeld(childname) if childname else self
         parent = element.parent
         # creating a list is faster than yielding a generator (py 2.4)
         L = []
         first = True
         for thing in iterable:
-            if first is True:
-                clone = element
-            else:
-                clone = helper.bfclone(element, parent)
+            clone = element if first else helper.bfclone(element, parent)
             L.append((clone, thing))
             first = False
         return L
@@ -577,12 +568,10 @@ class _MeldElementInterface:
         write = data.append
         if encoding is None:
             encoding = 'utf8'
-        if not fragment:
-            if doctype:
-                _write_doctype(write, doctype)
+        if not fragment and doctype:
+            _write_doctype(write, doctype)
         _write_html(write, self, encoding, {})
-        joined = _BLANK.join(data)
-        return joined
+        return _BLANK.join(data)
 
     def write_html(self, file, encoding=None, doctype=doctype.html,
                    fragment=False):
@@ -682,15 +671,17 @@ class _MeldElementInterface:
         srcids = [ x.meldid() for x in srcelements ]
         tgtids = [ x.meldid() for x in tgtelements ]
 
-        removed = []
-        for srcelement in srcelements:
-            if srcelement.meldid() not in tgtids:
-                removed.append(srcelement)
+        removed = [
+            srcelement
+            for srcelement in srcelements
+            if srcelement.meldid() not in tgtids
+        ]
 
-        added = []
-        for tgtelement in tgtelements:
-            if tgtelement.meldid() not in srcids:
-                added.append(tgtelement)
+        added = [
+            tgtelement
+            for tgtelement in tgtelements
+            if tgtelement.meldid() not in srcids
+        ]
 
         moved = []
         for srcelement in srcelements:
@@ -787,12 +778,10 @@ class HTMLXMLParser(HTMLParser):
                 msg = email.message_from_string(
                     "%s: %s\n\n" % (http_equiv, content)
                     )
-                encoding = msg.get_param("charset")
-                if encoding:
+                if encoding := msg.get_param("charset"):
                     self.encoding = encoding
-        if tag in AUTOCLOSE:
-            if self.__stack and self.__stack[-1] == tag:
-                self.handle_endtag(tag)
+        if tag in AUTOCLOSE and self.__stack and self.__stack[-1] == tag:
+            self.handle_endtag(tag)
         self.__stack.append(tag)
         attrib = {}
         if attrs:
@@ -820,19 +809,12 @@ class HTMLXMLParser(HTMLParser):
         self.builder.end(tag)
 
     def handle_charref(self, char):
-        if char[:1] == "x":
-            char = int(char[1:], 16)
-        else:
-            char = int(char)
+        char = int(char[1:], 16) if char[:1] == "x" else int(char)
         self.builder.data(unichr(char))
 
     def handle_entityref(self, name):
-        entity = htmlentitydefs.entitydefs.get(name)
-        if entity:
-            if len(entity) == 1:
-                entity = ord(entity)
-            else:
-                entity = int(entity[2:-1])
+        if entity := htmlentitydefs.entitydefs.get(name):
+            entity = ord(entity) if len(entity) == 1 else int(entity[2:-1])
             self.builder.data(unichr(entity))
         else:
             self.unknown_entityref(name)
@@ -916,20 +898,14 @@ def _write_html(write, node, encoding, namespaces, depth=-1, maxdepth=None):
     to_write = _BLANK
 
     if tag is Replace:
-        if not node.structure:
-            if cdata_needs_escaping(text):
-                text = _escape_cdata(text)
+        if not node.structure and cdata_needs_escaping(text):
+            text = _escape_cdata(text)
         write(encode(text, encoding))
 
-    elif tag is Comment:
+    elif tag is Comment or tag is ProcessingInstruction:
         if cdata_needs_escaping(text):
             text = _escape_cdata(text)
-        write(encode('<!-- ' + text + ' -->', encoding))
-
-    elif tag is ProcessingInstruction:
-        if cdata_needs_escaping(text):
-            text = _escape_cdata(text)
-        write(encode('<!-- ' + text + ' -->', encoding))
+        write(encode(f'<!-- {text} -->', encoding))
 
     else:
         xmlns_items = [] # new namespaces in this scope
@@ -949,11 +925,7 @@ def _write_html(write, node, encoding, namespaces, depth=-1, maxdepth=None):
         attrib = node.attrib
 
         if attrib is not None:
-            if len(attrib) > 1:
-                attrib_keys = list(attrib.keys())
-                attrib_keys.sort()
-            else:
-                attrib_keys = attrib
+            attrib_keys = sorted(attrib.keys()) if len(attrib) > 1 else attrib
             for k in attrib_keys:
                 try:
                     if k[:1] == "{":
@@ -972,13 +944,14 @@ def _write_html(write, node, encoding, namespaces, depth=-1, maxdepth=None):
         to_write += _OPEN_TAG_END
 
         if text is not None and text:
-            if tag in _HTMLTAGS_NOESCAPE:
+            if (
+                tag in _HTMLTAGS_NOESCAPE
+                or tag not in _HTMLTAGS_NOESCAPE
+                and not cdata_needs_escaping(text)
+            ):
                 to_write += encode(text, encoding)
-            elif cdata_needs_escaping(text):
-                to_write += _escape_cdata(text)
             else:
-                to_write += encode(text,encoding)
-
+                to_write += _escape_cdata(text)
         write(to_write)
 
         for child in node._children:
@@ -1022,13 +995,9 @@ def _write_xml(write, node, encoding, namespaces, pipeline, xhtml=False):
         else:
             write(_escape_cdata(node.text, encoding))
     else:
-        if xhtml:
-            if tag[:_XHTML_PREFIX_LEN] == _XHTML_PREFIX:
-                tag = tag[_XHTML_PREFIX_LEN:]
-        if node.attrib:
-            items = list(node.attrib.items())
-        else:
-            items = []  # must always be sortable.
+        if xhtml and tag[:_XHTML_PREFIX_LEN] == _XHTML_PREFIX:
+            tag = tag[_XHTML_PREFIX_LEN:]
+        items = list(node.attrib.items()) if node.attrib else []
         xmlns_items = [] # new namespaces in this scope
         try:
             if tag[:1] == "{":
@@ -1043,15 +1012,12 @@ def _write_xml(write, node, encoding, namespaces, pipeline, xhtml=False):
             for k, v in items:
                 try:
                     if k[:1] == "{":
-                        if not pipeline:
-                            if k == _MELD_ID:
-                                continue
+                        if not pipeline and k == _MELD_ID:
+                            continue
                         k, xmlns = fixtag(k, namespaces)
                         if xmlns: xmlns_items.append(xmlns)
-                    if not pipeline:
-                        # special-case for HTML input
-                        if k == 'xmlns:meld':
-                            continue
+                    if not pipeline and k == 'xmlns:meld':
+                        continue
                 except TypeError:
                     _raise_serialization_error(k)
                 write(_encode_attrib(k, v, encoding))
@@ -1156,14 +1122,13 @@ def insert_doctype(data, doctype=doctype.xhtml):
     # doesn't already contain a doctype declaration
     match = _XML_DECL_RE.search(data)
     dt_string = '<!DOCTYPE %s PUBLIC "%s" "%s">' % doctype
-    if match is not None:
-        start, end = match.span(0)
-        before = data[:start]
-        tag = data[start:end]
-        after = data[end:]
-        return before + tag + dt_string + after
-    else:
+    if match is None:
         return dt_string + data
+    start, end = match.span(0)
+    before = data[:start]
+    tag = data[start:end]
+    after = data[end:]
+    return before + tag + dt_string + after
 
 def insert_meld_ns_decl(data):
     match = _BEGIN_TAG_RE.search(data)
@@ -1210,23 +1175,17 @@ def diffreduce(elements):
     return reduced
 
 def intersection(S1, S2):
-    L = []
-    for element in S1:
-        if element in S2:
-            L.append(element)
-    return L
+    return [element for element in S1 if element in S2]
 
 def melditerator(element, meldid=None, _MELD_ID=_MELD_ID):
     nodeid = element.attrib.get(_MELD_ID)
-    if nodeid is not None:
-        if meldid is None or nodeid == meldid:
-            yield element
+    if nodeid is not None and (meldid is None or nodeid == meldid):
+        yield element
     for child in element._children:
         for el2 in melditerator(child, meldid):
             nodeid = el2.attrib.get(_MELD_ID)
-            if nodeid is not None:
-                if meldid is None or nodeid == meldid:
-                    yield el2
+            if nodeid is not None and (meldid is None or nodeid == meldid):
+                yield el2
 
 #-----------------------------------------------------------------------------
 # Begin fork from Python 2.6.8 stdlib:
@@ -1300,10 +1259,7 @@ def fixtag(tag, namespaces):
         if prefix is None:
             prefix = "ns%d" % len(namespaces)
         namespaces[namespace_uri] = prefix
-        if prefix == "xml":
-            xmlns = None
-        else:
-            xmlns = ("xmlns:%s" % prefix, namespace_uri)
+        xmlns = None if prefix == "xml" else ("xmlns:%s" % prefix, namespace_uri)
     else:
         xmlns = None
     return "%s:%s" % (prefix, tag), xmlns

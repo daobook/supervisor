@@ -136,22 +136,17 @@ class http_request:
 
 
         removed_headers = []
-        if not value is None:
-            if (name, value) in self.__reply_header_list:
-                removed_headers = [(name, value)]
-                found_it = 1
-        else:
+        if value is None:
             for h in self.__reply_header_list:
                 if h[0] == name:
                     removed_headers.append(h)
                     found_it = 1
 
+        elif (name, value) in self.__reply_header_list:
+            removed_headers = [(name, value)]
+            found_it = 1
         if not found_it:
-            if value is None:
-                search_value = "%s" % name
-            else:
-                search_value = "%s: %s" % (name, value)
-
+            search_value = "%s" % name if value is None else "%s: %s" % (name, value)
             raise LookupError("Header '%s' not found" % search_value)
 
         for h in removed_headers:
@@ -224,21 +219,20 @@ class http_request:
                 return m.group (group)
         return ''
 
-    def get_header (self, header):
+    def get_header(self, header):
         header = header.lower()
         hc = self._header_cache
-        if header not in hc:
-            h = header + ': '
-            hl = len(h)
-            for line in self.header:
-                if line[:hl].lower() == h:
-                    r = line[hl:]
-                    hc[header] = r
-                    return r
-            hc[header] = None
-            return None
-        else:
+        if header in hc:
             return hc[header]
+        h = f'{header}: '
+        hl = len(h)
+        for line in self.header:
+            if line[:hl].lower() == h:
+                r = line[hl:]
+                hc[header] = r
+                return r
+        hc[header] = None
+        return None
 
     # --------------------------------------------------
     # user data
@@ -293,7 +287,7 @@ class http_request:
     # can also be used for empty replies
     reply_now = error
 
-    def done (self):
+    def done(self):
         """finalize this transaction - send output to the http channel"""
 
         # ----------------------------------------
@@ -308,25 +302,28 @@ class http_request:
         wrap_in_chunking = 0
 
         if self.version == '1.0':
-            if connection == 'keep-alive':
-                if 'Content-Length' not in self:
-                    close_it = 1
-                else:
-                    self['Connection'] = 'Keep-Alive'
-            else:
+            if (
+                connection == 'keep-alive'
+                and 'Content-Length' not in self
+                or connection != 'keep-alive'
+            ):
                 close_it = 1
+            else:
+                self['Connection'] = 'Keep-Alive'
         elif self.version == '1.1':
             if connection == 'close':
                 close_it = 1
             elif 'Content-Length' not in self:
-                if 'Transfer-Encoding' in self:
-                    if not self['Transfer-Encoding'] == 'chunked':
-                        close_it = 1
-                elif self.use_chunked:
+                if (
+                    'Transfer-Encoding' in self
+                    and self['Transfer-Encoding'] != 'chunked'
+                    or 'Transfer-Encoding' not in self
+                    and not self.use_chunked
+                ):
+                    close_it = 1
+                elif 'Transfer-Encoding' not in self:
                     self['Transfer-Encoding'] = 'chunked'
                     wrap_in_chunking = 1
-                else:
-                    close_it = 1
         elif self.version is None:
             # Although we don't *really* support http/0.9 (because we'd have to
             # use \r\n as a terminator, and it would just yuck up a lot of stuff)
@@ -369,7 +366,7 @@ class http_request:
         if close_it:
             self.channel.close_when_done()
 
-    def log_date_string (self, when):
+    def log_date_string(self, when):
         gmt = time.gmtime(when)
         if time.daylight and gmt[8]:
             tz = time.altzone
@@ -382,11 +379,7 @@ class http_request:
             tz = -tz
         h, rem = divmod (tz, 3600)
         m, rem = divmod (rem, 60)
-        if neg:
-            offset = '-%02d%02d' % (h, m)
-        else:
-            offset = '+%02d%02d' % (h, m)
-
+        offset = '-%02d%02d' % (h, m) if neg else '+%02d%02d' % (h, m)
         return time.strftime ( '%d/%b/%Y:%H:%M:%S ', gmt) + offset
 
     def log (self, bytes):
@@ -504,12 +497,14 @@ class http_channel (asynchat.async_chat):
     # 30-minute zombie timeout.  status_handler also knows how to kill zombies.
     zombie_timeout = 30 * 60
 
-    def kill_zombies (self):
+    def kill_zombies(self):
         now = int (time.time())
         for channel in list(asyncore.socket_map.values()):
-            if channel.__class__ == self.__class__:
-                if (now - channel.last_used) > channel.zombie_timeout:
-                    channel.close()
+            if (
+                channel.__class__ == self.__class__
+                and (now - channel.last_used) > channel.zombie_timeout
+            ):
+                channel.close()
 
     # --------------------------------------------------
     # send/recv overrides, good place for instrumentation.
@@ -560,7 +555,7 @@ class http_channel (asynchat.async_chat):
             # we are receiving header (request) data
             self.in_buffer = self.in_buffer + data
 
-    def found_terminator (self):
+    def found_terminator(self):
         if self.current_request:
             self.current_request.found_terminator()
         else:
@@ -592,11 +587,7 @@ class http_channel (asynchat.async_chat):
             # out that we must unquote in piecemeal fashion).
             rpath, rquery = splitquery(uri)
             if '%' in rpath:
-                if rquery:
-                    uri = unquote (rpath) + '?' + rquery
-                else:
-                    uri = unquote (rpath)
-
+                uri = f'{unquote(rpath)}?{rquery}' if rquery else unquote (rpath)
             r = http_request (self, request, command, uri, version, header)
             self.request_counter.increment()
             self.server.total_requests.increment()
@@ -631,7 +622,7 @@ class http_channel (asynchat.async_chat):
             # no handlers, so complain
             r.error (404)
 
-    def writable_for_proxy (self):
+    def writable_for_proxy(self):
         # this version of writable supports the idea of a 'stalled' producer
         # [i.e., it's not ready to produce any output yet] This is needed by
         # the proxy, which will be waiting for the magic combination of
@@ -642,10 +633,7 @@ class http_channel (asynchat.async_chat):
             return 1
         elif len(self.producer_fifo):
             p = self.producer_fifo.first()
-            if hasattr (p, 'stalled'):
-                return not p.stalled()
-            else:
-                return 1
+            return not p.stalled() if hasattr (p, 'stalled') else 1
 
 # ===========================================================================
 #                                                HTTP Server Object
@@ -782,11 +770,8 @@ class http_server (asyncore.dispatcher):
                          ])] + handler_stats + [producers.simple_producer('</ul>')]
                 )
 
-def maybe_status (thing):
-    if hasattr (thing, 'status'):
-        return thing.status()
-    else:
-        return None
+def maybe_status(thing):
+    return thing.status() if hasattr (thing, 'status') else None
 
 CONNECTION = re.compile ('Connection: (.*)', re.IGNORECASE)
 
@@ -817,16 +802,12 @@ def get_header_match (head_reg, lines):
 
 REQUEST = re.compile ('([^ ]+) ([^ ]+)(( HTTP/([0-9.]+))$|$)')
 
-def crack_request (r):
+def crack_request(r):
     m = REQUEST.match (r)
-    if m and m.end() == len(r):
-        if m.group(3):
-            version = m.group(5)
-        else:
-            version = None
-        return m.group(1), m.group(2), version
-    else:
+    if not m or m.end() != len(r):
         return None, None, None
+    version = m.group(5) if m.group(3) else None
+    return m.group(1), m.group(2), version
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:

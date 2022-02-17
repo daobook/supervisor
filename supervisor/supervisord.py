@@ -182,9 +182,7 @@ class Supervisor:
             combined_map.update(socket_map)
             combined_map.update(self.get_process_map())
 
-            pgroups = list(self.process_groups.values())
-            pgroups.sort()
-
+            pgroups = sorted(self.process_groups.values())
             if self.options.mood < SupervisorStates.RUNNING:
                 if not self.stopping:
                     # first time, set the stopping flag, do a
@@ -286,8 +284,7 @@ class Supervisor:
                 self.reap(once=False, recursionguard=recursionguard+1)
 
     def handle_signal(self):
-        sig = self.options.get_signal()
-        if sig:
+        if sig := self.options.get_signal():
             if sig in (signal.SIGTERM, signal.SIGINT, signal.SIGQUIT):
                 self.options.logger.warn(
                     'received %s indicating exit request' % signame(sig))
