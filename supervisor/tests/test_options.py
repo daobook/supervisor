@@ -566,7 +566,7 @@ class ClientOptionsTests(unittest.TestCase, IncludeTestsMixin):
             shutil.rmtree(dirname, ignore_errors=True)
         options = instance.configroot.supervisorctl
         history_file = os.path.join(conf_d, 'sc_history')
-        self.assertEqual(options.serverurl, 'unix://' + conf_d + '/supervisord.sock')
+        self.assertEqual(options.serverurl, f'unix://{conf_d}/supervisord.sock')
         self.assertEqual(options.history_file, history_file)
         msg = 'Included extra file "%s" during parsing' % conf_file
         self.assertTrue(msg in instance.parse_infos)
@@ -1752,7 +1752,7 @@ class ServerOptionsTests(unittest.TestCase, IncludeTestsMixin):
         config = UnhosedConfigParser()
         config.read_string(text)
         pconfigs = instance.processes_from_section(config, 'program:foo', 'bar')
-        expected = "/bin/foo --host=" + platform.node()
+        expected = f'/bin/foo --host={platform.node()}'
         self.assertEqual(pconfigs[0].command, expected)
 
     def test_processes_from_section_process_num_expansion(self):
@@ -3244,16 +3244,15 @@ class ServerOptionsTests(unittest.TestCase, IncludeTestsMixin):
             sid = 'supervisor'
             instance.identifier = sid
             logfn = instance.get_autochildlog_name('foo', sid,'stdout')
-            first = logfn + '.1'
-            second = logfn + '.2'
+            first = f'{logfn}.1'
+            second = f'{logfn}.2'
             f1 = open(first, 'w')
-            f2 = open(second, 'w')
-            instance.clear_autochildlogdir()
-            self.assertFalse(os.path.exists(logfn))
-            self.assertFalse(os.path.exists(first))
-            self.assertFalse(os.path.exists(second))
-            f1.close()
-            f2.close()
+            with open(second, 'w') as f2:
+                instance.clear_autochildlogdir()
+                self.assertFalse(os.path.exists(logfn))
+                self.assertFalse(os.path.exists(first))
+                self.assertFalse(os.path.exists(second))
+                f1.close()
         finally:
             shutil.rmtree(dn, ignore_errors=True)
 
@@ -3400,8 +3399,7 @@ class ProcessConfigTests(unittest.TestCase):
         return ProcessConfig
 
     def _makeOne(self, *arg, **kw):
-        defaults = {}
-        for name in ('name', 'command', 'directory', 'umask',
+        defaults = {name: name for name in ('name', 'command', 'directory', 'umask',
                      'priority', 'autostart', 'autorestart',
                      'startsecs', 'startretries', 'uid',
                      'stdout_logfile', 'stdout_capture_maxbytes',
@@ -3410,8 +3408,7 @@ class ProcessConfigTests(unittest.TestCase):
                      'stderr_events_enabled', 'stderr_syslog',
                      'stopsignal', 'stopwaitsecs', 'stopasgroup',
                      'killasgroup', 'exitcodes', 'redirect_stderr',
-                     'environment'):
-            defaults[name] = name
+                     'environment')}
         for name in ('stdout_logfile_backups', 'stdout_logfile_maxbytes',
                      'stderr_logfile_backups', 'stderr_logfile_maxbytes'):
             defaults[name] = 10
@@ -3498,8 +3495,7 @@ class EventListenerConfigTests(unittest.TestCase):
         return EventListenerConfig
 
     def _makeOne(self, *arg, **kw):
-        defaults = {}
-        for name in ('name', 'command', 'directory', 'umask',
+        defaults = {name: name for name in ('name', 'command', 'directory', 'umask',
                      'priority', 'autostart', 'autorestart',
                      'startsecs', 'startretries', 'uid',
                      'stdout_logfile', 'stdout_capture_maxbytes',
@@ -3508,8 +3504,7 @@ class EventListenerConfigTests(unittest.TestCase):
                      'stderr_events_enabled', 'stderr_syslog',
                      'stopsignal', 'stopwaitsecs', 'stopasgroup',
                      'killasgroup', 'exitcodes', 'redirect_stderr',
-                     'environment'):
-            defaults[name] = name
+                     'environment')}
         for name in ('stdout_logfile_backups', 'stdout_logfile_maxbytes',
                      'stderr_logfile_backups', 'stderr_logfile_maxbytes'):
             defaults[name] = 10
@@ -3546,8 +3541,7 @@ class FastCGIProcessConfigTests(unittest.TestCase):
         return FastCGIProcessConfig
 
     def _makeOne(self, *arg, **kw):
-        defaults = {}
-        for name in ('name', 'command', 'directory', 'umask',
+        defaults = {name: name for name in ('name', 'command', 'directory', 'umask',
                      'priority', 'autostart', 'autorestart',
                      'startsecs', 'startretries', 'uid',
                      'stdout_logfile', 'stdout_capture_maxbytes',
@@ -3556,8 +3550,7 @@ class FastCGIProcessConfigTests(unittest.TestCase):
                      'stderr_events_enabled', 'stderr_syslog',
                      'stopsignal', 'stopwaitsecs', 'stopasgroup',
                      'killasgroup', 'exitcodes', 'redirect_stderr',
-                     'environment'):
-            defaults[name] = name
+                     'environment')}
         for name in ('stdout_logfile_backups', 'stdout_logfile_maxbytes',
                      'stderr_logfile_backups', 'stderr_logfile_maxbytes'):
             defaults[name] = 10

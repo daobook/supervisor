@@ -91,11 +91,10 @@ class SupervisorNamespaceRPCInterface:
 
         state = self.supervisord.options.mood
         statename = getSupervisorStateDescription(state)
-        data =  {
+        return {
             'statecode':state,
             'statename':statename,
             }
-        return data
 
     def getPID(self):
         """ Return the PID of supervisord
@@ -235,25 +234,18 @@ class SupervisorNamespaceRPCInterface:
         all_processes = []
 
         if lexical:
-            group_names = list(self.supervisord.process_groups.keys())
-            group_names.sort()
+            group_names = sorted(self.supervisord.process_groups.keys())
             for group_name in group_names:
                 group = self.supervisord.process_groups[group_name]
-                process_names = list(group.processes.keys())
-                process_names.sort()
+                process_names = sorted(group.processes.keys())
                 for process_name in process_names:
                     process = group.processes[process_name]
                     all_processes.append((group, process))
         else:
-            groups = list(self.supervisord.process_groups.values())
-            groups.sort() # asc by priority
-
+            groups = sorted(self.supervisord.process_groups.values())
             for group in groups:
-                processes = list(group.processes.values())
-                processes.sort() # asc by priority
-                for process in processes:
-                    all_processes.append((group, process))
-
+                processes = sorted(group.processes.values())
+                all_processes.extend((group, process) for process in processes)
         return all_processes
 
     def _getGroupAndProcess(self, name):
@@ -365,8 +357,7 @@ class SupervisorNamespaceRPCInterface:
         if group is None:
             raise RPCError(Faults.BAD_NAME, name)
 
-        processes = list(group.processes.values())
-        processes.sort()
+        processes = sorted(group.processes.values())
         processes = [ (group, process) for process in processes ]
 
         startall = make_allfunc(processes, isNotRunning, self.startProcess,
@@ -457,8 +448,7 @@ class SupervisorNamespaceRPCInterface:
         if group is None:
             raise RPCError(Faults.BAD_NAME, name)
 
-        processes = list(group.processes.values())
-        processes.sort()
+        processes = sorted(group.processes.values())
         processes = [ (group, process) for process in processes ]
 
         killall = make_allfunc(processes, isRunning, self.stopProcess,
@@ -511,7 +501,7 @@ class SupervisorNamespaceRPCInterface:
 
         msg = process.signal(sig)
 
-        if not msg is None:
+        if msg is not None:
             raise RPCError(Faults.FAILED, msg)
 
         return True
@@ -530,8 +520,7 @@ class SupervisorNamespaceRPCInterface:
         if group is None:
             raise RPCError(Faults.BAD_NAME, name)
 
-        processes = list(group.processes.values())
-        processes.sort()
+        processes = sorted(group.processes.values())
         processes = [(group, process) for process in processes]
 
         sendall = make_allfunc(processes, isSignallable, self.signalProcess,

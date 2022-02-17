@@ -19,12 +19,9 @@ import sys
 
 class xmlrpc_handler:
 
-    def match (self, request):
+    def match(self, request):
         # Note: /RPC2 is not required by the spec, so you may override this method.
-        if request.uri[:5] == '/RPC2':
-            return 1
-        else:
-            return 0
+        return 1 if request.uri[:5] == '/RPC2' else 0
 
     def handle_request (self, request):
         if request.command == 'POST':
@@ -64,21 +61,18 @@ class collector:
 
     """gathers input for POST and PUT requests"""
 
-    def __init__ (self, handler, request):
+    def __init__(self, handler, request):
 
         self.handler = handler
         self.request = request
         self.data = []
 
-        # make sure there's a content-length header
-        cl = request.get_header ('content-length')
-
-        if not cl:
-            request.error (411)
-        else:
+        if cl := request.get_header('content-length'):
             cl = int(cl)
             # using a 'numeric' terminator
             self.request.channel.set_terminator (cl)
+        else:
+            request.error (411)
 
     def collect_incoming_data (self, data):
         self.data.append(data)

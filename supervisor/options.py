@@ -118,9 +118,7 @@ class Options:
                        ]
         self.searchpaths = searchpaths
 
-        self.environ_expansions = {}
-        for k, v in os.environ.items():
-            self.environ_expansions['ENV_%s' % k] = v
+        self.environ_expansions = {'ENV_%s' % k: v for k, v in os.environ.items()}
 
     def default_configfile(self):
         """Return the name of the found config file or print usage/exit."""
@@ -196,10 +194,9 @@ class Options:
                 raise ValueError("flag= requires a command line flag")
             handler = lambda arg, flag=flag: flag
 
-        if short and long:
-            if short.endswith(":") != long.endswith("="):
-                raise ValueError("inconsistent short/long options: %r %r" % (
-                    short, long))
+        if short and long and short.endswith(":") != long.endswith("="):
+            raise ValueError("inconsistent short/long options: %r %r" % (
+                short, long))
 
         if short:
             if short[0] == "-":
@@ -207,7 +204,7 @@ class Options:
             key, rest = short[:1], short[1:]
             if rest not in ("", ":"):
                 raise ValueError("short option should be 'x' or 'x:'")
-            key = "-" + key
+            key = f'-{key}'
             if key in self.options_map:
                 raise ValueError("duplicate short option key '%s'" % key)
             self.options_map[key] = (name, handler)
@@ -219,7 +216,7 @@ class Options:
             key = long
             if key[-1] == "=":
                 key = key[:-1]
-            key = "--" + key
+            key = f'--{key}'
             if key in self.options_map:
                 raise ValueError("duplicate long option key '%s'" % key)
             self.options_map[key] = (name, handler)
@@ -382,54 +379,52 @@ class Options:
                 raise ValueError('%s cannot be resolved within [%s]' % (
                     factory_spec, section))
 
-            extras = {}
-            for k in parser.options(section):
-                if k != factory_key:
-                    extras[k] = parser.saneget(section, k)
+            extras = {
+                k: parser.saneget(section, k)
+                for k in parser.options(section)
+                if k != factory_key
+            }
+
             factories.append((name, factory, extras))
 
         return factories
 
     def import_spec(self, spec):
-        ep = pkg_resources.EntryPoint.parse("x=" + spec)
-        if hasattr(ep, 'resolve'):
-            # this is available on setuptools >= 10.2
-            return ep.resolve()
-        else:
-            # this causes a DeprecationWarning on setuptools >= 11.3
-            return ep.load(False)
+        ep = pkg_resources.EntryPoint.parse(f'x={spec}')
+        return ep.resolve() if hasattr(ep, 'resolve') else ep.load(False)
 
     def read_include_config(self, fp, parser, expansions):
-        if parser.has_section('include'):
-            parser.expand_here(self.here)
-            if not parser.has_option('include', 'files'):
-                raise ValueError(".ini file has [include] section, but no "
-                "files setting")
-            files = parser.get('include', 'files')
-            files = expand(files, expansions, 'include.files')
-            files = files.split()
-            if hasattr(fp, 'name'):
-                base = os.path.dirname(os.path.abspath(fp.name))
-            else:
-                base = '.'
-            for pattern in files:
-                pattern = os.path.join(base, pattern)
-                filenames = glob.glob(pattern)
-                if not filenames:
-                    self.parse_warnings.append(
-                        'No file matches via include "%s"' % pattern)
-                    continue
-                for filename in sorted(filenames):
-                    self.parse_infos.append(
-                        'Included extra file "%s" during parsing' % filename)
-                    try:
-                        parser.read(filename)
-                    except ConfigParser.ParsingError as why:
-                        raise ValueError(str(why))
-                    else:
-                        parser.expand_here(
-                            os.path.abspath(os.path.dirname(filename))
-                        )
+        if not parser.has_section('include'):
+            return
+        parser.expand_here(self.here)
+        if not parser.has_option('include', 'files'):
+            raise ValueError(".ini file has [include] section, but no "
+            "files setting")
+        files = parser.get('include', 'files')
+        files = expand(files, expansions, 'include.files')
+        files = files.split()
+        if hasattr(fp, 'name'):
+            base = os.path.dirname(os.path.abspath(fp.name))
+        else:
+            base = '.'
+        for pattern in files:
+            pattern = os.path.join(base, pattern)
+            filenames = glob.glob(pattern)
+            if not filenames:
+                self.parse_warnings.append(
+                    'No file matches via include "%s"' % pattern)
+                continue
+            for filename in sorted(filenames):
+                self.parse_infos.append(
+                    'Included extra file "%s" during parsing' % filename)
+                try:
+                    parser.read(filename)
+                except ConfigParser.ParsingError as why:
+                    raise ValueError(str(why))
+                else:
+                    parser.expand_here(
+                        os.path.abspath(os.path.dirname(filename))
+                    )
 
     def _log_parsing_messages(self, logger):
         for msg in self.parse_criticals:
@@ -537,22 +532,14 @@ class ServerOptions(Options):
         if not self.loglevel:
             self.loglevel = section.loglevel
 
-        if self.logfile:
-            logfile = self.logfile
-        else:
-            logfile = section.logfile
-
+        logfile = self.logfile or section.logfile
         if logfile != 'syslog':
             # if the value for logfile is "syslog", we don't want to
             # normalize the path to something like $CWD/syslog.log, but
             # instead use the syslog service.
             self.logfile = normalize_path(logfile)
 
-        if self.pidfile:
-            pidfile = self.pidfile
-        else:
-            pidfile = section.pidfile
-
+        pidfile = self.pidfile or section.pidfile
         self.pidfile = normalize_path(pidfile)
 
         self.rpcinterface_factories = section.rpcinterface_factories
@@ -883,8 +870,7 @@ class ServerOptions(Options):
             raise ValueError("socket_owner and socket_mode params should"
                     + " only be used with a Unix domain socket")
 
-        m = re.match(r'tcp://([^\s:]+):(\d+)$', sock)
-        if m:
+        if m := re.match(r'tcp://([^\s:]+):(\d+)$', sock):
             host = m.group(1)
             port = int(m.group(2))
             return InetStreamSocketConfig(host, port,
@@ -1079,10 +1065,7 @@ class ServerOptions(Options):
         for section in parser.sections():
             if section.startswith(stype):
                 parts = section.split(':', 1)
-                if len(parts) > 1:
-                    name = parts[1]
-                else:
-                    name = None # default sentinel
+                name = parts[1] if len(parts) > 1 else None
                 options.append((name, section))
         return options
 
@@ -1090,12 +1073,13 @@ class ServerOptions(Options):
         get = parser.saneget
         username = get(section, 'username', None)
         password = get(section, 'password', None)
-        if username is not None or password is not None:
-            if username is None or password is None:
-                raise ValueError(
-                    'Section [%s] contains incomplete authentication: '
-                    'If a username or a password is specified, both the '
-                    'username and password must be specified' % section)
+        if (username is not None or password is not None) and (
+            username is None or password is None
+        ):
+            raise ValueError(
+                'Section [%s] contains incomplete authentication: '
+                'If a username or a password is specified, both the '
+                'username and password must be specified' % section)
         return {'username':username, 'password':password}
 
     def server_configs_from_parser(self, parser):
@@ -1221,10 +1205,9 @@ class ServerOptions(Options):
 
     def cleanup(self):
         for config, server in self.httpservers:
-            if config['family'] == socket.AF_UNIX:
-                if self.unlink_socketfiles:
-                    socketname = config['file']
-                    self._try_unlink(socketname)
+            if config['family'] == socket.AF_UNIX and self.unlink_socketfiles:
+                socketname = config['file']
+                self._try_unlink(socketname)
         if self.unlink_pidfile:
             self._try_unlink(self.pidfile)
         self.poller.close()
@@ -1296,11 +1279,10 @@ class ServerOptions(Options):
 
     def get_autochildlog_name(self, name, identifier, channel):
         prefix='%s-%s---%s-' % (name, channel, identifier)
-        logfile = self.mktempfile(
+        return self.mktempfile(
             suffix='.log',
             prefix=prefix,
             dir=self.childlogdir)
-        return logfile
 
     def clear_autochildlogdir(self):
         # must be called after realize()
@@ -1561,8 +1543,7 @@ class ServerOptions(Options):
         """Return a list corresponding to $PATH, or a default."""
         path = ["/bin", "/usr/bin", "/usr/local/bin"]
         if "PATH" in os.environ:
-            p = os.environ["PATH"]
-            if p:
+            if p := os.environ["PATH"]:
                 path = p.split(os.pathsep)
         return path
 
@@ -1715,7 +1696,7 @@ class ClientOptions(Options):
         self.read_include_config(fp, parser, parser.expansions)
 
         sections = parser.sections()
-        if not 'supervisorctl' in sections:
+        if 'supervisorctl' not in sections:
             raise ValueError('.ini file does not include supervisorctl section')
         serverurl = parser.getdefault('serverurl', 'http://localhost:9001',
             expansions={'here': self.here})
@@ -1729,10 +1710,9 @@ class ClientOptions(Options):
         section.prompt = parser.getdefault('prompt', section.prompt)
         section.username = parser.getdefault('username', section.username)
         section.password = parser.getdefault('password', section.password)
-        history_file = parser.getdefault('history_file', section.history_file,
-            expansions={'here': self.here})
-
-        if history_file:
+        if history_file := parser.getdefault(
+            'history_file', section.history_file, expansions={'here': self.here}
+        ):
             history_file = normalize_path(history_file)
             section.history_file = history_file
             self.history_file = history_file
@@ -2095,8 +2075,7 @@ def readFile(filename, offset, length):
                 f.seek(0, 2)
                 sz = f.tell()
                 pos = int(sz - absoffset)
-                if pos < 0:
-                    pos = 0
+                pos = max(pos, 0)
                 f.seek(pos)
                 data = f.read(absoffset)
             else:
@@ -2136,11 +2115,8 @@ def tailFile(filename, offset, length):
                     length = 0
                 offset = sz - length
 
-            if offset < 0:
-                offset = 0
-            if length < 0:
-                length = 0
-
+            offset = max(offset, 0)
+            length = max(length, 0)
             if length == 0:
                 data = b''
             else:
@@ -2169,10 +2145,7 @@ def decode_wait_status(sts):
     elif os.WIFSIGNALED(sts):
         sig = os.WTERMSIG(sts)
         msg = "terminated by %s" % signame(sig)
-        if hasattr(os, "WCOREDUMP"):
-            iscore = os.WCOREDUMP(sts)
-        else:
-            iscore = sts & 0x80
+        iscore = os.WCOREDUMP(sts) if hasattr(os, "WCOREDUMP") else sts & 0x80
         if iscore:
             msg += " (core dumped)"
         return -1, msg
@@ -2213,11 +2186,7 @@ class SignalReceiver:
             self._signals_recvd.append(sig)
 
     def get_signal(self):
-        if self._signals_recvd:
-            sig = self._signals_recvd.pop(0)
-        else:
-            sig = None
-        return sig
+        return self._signals_recvd.pop(0) if self._signals_recvd else None
 
 # miscellaneous utility functions
 
@@ -2225,8 +2194,7 @@ def expand(s, expansions, name):
     try:
         return s % expansions
     except KeyError as ex:
-        available = list(expansions.keys())
-        available.sort()
+        available = sorted(expansions.keys())
         raise ValueError(
             'Format string %r for %r contains names (%s) which cannot be '
             'expanded. Available names: %s' %
@@ -2238,14 +2206,11 @@ def expand(s, expansions, name):
         )
 
 def make_namespec(group_name, process_name):
-    # we want to refer to the process by its "short name" (a process named
-    # process1 in the group process1 has a name "process1").  This is for
-    # backwards compatibility
-    if group_name == process_name:
-        name = process_name
-    else:
-        name = '%s:%s' % (group_name, process_name)
-    return name
+    return (
+        process_name
+        if group_name == process_name
+        else '%s:%s' % (group_name, process_name)
+    )
 
 def split_namespec(namespec):
     names = namespec.split(':', 1)

@@ -84,7 +84,7 @@ class HTTPHandler(asynchat.async_chat):
         self.url = serverurl + path
         scheme, host, path_ignored, params, query, fragment = urlparse.urlparse(
             self.url)
-        if not scheme in ("http", "unix"):
+        if scheme not in ("http", "unix"):
             raise NotImplementedError
         self.host = host
         if ":" in host:
@@ -120,16 +120,15 @@ class HTTPHandler(asynchat.async_chat):
     def handle_error(self):
         if self.error_handled:
             return
-        if 1 or self.connected:
-            t,v,tb = sys.exc_info()
-            msg = 'Cannot connect, error: %s (%s)' % (t, v)
-            self.listener.error(self.url, msg)
-            self.part = self.ignore
-            self.close()
-            self.error_handled = True
-            del t
-            del v
-            del tb
+        t,v,tb = sys.exc_info()
+        msg = 'Cannot connect, error: %s (%s)' % (t, v)
+        self.listener.error(self.url, msg)
+        self.part = self.ignore
+        self.close()
+        self.error_handled = True
+        del t
+        del v
+        del tb
 
     def handle_connect(self):
         self.connected = 1
@@ -186,14 +185,7 @@ class HTTPHandler(asynchat.async_chat):
         return version, status, reason
 
     def headers(self):
-        line = self.buffer
-        if not line:
-            if self.encoding == b'chunked':
-                self.part = self.chunked_size
-            else:
-                self.part = self.body
-                self.set_terminator(self.length)
-        else:
+        if line := self.buffer:
             name, value = line.split(b':', 1)
             if name and value:
                 name = name.lower()
@@ -203,6 +195,12 @@ class HTTPHandler(asynchat.async_chat):
                 elif name == b'content-length':
                     self.length = int(value)
                 self.response_header(name, value)
+
+        elif self.encoding == b'chunked':
+            self.part = self.chunked_size
+        else:
+            self.part = self.body
+            self.set_terminator(self.length)
 
     def response_header(self, name, value):
         self.listener.response_header(self.url, name, value)

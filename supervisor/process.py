@@ -136,11 +136,7 @@ class Subprocess(object):
                     pass
                 else:
                     break
-            if st is None:
-                filename = program
-            else:
-                filename = found
-
+            filename = program if st is None else found
         # check_execv_args will raise a ProcessException if the execv
         # args are bogus, we break it out into a separate options
         # method call here only to service unit tests
@@ -297,14 +293,10 @@ class Subprocess(object):
             options.setpgrp()
 
             self._prepare_child_fds()
-            # sending to fd 2 will put this output in the stderr log
-
-            # set user
-            setuid_msg = self.set_uid()
-            if setuid_msg:
+            if setuid_msg := self.set_uid():
                 uid = self.config.uid
                 msg = "couldn't setuid to %s: %s\n" % (uid, setuid_msg)
-                options.write(2, "supervisor: " + msg)
+                options.write(2, f'supervisor: {msg}')
                 return # finally clause will exit the child process
 
             # set environment
@@ -329,7 +321,7 @@ class Subprocess(object):
             except OSError as why:
                 code = errno.errorcode.get(why.args[0], why.args[0])
                 msg = "couldn't chdir to %s: %s\n" % (cwd, code)
-                options.write(2, "supervisor: " + msg)
+                options.write(2, f'supervisor: {msg}')
                 return # finally clause will exit the child process
 
             # set umask, then execve
@@ -340,15 +332,15 @@ class Subprocess(object):
             except OSError as why:
                 code = errno.errorcode.get(why.args[0], why.args[0])
                 msg = "couldn't exec %s: %s\n" % (argv[0], code)
-                options.write(2, "supervisor: " + msg)
+                options.write(2, f'supervisor: {msg}')
             except:
                 (file, fun, line), t,v,tbinfo = asyncore.compact_traceback()
                 error = '%s, %s: file: %s line: %s' % (t, v, file, line)
                 msg = "couldn't exec %s: %s\n" % (filename, error)
-                options.write(2, "supervisor: " + msg)
+                options.write(2, f'supervisor: {msg}')
 
-            # this point should only be reached if execve failed.
-            # the finally clause will exit the child process.
+                # this point should only be reached if execve failed.
+                # the finally clause will exit the child process.
 
         finally:
             options.write(2, "supervisor: child process was not spawned\n")
@@ -429,17 +421,13 @@ class Subprocess(object):
             options.logger.debug(msg)
             return msg
 
-        # If we're in the stopping state, then we've already sent the stop
-        # signal and this is the kill signal
-        if self.state == ProcessStates.STOPPING:
-            killasgroup = self.config.killasgroup
-        else:
-            killasgroup = self.config.stopasgroup
+        killasgroup = (
+            self.config.killasgroup
+            if self.state == ProcessStates.STOPPING
+            else self.config.stopasgroup
+        )
 
-        as_group = ""
-        if killasgroup:
-            as_group = "process group "
-
+        as_group = "process group " if killasgroup else ""
         options.logger.debug('killing %s (pid %s) %swith signal %s'
                              % (processname,
                                 self.pid,
@@ -556,8 +544,6 @@ class Subprocess(object):
                 "know how long process was running so assuming it did "
                 "not exit too quickly" % (processname, self.pid))
 
-        exit_expected = es in self.config.exitcodes
-
         if self.killing:
             # likely the result of a stop request
             # implies STOPPING -> STOPPED
@@ -574,7 +560,7 @@ class Subprocess(object):
             # implies STARTING -> BACKOFF
             self.exitstatus = None
             self.spawnerr = 'Exited too quickly (process log may have details)'
-            msg = "exited: %s (%s)" % (processname, msg + "; not expected")
+            msg = "exited: %s (%s)" % (processname, f'{msg}; not expected')
             self._assertInState(ProcessStates.STARTING)
             self.change_state(ProcessStates.BACKOFF)
 
@@ -594,14 +580,14 @@ class Subprocess(object):
 
             self._assertInState(ProcessStates.RUNNING)
 
-            if exit_expected:
+            if exit_expected := es in self.config.exitcodes:
                 # expected exit code
-                msg = "exited: %s (%s)" % (processname, msg + "; expected")
+                msg = "exited: %s (%s)" % (processname, f'{msg}; expected')
                 self.change_state(ProcessStates.EXITED, expected=True)
             else:
                 # unexpected exit code
                 self.spawnerr = 'Bad exit code %s' % es
-                msg = "exited: %s (%s)" % (processname, msg + "; not expected")
+                msg = "exited: %s (%s)" % (processname, f'{msg}; not expected')
                 self.change_state(ProcessStates.EXITED, expected=False)
 
         self.config.options.logger.info(msg)
@@ -623,8 +609,7 @@ class Subprocess(object):
     def set_uid(self):
         if self.config.uid is None:
             return
-        msg = self.config.options.drop_privileges(self.config.uid)
-        return msg
+        return self.config.options.drop_privileges(self.config.uid)
 
     def __lt__(self, other):
         return self.config.priority < other.config.priority
@@ -655,41 +640,51 @@ class Subprocess(object):
 
         logger = self.config.options.logger
 
-        if self.config.options.mood > SupervisorStates.RESTARTING:
             # dont start any processes if supervisor is shutting down
-            if state == ProcessStates.EXITED:
-                if self.config.autorestart:
-                    if self.config.autorestart is RestartUnconditionally:
-                        # EXITED -> STARTING
-                        self.spawn()
-                    else: # autorestart is RestartWhenExitUnexpected
-                        if self.exitstatus not in self.config.exitcodes:
-                            # EXITED -> STARTING
-                            self.spawn()
-            elif state == ProcessStates.STOPPED and not self.laststart:
-                if self.config.autostart:
-                    # STOPPED -> STARTING
-                    self.spawn()
-            elif state == ProcessStates.BACKOFF:
-                if self.backoff <= self.config.startretries:
-                    if now > self.delay:
-                        # BACKOFF -> STARTING
-                        self.spawn()
+        if state == ProcessStates.EXITED:
+            if (
+                self.config.options.mood > SupervisorStates.RESTARTING
+                and self.config.autorestart
+                and (
+                    self.config.autorestart is not RestartUnconditionally
+                    and self.exitstatus not in self.config.exitcodes
+                    or self.config.autorestart is RestartUnconditionally
+                )
+            ):
+                # EXITED -> STARTING
+                self.spawn()
+        elif state == ProcessStates.STOPPED and not self.laststart:
+            if (
+                self.config.options.mood > SupervisorStates.RESTARTING
+                and self.config.autostart
+            ):
+                # STOPPED -> STARTING
+                self.spawn()
+        elif state == ProcessStates.BACKOFF:
+            if (
+                self.config.options.mood > SupervisorStates.RESTARTING
+                and self.backoff <= self.config.startretries
+                and now > self.delay
+            ):
+                # BACKOFF -> STARTING
+                self.spawn()
 
         processname = as_string(self.config.name)
-        if state == ProcessStates.STARTING:
-            if now - self.laststart > self.config.startsecs:
-                # STARTING -> RUNNING if the proc has started
-                # successfully and it has stayed up for at least
-                # proc.config.startsecs,
-                self.delay = 0
-                self.backoff = 0
-                self._assertInState(ProcessStates.STARTING)
-                self.change_state(ProcessStates.RUNNING)
-                msg = (
-                    'entered RUNNING state, process has stayed up for '
-                    '> than %s seconds (startsecs)' % self.config.startsecs)
-                logger.info('success: %s %s' % (processname, msg))
+        if (
+            state == ProcessStates.STARTING
+            and now - self.laststart > self.config.startsecs
+        ):
+            # STARTING -> RUNNING if the proc has started
+            # successfully and it has stayed up for at least
+            # proc.config.startsecs,
+            self.delay = 0
+            self.backoff = 0
+            self._assertInState(ProcessStates.STARTING)
+            self.change_state(ProcessStates.RUNNING)
+            msg = (
+                'entered RUNNING state, process has stayed up for '
+                '> than %s seconds (startsecs)' % self.config.startsecs)
+            logger.info('success: %s %s' % (processname, msg))
 
         if state == ProcessStates.BACKOFF:
             if self.backoff > self.config.startretries:
@@ -805,17 +800,13 @@ class ProcessGroupBase(object):
             process.reopenlogs()
 
     def stop_all(self):
-        processes = list(self.processes.values())
-        processes.sort()
+        processes = sorted(self.processes.values())
         processes.reverse() # stop in desc priority order
 
         for proc in processes:
             state = proc.get_state()
-            if state == ProcessStates.RUNNING:
+            if state in [ProcessStates.RUNNING, ProcessStates.STARTING]:
                 # RUNNING -> STOPPING
-                proc.stop()
-            elif state == ProcessStates.STARTING:
-                # STARTING -> STOPPING
                 proc.stop()
             elif state == ProcessStates.BACKOFF:
                 # BACKOFF -> FATAL
@@ -880,9 +871,11 @@ class EventListenerPool(ProcessGroupBase):
             process.transition()
             # this is redundant, we do it in _dispatchEvent too, but we
             # want to reduce function call overhead
-            if process.state == ProcessStates.RUNNING:
-                if process.listener_state == EventListenerStates.READY:
-                    dispatch_capable = True
+            if (
+                process.state == ProcessStates.RUNNING
+                and process.listener_state == EventListenerStates.READY
+            ):
+                dispatch_capable = True
         if dispatch_capable:
             if self.dispatch_throttle:
                 now = time.time()
@@ -928,13 +921,12 @@ class EventListenerPool(ProcessGroupBase):
                 (event.serial, processname, len(self.event_buffer),
                 self.config.buffer_size)))
 
-        if len(self.event_buffer) >= self.config.buffer_size:
-            if self.event_buffer:
-                # discard the oldest event
-                discarded_event = self.event_buffer.pop(0)
-                self.config.options.logger.error(
-                    'pool %s event buffer overflowed, discarding event %s' % (
-                    (processname, discarded_event.serial)))
+        if len(self.event_buffer) >= self.config.buffer_size and self.event_buffer:
+            # discard the oldest event
+            discarded_event = self.event_buffer.pop(0)
+            self.config.options.logger.error(
+                'pool %s event buffer overflowed, discarding event %s' % (
+                (processname, discarded_event.serial)))
         if head:
             self.event_buffer.insert(0, event)
         else:

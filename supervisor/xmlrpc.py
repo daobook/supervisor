@@ -44,10 +44,14 @@ class Faults:
     CANT_REREAD = 92
 
 def getFaultDescription(code):
-    for faultname in Faults.__dict__:
-        if getattr(Faults, faultname) == code:
-            return faultname
-    return 'UNKNOWN'
+    return next(
+        (
+            faultname
+            for faultname in Faults.__dict__
+            if getattr(Faults, faultname) == code
+        ),
+        'UNKNOWN',
+    )
 
 class RPCError(Exception):
     def __init__(self, code, extra=None):
@@ -103,17 +107,16 @@ class DeferredXMLRPCResponse:
 
         close_it = 0
 
-        if self.request.version == '1.0':
-            if connection == 'keep-alive':
-                self.request['Connection'] = 'Keep-Alive'
-            else:
-                close_it = 1
-        elif self.request.version == '1.1':
-            if connection == 'close':
-                close_it = 1
-        elif self.request.version is None:
+        if self.request.version == '1.0' and connection == 'keep-alive':
+            self.request['Connection'] = 'Keep-Alive'
+        elif (
+            self.request.version == '1.0'
+            or self.request.version == '1.1'
+            and connection == 'close'
+            or self.request.version != '1.1'
+            and self.request.version is None
+        ):
             close_it = 1
-
         outgoing_header = producers.simple_producer (
             self.request.build_reply_header())
 
@@ -142,20 +145,15 @@ class DeferredXMLRPCResponse:
             self.request.channel.close_when_done()
 
 def xmlrpc_marshal(value):
-    ismethodresponse = not isinstance(value, xmlrpclib.Fault)
-    if ismethodresponse:
-        if not isinstance(value, tuple):
-            value = (value,)
-        body = xmlrpclib.dumps(value, methodresponse=ismethodresponse)
-    else:
-        body = xmlrpclib.dumps(value)
-    return body
+    if not (ismethodresponse := not isinstance(value, xmlrpclib.Fault)):
+        return xmlrpclib.dumps(value)
+    if not isinstance(value, tuple):
+        value = (value,)
+    return xmlrpclib.dumps(value, methodresponse=ismethodresponse)
 
 class SystemNamespaceRPCInterface:
     def __init__(self, namespaces):
-        self.namespaces = {}
-        for name, inst in namespaces:
-            self.namespaces[name] = inst
+        self.namespaces = dict(namespaces)
         self.namespaces['system'] = self
 
     def _listMethods(self):
@@ -166,10 +164,9 @@ class SystemNamespaceRPCInterface:
                 # introspect; any methods that don't start with underscore
                 # are published
                 func = getattr(namespace, method_name)
-                if callable(func):
-                    if not method_name.startswith('_'):
-                        sig = '%s.%s' % (ns_name, method_name)
-                        methods[sig] = str(func.__doc__)
+                if callable(func) and not method_name.startswith('_'):
+                    sig = '%s.%s' % (ns_name, method_name)
+                    methods[sig] = str(func.__doc__)
         return methods
 
     def listMethods(self):
@@ -178,9 +175,7 @@ class SystemNamespaceRPCInterface:
         @return array result  An array of method names available (strings).
         """
         methods = self._listMethods()
-        keys = list(methods.keys())
-        keys.sort()
-        return keys
+        return sorted(methods.keys())
 
     def methodHelp(self, name):
         """ Return a string showing the method's documentation
@@ -250,8 +245,7 @@ class SystemNamespaceRPCInterface:
                 except:
                     info = sys.exc_info()
                     errmsg = "%s:%s" % (info[0], info[1])
-                    value = {'faultCode': Faults.FAILED,
-                             'faultString': 'FAILED: ' + errmsg}
+                    value = {'faultCode': Faults.FAILED, 'faultString': f'FAILED: {errmsg}'}
                 if value is not NOT_DONE_YET:
                     callbacks.pop(0)
                     results.append(value)
@@ -279,8 +273,7 @@ class SystemNamespaceRPCInterface:
                 except:
                     info = sys.exc_info()
                     errmsg = "%s:%s" % (info[0], info[1])
-                    value = {'faultCode': Faults.FAILED,
-                             'faultString': 'FAILED: ' + errmsg}
+                    value = {'faultCode': Faults.FAILED, 'faultString': f'FAILED: {errmsg}'}
 
                 if isinstance(value, types.FunctionType):
                     callbacks.append(value)
@@ -350,8 +343,7 @@ class supervisor_xmlrpc_handler(xmlrpc_handler):
     def loads(self, data):
         params = method = None
         for action, elem in iterparse(StringIO(data)):
-            unmarshall = self.unmarshallers.get(elem.tag)
-            if unmarshall:
+            if unmarshall := self.unmarshallers.get(elem.tag):
                 data = unmarshall(elem)
                 elem.clear()
                 elem.text = data
@@ -365,7 +357,7 @@ class supervisor_xmlrpc_handler(xmlrpc_handler):
             elif elem.tag == "methodName":
                 method = elem.text
             elif elem.tag == "params":
-                params = tuple([v.text for v in elem])
+                params = tuple(v.text for v in elem)
         return params, method
 
     def match(self, request):
@@ -593,9 +585,8 @@ def gettags(comment):
                 tag_text = [parts[3].lstrip()]
             tag = parts[0][1:]
             tag_lineno = lineno
-        else:
-            if line:
-                tag_text.append(line)
+        elif line:
+            tag_text.append(line)
         lineno += 1
 
     tags.append((tag_lineno, tag, datatype, name, '\n'.join(tag_text)))

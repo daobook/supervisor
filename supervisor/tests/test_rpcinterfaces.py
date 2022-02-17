@@ -2135,8 +2135,7 @@ class SystemNamespaceXMLRPCInterfaceTests(TestBase):
         interface = self._makeOne()
         methods = interface.listMethods()
         methods.sort()
-        keys = list(interface._listMethods().keys())
-        keys.sort()
+        keys = sorted(interface._listMethods().keys())
         self.assertEqual(methods, keys)
 
     def test_methodSignature(self):

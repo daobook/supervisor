@@ -674,10 +674,7 @@ class DummyProducer:
         self.data = list(data)
 
     def more(self):
-        if self.data:
-            return self.data.pop(0)
-        else:
-            return b''
+        return self.data.pop(0) if self.data else b''
 
 def test_suite():
     return unittest.findTestCases(sys.modules[__name__])

@@ -74,7 +74,7 @@ class default_handler:
 
     # handle a file request, with caching.
 
-    def handle_request (self, request):
+    def handle_request(self, request):
 
         if request.command not in self.valid_commands:
             request.error (400) # bad request
@@ -104,8 +104,6 @@ class default_handler:
             # may want to move this into another method for that
             # purpose
             found = 0
-            if path and path[-1] != '/':
-                path += '/'
             for default in self.directory_defaults:
                 p = path + default
                 if self.filesystem.isfile (p):
@@ -126,8 +124,7 @@ class default_handler:
 
         length_match = 1
         if ims:
-            length = ims.group (4)
-            if length:
+            if length := ims.group(4):
                 try:
                     length = int(length)
                     if length != file_length:
@@ -135,23 +132,18 @@ class default_handler:
                 except:
                     pass
 
-        ims_date = 0
-
-        if ims:
-            ims_date = http_date.parse_http_date (ims.group (1))
-
+        ims_date = http_date.parse_http_date (ims.group (1)) if ims else 0
         try:
             mtime = self.filesystem.stat (path)[stat.ST_MTIME]
         except:
             request.error (404)
             return
 
-        if length_match and ims_date:
-            if mtime <= ims_date:
-                request.reply_code = 304
-                request.done()
-                self.cache_counter.increment()
-                return
+        if length_match and ims_date and mtime <= ims_date:
+            request.reply_code = 304
+            request.done()
+            self.cache_counter.increment()
+            return
         try:
             file = self.filesystem.open (path, 'rb')
         except IOError:
@@ -168,14 +160,9 @@ class default_handler:
         self.file_counter.increment()
         request.done()
 
-    def set_content_type (self, path, request):
+    def set_content_type(self, path, request):
         typ, encoding = mimetypes.guess_type(path)
-        if typ is not None:
-            request['Content-Type'] = typ
-        else:
-            # TODO: test a chunk off the front of the file for 8-bit
-            # characters, and use application/octet-stream instead.
-            request['Content-Type'] = 'text/plain'
+        request['Content-Type'] = typ if typ is not None else 'text/plain'
 
     def status (self):
         return producers.simple_producer (
@@ -205,10 +192,7 @@ CONTENT_TYPE = re.compile (
 get_header = http_server.get_header
 get_header_match = http_server.get_header_match
 
-def get_extension (path):
+def get_extension(path):
     dirsep = path.rfind('/')
     dotsep = path.rfind('.')
-    if dotsep > dirsep:
-        return path[dotsep+1:]
-    else:
-        return ''
+    return path[dotsep+1:] if dotsep > dirsep else ''

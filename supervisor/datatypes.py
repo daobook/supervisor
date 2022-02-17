@@ -35,7 +35,7 @@ def boolean(s):
     elif ss in FALSY_STRINGS:
         return False
     else:
-        raise ValueError("not a valid boolean value: " + repr(s))
+        raise ValueError(f'not a valid boolean value: {repr(s)}')
 
 def list_of_strings(arg):
     if not arg:
@@ -43,16 +43,15 @@ def list_of_strings(arg):
     try:
         return [x.strip() for x in arg.split(',')]
     except:
-        raise ValueError("not a valid list of strings: " + repr(arg))
+        raise ValueError(f'not a valid list of strings: {repr(arg)}')
 
 def list_of_ints(arg):
     if not arg:
         return []
-    else:
-        try:
-            return list(map(int, arg.split(",")))
-        except:
-            raise ValueError("not a valid list of ints: " + repr(arg))
+    try:
+        return list(map(int, arg.split(",")))
+    except:
+        raise ValueError(f'not a valid list of ints: {repr(arg)}')
 
 def list_of_exitcodes(arg):
     try:
@@ -62,7 +61,7 @@ def list_of_exitcodes(arg):
                 raise ValueError('Invalid exit code "%s"' % val)
         return vals
     except:
-        raise ValueError("not a valid list of exit codes: " + repr(arg))
+        raise ValueError(f'not a valid list of exit codes: {repr(arg)}')
 
 def dict_of_key_value_pairs(arg):
     """ parse KEY=val,KEY2=val2 into {'KEY':'val', 'KEY2':'val2'}
@@ -75,14 +74,12 @@ def dict_of_key_value_pairs(arg):
     tokens_len = len(tokens)
 
     D = {}
-    i = 0
-    while i < tokens_len:
+    for i in range(0, tokens_len, 4):
         k_eq_v = tokens[i:i+3]
         if len(k_eq_v) != 3 or k_eq_v[1] != '=':
             raise ValueError(
                 "Unexpected end of key/value pairs in value '%s'" % arg)
         D[k_eq_v[0]] = k_eq_v[2].strip('\'"')
-        i += 4
     return D
 
 class Automatic:
@@ -97,11 +94,7 @@ LOGFILE_AUTOS = (Automatic, 'auto')
 LOGFILE_SYSLOGS = (Syslog, 'syslog')
 
 def logfile_name(val):
-    if hasattr(val, 'lower'):
-        coerced = val.lower()
-    else:
-        coerced = val
-
+    coerced = val.lower() if hasattr(val, 'lower') else val
     if coerced in LOGFILE_NONES:
         return None
     elif coerced in LOGFILE_AUTOS:
@@ -405,7 +398,7 @@ def signal_number(value):
     except (ValueError, TypeError):
         name = value.strip().upper()
         if not name.startswith('SIG'):
-            name = 'SIG' + name
+            name = f'SIG{name}'
         num = getattr(signal, name, None)
         if num is None:
             raise ValueError('value %r is not a valid signal name' % value)
